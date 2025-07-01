@@ -14,6 +14,10 @@ import java.sql.SQLException;
  */
 public class DatabaseConnection {
     private Connection connection;
+    private static final String URL = "jdbc:mysql://localhost/penilaian_siswa_berprestasi";
+    private static final String USER = "root";
+    private static final String PASSWORD = "";
+    private static final String DRIVER = "com.mysql.cj.jdbc.Driver";
 
     /**
      * Establishes a connection to the database.
@@ -22,18 +26,30 @@ public class DatabaseConnection {
      */
     public Connection connect() {
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName(DRIVER);
         } catch (ClassNotFoundException ex) {
             System.err.println("MySQL JDBC Driver not found: " + ex.getMessage());
             return null;
         }
-        String url = "jdbc:mysql://localhost/skripsikurir";
         try {
-            connection = DriverManager.getConnection(url, "root", "");
+            connection = DriverManager.getConnection(URL, USER, PASSWORD);
         } catch (SQLException ex) {
             System.err.println("Failed to connect to database: " + ex.getMessage());
             return null;
         }
         return connection;
+    }
+
+    /**
+     * Closes the database connection if it is open.
+     */
+    public void close() {
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                System.err.println("Failed to close database connection: " + ex.getMessage());
+            }
+        }
     }
 }
