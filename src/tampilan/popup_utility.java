@@ -6,94 +6,96 @@
 package tampilan;
 
 import com.placeholder.PlaceHolder;
+
+import database.DatabaseConnection;
+
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import koneksi.koneksi;
 
 /**
  *
  * @author raymond
  */
 public class popup_utility extends javax.swing.JFrame {
-private Connection conn = new koneksi().connect();
-private DefaultTableModel tabmode;
-public datarank dr ;
-PlaceHolder pl;
+    private Connection conn = new DatabaseConnection().connect();
+    private DefaultTableModel tabmode;
+    public datarank dr;
+    PlaceHolder pl;
+
     /**
      * Creates new form popup_utility
      */
     public popup_utility() {
         initComponents();
-        this.setLocationRelativeTo(null); //layar jadi ada di tengah
+        this.setLocationRelativeTo(null); // layar jadi ada di tengah
         datatable();
-        pl = new PlaceHolder(txtcari,"Pencarian data...");
+        pl = new PlaceHolder(txtcari, "Pencarian data...");
         bcari.requestFocus();
     }
 
     private void datatable() {
-    Object[] Baris ={"ID Kurir","Nama","K1","K2","K3","K4","K5"};
-    tabmode = new 
-    DefaultTableModel(null, Baris); 
-    try {
-    String sql = "SELECT * FROM utility ORDER by id_kurir";
-    Statement stat = conn.createStatement();
-    ResultSet hasil = stat.executeQuery(sql);
-    while (hasil.next()){
-        tabmode.addRow(new Object[]{
-        hasil.getString(1),
-        hasil.getString(2),
-        hasil.getString(3),
-        hasil.getString(4),
-        hasil.getString(5),
-        hasil.getString(6),
-        hasil.getString(7)           
-    });
+        Object[] Baris = { "ID Kurir", "Nama", "K1", "K2", "K3", "K4", "K5" };
+        tabmode = new DefaultTableModel(null, Baris);
+        try {
+            String sql = "SELECT * FROM utility ORDER by id_kurir";
+            Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()) {
+                tabmode.addRow(new Object[] {
+                        hasil.getString(1),
+                        hasil.getString(2),
+                        hasil.getString(3),
+                        hasil.getString(4),
+                        hasil.getString(5),
+                        hasil.getString(6),
+                        hasil.getString(7)
+                });
+            }
+            tabelutility.setModel(tabmode);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
+        }
     }
-    tabelutility.setModel(tabmode);
-    } catch (Exception e) {
-    JOptionPane.showMessageDialog(null, "data gagal dipanggil"+e);
+
+    private void cari() {
+        Object[] Baris = { "ID Kurir", "Nama", "K1", "K2", "K3", "K4", "K5" };
+        tabmode = new DefaultTableModel(null, Baris);
+        String cariitem = txtcari.getText();
+        try {
+            String sql = "SELECT * FROM utility where id_kurir LIKE '" + cariitem + "' or nmakurir LIKE '" + cariitem
+                    + "' "
+                    + "or K1 LIKE '" + cariitem + "' ";
+            Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()) {
+                tabmode.addRow(new Object[] {
+                        hasil.getString(1),
+                        hasil.getString(2),
+                        hasil.getString(3),
+                        hasil.getString(4),
+                        hasil.getString(5),
+                        hasil.getString(6),
+                        hasil.getString(7)
+                });
+            }
+            tabelutility.setModel(tabmode);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
+        }
     }
-    }
-    
-    private void cari(){
-    Object[] Baris ={"ID Kurir","Nama","K1","K2","K3","K4","K5"};
-    tabmode = new 
-    DefaultTableModel(null, Baris);
-    String cariitem = txtcari.getText();
-    try {
-    String sql = "SELECT * FROM utility where id_kurir LIKE '"+cariitem+"' or nmakurir LIKE '"+cariitem+"' "
-            + "or K1 LIKE '"+cariitem+"' ";
-    Statement stat = conn.createStatement();
-    ResultSet hasil = stat.executeQuery(sql);
-    while (hasil.next()){
-        tabmode.addRow(new Object[]{
-        hasil.getString(1),
-        hasil.getString(2),
-        hasil.getString(3),
-        hasil.getString(4),
-        hasil.getString(5),
-        hasil.getString(6),
-        hasil.getString(7)
-    });
-    }
-    tabelutility.setModel(tabmode);
-    } catch (Exception e) {
-    JOptionPane.showMessageDialog(null, "data gagal dipanggil"+e);
-    }
-    }
-    
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -105,16 +107,15 @@ PlaceHolder pl;
         setUndecorated(true);
 
         tabelutility.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
+                new Object[][] {
+                        {},
+                        {},
+                        {},
+                        {}
+                },
+                new String[] {
 
-            }
-        ));
+                }));
         tabelutility.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelutilityMouseClicked(evt);
@@ -138,30 +139,33 @@ PlaceHolder pl;
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(bcari, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
-                .addGap(1, 1, 1))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, 307,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(bcari, javax.swing.GroupLayout.DEFAULT_SIZE, 74, Short.MAX_VALUE)
+                                .addGap(1, 1, 1))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bcari))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(bcari))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tabelutilityMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelutilityMouseClicked
-        try{
+    private void tabelutilityMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelutilityMouseClicked
+        try {
             int tabelpopup = tabelutility.getSelectedRow();
             dr.idkurir = tabelutility.getValueAt(tabelpopup, 0).toString();
             dr.nama = tabelutility.getValueAt(tabelpopup, 1).toString();
@@ -172,28 +176,32 @@ PlaceHolder pl;
             dr.penangan = tabelutility.getValueAt(tabelpopup, 6).toString();
             dr.itemTerpilih();
             this.dispose();
-        } catch (Exception e){
+        } catch (Exception e) {
         }
-    }//GEN-LAST:event_tabelutilityMouseClicked
+    }// GEN-LAST:event_tabelutilityMouseClicked
 
-    private void bcariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bcariActionPerformed
+    private void bcariActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcariActionPerformed
         cari();
-    }//GEN-LAST:event_bcariActionPerformed
+    }// GEN-LAST:event_bcariActionPerformed
 
-    private void txtcariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcariKeyPressed
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+    private void txtcariKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtcariKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             cari();
-    }
-    }//GEN-LAST:event_txtcariKeyPressed
+        }
+    }// GEN-LAST:event_txtcariKeyPressed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+        // (optional) ">
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
+         * look and feel.
+         * For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -203,15 +211,19 @@ PlaceHolder pl;
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(popup_utility.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(popup_utility.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(popup_utility.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(popup_utility.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(popup_utility.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(popup_utility.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(popup_utility.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(popup_utility.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         }
-        //</editor-fold>
+        // </editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {

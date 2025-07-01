@@ -5,7 +5,6 @@
 package tampilan;
 
 import javax.swing.JOptionPane;
-import koneksi.koneksi;
 
 /**
  *
