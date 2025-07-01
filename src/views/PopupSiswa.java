@@ -20,7 +20,7 @@ import java.awt.event.KeyEvent;
  *
  * @author raymond
  */
-public class PopupKurir extends javax.swing.JFrame {
+public class PopupSiswa extends javax.swing.JFrame {
     private Connection conn = new DatabaseConnection().connect();
     private DefaultTableModel tabmode;
     public DataAlternatif da;
@@ -29,7 +29,7 @@ public class PopupKurir extends javax.swing.JFrame {
     /**
      * Creates new form popup_kurir
      */
-    public PopupKurir() {
+    public PopupSiswa() {
         initComponents();
         this.setLocationRelativeTo(null); // layar jadi ada di tengah
         datatable();
@@ -199,25 +199,27 @@ public class PopupKurir extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PopupKurir.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(PopupSiswa.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PopupKurir.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(PopupSiswa.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PopupKurir.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(PopupSiswa.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PopupKurir.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(PopupSiswa.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         }
+        // </editor-fold>
+        // </editor-fold>
         // </editor-fold>
         // </editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new PopupKurir().setVisible(true);
+                new PopupSiswa().setVisible(true);
             }
         });
     }
