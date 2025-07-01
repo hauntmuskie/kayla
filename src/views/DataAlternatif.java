@@ -26,7 +26,7 @@ public class DataAlternatif extends javax.swing.JFrame {
     private Connection conn = new DatabaseConnection().connect();
     private DefaultTableModel tabmode;
     PlaceHolder pl;
-    public String idkurir, nama;
+    public String idsiswa, nama;
 
     /**
      * Creates new form dataalternatif
@@ -141,7 +141,7 @@ public class DataAlternatif extends javax.swing.JFrame {
     public void itemTerpilih() {
         PopupSiswa PA = new PopupSiswa();
         PA.da = this;
-        txtid.setText(idkurir);
+        txtid.setText(idsiswa);
         txtnm.setText(nama);
     }
 

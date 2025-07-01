@@ -27,7 +27,7 @@ public class Utility extends javax.swing.JFrame {
     private DefaultTableModel tabmode;
     public DataSiswa dk = null;
     PlaceHolder pl;
-    public String idkurir, nama, tepat, akurasi, jml, intg, penangan;
+    public String idsiswa, nama, akademik, prestasi, kehadiran, sikap, partisipasi;
 
     /**
      * Creates new form utility
@@ -149,13 +149,13 @@ public class Utility extends javax.swing.JFrame {
     public void itemTerpilih() {
         PopupPenilaian PN = new PopupPenilaian();
         PN.du = this;
-        txtid.setText(idkurir);
+        txtid.setText(idsiswa);
         txtnm.setText(nama);
-        txttepat.setText(tepat);
-        txtakurasi.setText(akurasi);
-        txtjml.setText(jml);
-        txtint.setText(intg);
-        txtpenangan.setText(penangan);
+        txttepat.setText(akademik);
+        txtakurasi.setText(prestasi);
+        txtjml.setText(kehadiran);
+        txtint.setText(sikap);
+        txtpenangan.setText(partisipasi);
     }
 
     /**
@@ -237,7 +237,7 @@ public class Utility extends javax.swing.JFrame {
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logo kecil.png"))); // NOI18N
 
         jPanel3.setBackground(new java.awt.Color(204, 204, 204));
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data Kurir",
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Data Siswa",
                 javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION,
                 new java.awt.Font("Segoe UI", 3, 13))); // NOI18N
 
@@ -850,7 +850,7 @@ public class Utility extends javax.swing.JFrame {
         if (ok == 0) {
             int row = tabelpenilaian.getSelectedRow();
             String cell = tabelpenilaian.getModel().getValueAt(row, 0).toString();
-            String sql = "delete from utility where id_kurir = '" + cell + "'";
+            String sql = "delete from utility where id_siswa = '" + cell + "'";
             try {
                 PreparedStatement stat = conn.prepareStatement(sql);
                 stat.executeUpdate();

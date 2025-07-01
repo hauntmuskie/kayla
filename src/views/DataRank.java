@@ -32,7 +32,7 @@ public class DataRank extends javax.swing.JFrame {
     public String nilaikriteria;
     private DefaultTableModel tabmode;
     PlaceHolder pl;
-    public String idkurir, nama, tepat, akurasi, jml, intg, penangan, kri1, kri2, kri3;
+    public String idsiswa, nama, akademik, prestasi, kehadiran, sikap, partisipasi, kri1, kri2, kri3;
 
     /**
      * Creates new form datarank
@@ -170,13 +170,13 @@ public class DataRank extends javax.swing.JFrame {
     public void itemTerpilih() {
         PopupUtility PNA = new PopupUtility();
         PNA.dr = this;
-        txtid.setText(idkurir);
+        txtid.setText(idsiswa);
         txtnm.setText(nama);
-        txttepat.setText(tepat);
-        txtakurasi.setText(akurasi);
-        txtjml.setText(jml);
-        txtint.setText(intg);
-        txtpenangan.setText(penangan);
+        txttepat.setText(akademik);
+        txtakurasi.setText(prestasi);
+        txtjml.setText(kehadiran);
+        txtint.setText(sikap);
+        txtpenangan.setText(partisipasi);
     }
 
     /**

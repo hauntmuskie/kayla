@@ -38,22 +38,22 @@ public class PopupAlternatif extends javax.swing.JFrame {
     }
 
     private void datatable() {
-        Object[] Baris = { "ID Kurir", "Nama", "Pengiriman Tepat Waktu", "Akurasi Pengiriman", "Jumlah Paket Terkirim",
-                "Integritas Paket", "Penanganan Paket" };
+        Object[] Baris = { "ID Siswa", "Nama", "Nilai Akademik", "Prestasi Non-Akademik", "Kehadiran",
+                "Sikap Perilaku", "Partisipasi Kegiatan" };
         tabmode = new DefaultTableModel(null, Baris);
         try {
-            String sql = "SELECT * FROM dataalternatif ORDER by id_kurir";
+            String sql = "SELECT * FROM alternatif ORDER by id_siswa";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
                 tabmode.addRow(new Object[] {
-                        hasil.getString(1),
-                        hasil.getString(2),
-                        hasil.getString(3),
-                        hasil.getString(4),
-                        hasil.getString(5),
-                        hasil.getString(6),
-                        hasil.getString(7)
+                        hasil.getString("id_siswa"),
+                        hasil.getString("nama_siswa"),
+                        hasil.getString("nilai_akademik"),
+                        hasil.getString("prestasi_non_akademik"),
+                        hasil.getString("kehadiran"),
+                        hasil.getString("sikap_perilaku"),
+                        hasil.getString("partisipasi_kegiatan")
                 });
             }
             tabelalternatif.setModel(tabmode);
@@ -63,25 +63,25 @@ public class PopupAlternatif extends javax.swing.JFrame {
     }
 
     private void cari() {
-        Object[] Baris = { "ID Kurir", "Nama", "Pengiriman Tepat Waktu", "Akurasi Pengiriman", "Jumlah Paket Terkirim",
-                "Integritas Paket", "Penanganan Paket" };
+        Object[] Baris = { "ID Siswa", "Nama", "Nilai Akademik", "Prestasi Non-Akademik", "Kehadiran",
+                "Sikap Perilaku", "Partisipasi Kegiatan" };
         tabmode = new DefaultTableModel(null, Baris);
         String cariitem = txtcari.getText();
         try {
-            String sql = "SELECT * FROM dataalternatif where id_kurir LIKE '" + cariitem + "' or nmakurir LIKE '"
+            String sql = "SELECT * FROM alternatif where id_siswa LIKE '" + cariitem + "' or nama_siswa LIKE '"
                     + cariitem + "' "
-                    + "or K1 LIKE '" + cariitem + "' ";
+                    + "or nilai_akademik LIKE '" + cariitem + "' ";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
                 tabmode.addRow(new Object[] {
-                        hasil.getString(1),
-                        hasil.getString(2),
-                        hasil.getString(3),
-                        hasil.getString(4),
-                        hasil.getString(5),
-                        hasil.getString(6),
-                        hasil.getString(7)
+                        hasil.getString("id_siswa"),
+                        hasil.getString("nama_siswa"),
+                        hasil.getString("nilai_akademik"),
+                        hasil.getString("prestasi_non_akademik"),
+                        hasil.getString("kehadiran"),
+                        hasil.getString("sikap_perilaku"),
+                        hasil.getString("partisipasi_kegiatan")
                 });
             }
             tabelalternatif.setModel(tabmode);
@@ -166,13 +166,13 @@ public class PopupAlternatif extends javax.swing.JFrame {
     private void tabelalternatifMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelalternatifMouseClicked
         try {
             int tabelpopup = tabelalternatif.getSelectedRow();
-            dp.idkurir = tabelalternatif.getValueAt(tabelpopup, 0).toString();
+            dp.idsiswa = tabelalternatif.getValueAt(tabelpopup, 0).toString();
             dp.nama = tabelalternatif.getValueAt(tabelpopup, 1).toString();
-            dp.tepat = tabelalternatif.getValueAt(tabelpopup, 2).toString();
-            dp.akurasi = tabelalternatif.getValueAt(tabelpopup, 3).toString();
-            dp.jml = tabelalternatif.getValueAt(tabelpopup, 4).toString();
-            dp.intg = tabelalternatif.getValueAt(tabelpopup, 5).toString();
-            dp.penangan = tabelalternatif.getValueAt(tabelpopup, 6).toString();
+            dp.akademik = tabelalternatif.getValueAt(tabelpopup, 2).toString();
+            dp.prestasi = tabelalternatif.getValueAt(tabelpopup, 3).toString();
+            dp.kehadiran = tabelalternatif.getValueAt(tabelpopup, 4).toString();
+            dp.sikap = tabelalternatif.getValueAt(tabelpopup, 5).toString();
+            dp.partisipasi = tabelalternatif.getValueAt(tabelpopup, 6).toString();
             dp.itemTerpilih();
             this.dispose();
         } catch (Exception e) {

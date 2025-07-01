@@ -157,7 +157,7 @@ public class MenuUtama extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("SansSerif", 1, 28)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("PENILAIAN KINERJA KURIR J&T EXPRESS");
+        jLabel2.setText("PENILAIAN SISWA BERPRESTASI SMA ISLAM TERPADU RAFLESIA");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 330, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());

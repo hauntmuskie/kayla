@@ -35,7 +35,7 @@ public class DataSiswa extends javax.swing.JFrame {
     private Connection conn = new DatabaseConnection().connect();
     private DefaultTableModel tabmode;
     PlaceHolder pl;
-    public String idkurir, nama;
+    public String idsiswa, nama;
 
     /**
      * Creates new form datakurir
@@ -90,7 +90,7 @@ public class DataSiswa extends javax.swing.JFrame {
                         hasil.getString("alamat")
                 });
             }
-            tabelkurir.setModel(tabmode);
+            tabelsiswa.setModel(tabmode);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
         }
@@ -117,7 +117,7 @@ public class DataSiswa extends javax.swing.JFrame {
 
                 });
             }
-            tabelkurir.setModel(tabmode);
+            tabelsiswa.setModel(tabmode);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
         }
@@ -143,15 +143,10 @@ public class DataSiswa extends javax.swing.JFrame {
             PreparedStatement stat = conn.prepareStatement(sql);
             stat.setString(1, txtid.getText());
             stat.setString(2, txtnm.getText());
-            stat.setString(3, txttlp.getText()); // map to nisn
-
-            java.util.Date selectedDate = date.getDate();
-            String kelas = "";
-            if (selectedDate != null) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                kelas = dateFormat.format(selectedDate);
-            }
-            stat.setString(4, kelas); // map to kelas
+            stat.setString(3, txttlp.getText()); // NISN field
+            // For now, use a placeholder kelas value
+            String kelas = "X IPA 1"; // This should be replaced with proper input field
+            stat.setString(4, kelas); // kelas field
             stat.setString(5, txtalamat.getText());
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
@@ -191,7 +186,7 @@ public class DataSiswa extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         date = new com.toedter.calendar.JDateChooser();
         jScrollPane2 = new javax.swing.JScrollPane();
-        tabelkurir = new javax.swing.JTable();
+        tabelsiswa = new javax.swing.JTable();
         bsimpan = new javax.swing.JButton();
         bubah = new javax.swing.JButton();
         bhapus = new javax.swing.JButton();
@@ -212,7 +207,7 @@ public class DataSiswa extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("DATA KURIR");
+        jLabel1.setText("DATA SISWA");
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -220,7 +215,7 @@ public class DataSiswa extends javax.swing.JFrame {
 
         jLabel3.setText("Nama Siswa");
 
-        jLabel4.setText("No.Telepon");
+        jLabel4.setText("NISN");
 
         jLabel5.setText("Alamat");
 
@@ -239,7 +234,7 @@ public class DataSiswa extends javax.swing.JFrame {
         txtalamat.setRows(5);
         jScrollPane1.setViewportView(txtalamat);
 
-        jLabel7.setText("Tanggal Masuk Sekolah");
+        jLabel7.setText("Kelas");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -302,7 +297,7 @@ public class DataSiswa extends javax.swing.JFrame {
                                                 javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addContainerGap(27, Short.MAX_VALUE)));
 
-        tabelkurir.setModel(new javax.swing.table.DefaultTableModel(
+        tabelsiswa.setModel(new javax.swing.table.DefaultTableModel(
                 new Object[][] {
                         { null, null, null, null, null },
                         { null, null, null, null, null },
@@ -313,12 +308,12 @@ public class DataSiswa extends javax.swing.JFrame {
                 new String[] {
                         "Title 1", "Title 2", "Title 3", "Title 4", "Title 5"
                 }));
-        tabelkurir.addMouseListener(new java.awt.event.MouseAdapter() {
+        tabelsiswa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelkurirMouseClicked(evt);
+                tabelsiswaMouseClicked(evt);
             }
         });
-        jScrollPane2.setViewportView(tabelkurir);
+        jScrollPane2.setViewportView(tabelsiswa);
 
         bsimpan.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
         bsimpan.setForeground(new java.awt.Color(0, 51, 51));
@@ -593,8 +588,8 @@ public class DataSiswa extends javax.swing.JFrame {
         int ok = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus data kurir ini?", "Konfirmasi dialog!",
                 JOptionPane.YES_NO_OPTION);
         if (ok == 0) {
-            int row = tabelkurir.getSelectedRow();
-            String cell = tabelkurir.getModel().getValueAt(row, 0).toString();
+            int row = tabelsiswa.getSelectedRow();
+            String cell = tabelsiswa.getModel().getValueAt(row, 0).toString();
             String sql = "delete from siswa where id_siswa = '" + cell + "'";
             try {
                 PreparedStatement stat = conn.prepareStatement(sql);
@@ -632,11 +627,11 @@ public class DataSiswa extends javax.swing.JFrame {
         datatable();
     }// GEN-LAST:event_bubahActionPerformed
 
-    private void tabelkurirMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelkurirMouseClicked
+    private void tabelsiswaMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelsiswaMouseClicked
         bsimpan.setEnabled(false);
         bubah.setEnabled(true);
         bhapus.setEnabled(true);
-        int bar = tabelkurir.getSelectedRow();
+        int bar = tabelsiswa.getSelectedRow();
         String a = tabmode.getValueAt(bar, 0).toString();
         String b = tabmode.getValueAt(bar, 1).toString();
         String c = tabmode.getValueAt(bar, 2).toString();
@@ -652,7 +647,7 @@ public class DataSiswa extends javax.swing.JFrame {
         txttlp.setText(c);
         date.setDate(d);
         txtalamat.setText(e);
-    }// GEN-LAST:event_tabelkurirMouseClicked
+    }// GEN-LAST:event_tabelsiswaMouseClicked
 
     private void bbatalActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bbatalActionPerformed
         kosong(); // TODO add your handling code here:
@@ -745,7 +740,7 @@ public class DataSiswa extends javax.swing.JFrame {
     private javax.swing.JProgressBar jProgressBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable tabelkurir;
+    private javax.swing.JTable tabelsiswa;
     private javax.swing.JTextArea txtalamat;
     private javax.swing.JTextField txtcari;
     private javax.swing.JTextField txtid;

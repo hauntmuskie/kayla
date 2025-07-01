@@ -27,7 +27,7 @@ public class DataPenilaian extends javax.swing.JFrame {
     private DefaultTableModel tabmode;
     public DataSiswa dk = null;
     PlaceHolder pl;
-    public String idkurir, nama, tepat, akurasi, jml, intg, penangan;
+    public String idsiswa, nama, akademik, prestasi, kehadiran, sikap, partisipasi;
 
     /**
      * Creates new form datapenilaian
@@ -144,13 +144,13 @@ public class DataPenilaian extends javax.swing.JFrame {
     public void itemTerpilih() {
         PopupAlternatif PP = new PopupAlternatif();
         PP.dp = this;
-        txtid.setText(idkurir);
+        txtid.setText(idsiswa);
         txtnm.setText(nama);
-        txttepat.setText(tepat);
-        txtakurasi.setText(akurasi);
-        txtjml.setText(jml);
-        txtint.setText(intg);
-        txtpenangan.setText(penangan);
+        txttepat.setText(akademik);
+        txtakurasi.setText(prestasi);
+        txtjml.setText(kehadiran);
+        txtint.setText(sikap);
+        txtpenangan.setText(partisipasi);
     }
 
     /**

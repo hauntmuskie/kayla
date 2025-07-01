@@ -38,10 +38,10 @@ public class PopupUtility extends javax.swing.JFrame {
     }
 
     private void datatable() {
-        Object[] Baris = { "ID Kurir", "Nama", "K1", "K2", "K3", "K4", "K5" };
+        Object[] Baris = { "ID Siswa", "Nama Siswa", "K1", "K2", "K3", "K4", "K5" };
         tabmode = new DefaultTableModel(null, Baris);
         try {
-            String sql = "SELECT * FROM utility ORDER by id_kurir";
+            String sql = "SELECT * FROM utility ORDER by id_siswa";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
@@ -62,13 +62,13 @@ public class PopupUtility extends javax.swing.JFrame {
     }
 
     private void cari() {
-        Object[] Baris = { "ID Kurir", "Nama", "K1", "K2", "K3", "K4", "K5" };
+        Object[] Baris = { "ID Siswa", "Nama Siswa", "K1", "K2", "K3", "K4", "K5" };
         tabmode = new DefaultTableModel(null, Baris);
         String cariitem = txtcari.getText();
         try {
-            String sql = "SELECT * FROM utility where id_kurir LIKE '" + cariitem + "' or nmakurir LIKE '" + cariitem
+            String sql = "SELECT * FROM utility where id_siswa LIKE '" + cariitem + "' or nama_siswa LIKE '" + cariitem
                     + "' "
-                    + "or K1 LIKE '" + cariitem + "' ";
+                    + "or utility_akademik LIKE '" + cariitem + "' ";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
@@ -165,13 +165,13 @@ public class PopupUtility extends javax.swing.JFrame {
     private void tabelutilityMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelutilityMouseClicked
         try {
             int tabelpopup = tabelutility.getSelectedRow();
-            dr.idkurir = tabelutility.getValueAt(tabelpopup, 0).toString();
+            dr.idsiswa = tabelutility.getValueAt(tabelpopup, 0).toString();
             dr.nama = tabelutility.getValueAt(tabelpopup, 1).toString();
-            dr.tepat = tabelutility.getValueAt(tabelpopup, 2).toString();
-            dr.akurasi = tabelutility.getValueAt(tabelpopup, 3).toString();
-            dr.jml = tabelutility.getValueAt(tabelpopup, 4).toString();
-            dr.intg = tabelutility.getValueAt(tabelpopup, 5).toString();
-            dr.penangan = tabelutility.getValueAt(tabelpopup, 6).toString();
+            dr.akademik = tabelutility.getValueAt(tabelpopup, 2).toString();
+            dr.prestasi = tabelutility.getValueAt(tabelpopup, 3).toString();
+            dr.kehadiran = tabelutility.getValueAt(tabelpopup, 4).toString();
+            dr.sikap = tabelutility.getValueAt(tabelpopup, 5).toString();
+            dr.partisipasi = tabelutility.getValueAt(tabelpopup, 6).toString();
             dr.itemTerpilih();
             this.dispose();
         } catch (Exception e) {

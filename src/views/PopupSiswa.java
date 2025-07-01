@@ -27,7 +27,7 @@ public class PopupSiswa extends javax.swing.JFrame {
     PlaceHolder pl;
 
     /**
-     * Creates new form popup_kurir
+     * Creates new form popup_siswa
      */
     public PopupSiswa() {
         initComponents();
@@ -38,11 +38,11 @@ public class PopupSiswa extends javax.swing.JFrame {
     }
 
     private void datatable() {
-        Object[] Baris = { "ID Kurir", "Nama", "No.Telepon", "Tanggal Bergabung", "Alamat" };
+        Object[] Baris = { "ID Siswa", "Nama Siswa", "NISN", "Kelas", "Alamat" };
         tabmode = new DefaultTableModel(null, Baris);
 
         try {
-            String sql = "SELECT * FROM datakurir ORDER by id_kurir";
+            String sql = "SELECT * FROM siswa ORDER by id_siswa";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
@@ -55,21 +55,21 @@ public class PopupSiswa extends javax.swing.JFrame {
                 });
 
             }
-            tabelkurir.setModel(tabmode);
+            tabelsiswa.setModel(tabmode);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
         }
     }
 
     private void cari() {
-        Object[] Baris = { "ID Kurir", "Nama", "No.Telepon", "Tanggal Bergabung", "Alamat" };
+        Object[] Baris = { "ID Siswa", "Nama Siswa", "NISN", "Kelas", "Alamat" };
         tabmode = new DefaultTableModel(null, Baris);
         String cariitem = txtcari.getText();
 
         try {
-            String sql = "SELECT * FROM datakurir where id_kurir LIKE '" + cariitem + "' or nmakurir LIKE '" + cariitem
+            String sql = "SELECT * FROM siswa where id_siswa LIKE '" + cariitem + "' or nama_siswa LIKE '" + cariitem
                     + "' "
-                    + "or telp LIKE '" + cariitem + "' ";
+                    + "or nisn LIKE '" + cariitem + "' ";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
@@ -82,7 +82,7 @@ public class PopupSiswa extends javax.swing.JFrame {
 
                 });
             }
-            tabelkurir.setModel(tabmode);
+            tabelsiswa.setModel(tabmode);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
         }
@@ -96,7 +96,7 @@ public class PopupSiswa extends javax.swing.JFrame {
         txtcari = new javax.swing.JTextField();
         bcari = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelkurir = new javax.swing.JTable();
+        tabelsiswa = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -114,7 +114,7 @@ public class PopupSiswa extends javax.swing.JFrame {
             }
         });
 
-        tabelkurir.setModel(new javax.swing.table.DefaultTableModel(
+        tabelsiswa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -125,12 +125,12 @@ public class PopupSiswa extends javax.swing.JFrame {
 
             }
         ));
-        tabelkurir.addMouseListener(new java.awt.event.MouseAdapter() {
+        tabelsiswa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelkurirMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tabelkurir);
+        jScrollPane1.setViewportView(tabelsiswa);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -162,9 +162,9 @@ public class PopupSiswa extends javax.swing.JFrame {
 
     private void tabelkurirMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelkurirMouseClicked
         try {
-            int tabelpopup = tabelkurir.getSelectedRow();
-            da.idkurir = tabelkurir.getValueAt(tabelpopup, 0).toString();
-            da.nama = tabelkurir.getValueAt(tabelpopup, 1).toString();
+            int tabelpopup = tabelsiswa.getSelectedRow();
+            da.idsiswa = tabelsiswa.getValueAt(tabelpopup, 0).toString();
+            da.nama = tabelsiswa.getValueAt(tabelpopup, 1).toString();
             da.itemTerpilih();
             this.dispose();
         } catch (Exception e) {
@@ -227,7 +227,7 @@ public class PopupSiswa extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bcari;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tabelkurir;
+    private javax.swing.JTable tabelsiswa;
     private javax.swing.JTextField txtcari;
     // End of variables declaration//GEN-END:variables
 }

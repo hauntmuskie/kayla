@@ -38,21 +38,21 @@ public class PopupPenilaian extends javax.swing.JFrame {
     }
 
     private void datatable() {
-        Object[] Baris = { "ID Kurir", "Nama", "K1", "K2", "K3", "K4", "K5" };
+        Object[] Baris = { "ID Siswa", "Nama", "Akademik", "Prestasi", "Kehadiran", "Sikap", "Partisipasi" };
         tabmode = new DefaultTableModel(null, Baris);
         try {
-            String sql = "SELECT * FROM datapenilaian ORDER by id_kurir";
+            String sql = "SELECT * FROM penilaian ORDER by id_siswa";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
                 tabmode.addRow(new Object[] {
-                        hasil.getString(1),
-                        hasil.getString(2),
-                        hasil.getString(3),
-                        hasil.getString(4),
-                        hasil.getString(5),
-                        hasil.getString(6),
-                        hasil.getString(7)
+                        hasil.getString("id_siswa"),
+                        hasil.getString("nama_siswa"),
+                        hasil.getString("nilai_akademik"),
+                        hasil.getString("prestasi_non_akademik"),
+                        hasil.getString("kehadiran"),
+                        hasil.getString("sikap_perilaku"),
+                        hasil.getString("partisipasi_kegiatan")
                 });
             }
             tabelpenilaian.setModel(tabmode);
@@ -62,24 +62,24 @@ public class PopupPenilaian extends javax.swing.JFrame {
     }
 
     private void cari() {
-        Object[] Baris = { "ID Kurir", "Nama", "K1", "K2", "K3", "K4", "K5" };
+        Object[] Baris = { "ID Siswa", "Nama", "Akademik", "Prestasi", "Kehadiran", "Sikap", "Partisipasi" };
         tabmode = new DefaultTableModel(null, Baris);
         String cariitem = txtcari.getText();
         try {
-            String sql = "SELECT * FROM datapenilaian where id_kurir LIKE '" + cariitem + "' or nmakurir LIKE '"
+            String sql = "SELECT * FROM penilaian where id_siswa LIKE '" + cariitem + "' or nama_siswa LIKE '"
                     + cariitem + "' "
-                    + "or K1 LIKE '" + cariitem + "' ";
+                    + "or nilai_akademik LIKE '" + cariitem + "' ";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
                 tabmode.addRow(new Object[] {
-                        hasil.getString(1),
-                        hasil.getString(2),
-                        hasil.getString(3),
-                        hasil.getString(4),
-                        hasil.getString(5),
-                        hasil.getString(6),
-                        hasil.getString(7)
+                        hasil.getString("id_siswa"),
+                        hasil.getString("nama_siswa"),
+                        hasil.getString("nilai_akademik"),
+                        hasil.getString("prestasi_non_akademik"),
+                        hasil.getString("kehadiran"),
+                        hasil.getString("sikap_perilaku"),
+                        hasil.getString("partisipasi_kegiatan")
                 });
             }
             tabelpenilaian.setModel(tabmode);
@@ -164,13 +164,13 @@ public class PopupPenilaian extends javax.swing.JFrame {
     private void tabelpenilaianMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelpenilaianMouseClicked
         try {
             int tabelpopup = tabelpenilaian.getSelectedRow();
-            du.idkurir = tabelpenilaian.getValueAt(tabelpopup, 0).toString();
+            du.idsiswa = tabelpenilaian.getValueAt(tabelpopup, 0).toString();
             du.nama = tabelpenilaian.getValueAt(tabelpopup, 1).toString();
-            du.tepat = tabelpenilaian.getValueAt(tabelpopup, 2).toString();
-            du.akurasi = tabelpenilaian.getValueAt(tabelpopup, 3).toString();
-            du.jml = tabelpenilaian.getValueAt(tabelpopup, 4).toString();
-            du.intg = tabelpenilaian.getValueAt(tabelpopup, 5).toString();
-            du.penangan = tabelpenilaian.getValueAt(tabelpopup, 6).toString();
+            du.akademik = tabelpenilaian.getValueAt(tabelpopup, 2).toString();
+            du.prestasi = tabelpenilaian.getValueAt(tabelpopup, 3).toString();
+            du.kehadiran = tabelpenilaian.getValueAt(tabelpopup, 4).toString();
+            du.sikap = tabelpenilaian.getValueAt(tabelpopup, 5).toString();
+            du.partisipasi = tabelpenilaian.getValueAt(tabelpopup, 6).toString();
             du.itemTerpilih();
             this.dispose();
         } catch (Exception e) {
