@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package tampilan;
+package views;
 
 import com.placeholder.PlaceHolder;
 
@@ -20,16 +20,16 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author raymond
  */
-public class popup_kriteria extends javax.swing.JFrame {
+public class PopupKriteria extends javax.swing.JFrame {
     private Connection conn = new DatabaseConnection().connect();
     private DefaultTableModel tabmode;
-    public datarank dr;
+    public DataRank dr;
     PlaceHolder pl;
 
     /**
      * Creates new form popup_krite
      */
-    public popup_kriteria() {
+    public PopupKriteria() {
         initComponents();
         this.setLocationRelativeTo(null); // layar jadi ada di tengah
         datatable();
@@ -63,7 +63,7 @@ public class popup_kriteria extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
-    // Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -75,15 +75,16 @@ public class popup_kriteria extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         tabelkriteria.setModel(new javax.swing.table.DefaultTableModel(
-                new Object[][] {
-                        {},
-                        {},
-                        {},
-                        {}
-                },
-                new String[] {
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
 
-                }));
+            }
+        ));
         tabelkriteria.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tabelkriteriaMouseClicked(evt);
@@ -113,7 +114,7 @@ public class popup_kriteria extends javax.swing.JFrame {
             int tabelpopup = tabelkriteria.getSelectedRow();
             dr.nilaikriteria = tabelkriteria.getValueAt(tabelpopup, 0).toString();
             // ... Penugasan lain ...
-            dr.itemTerpilih(); // Panggil metode ini untuk mengirim nilai yang dipilih kembali ke datarank
+            dr.itemTerpilih(); // Panggil metode ini untuk mengirim nilai yang dipilih kembali ke DataRank
             this.dispose();
         } catch (Exception e) {
             // Tangani pengecualian
@@ -121,7 +122,7 @@ public class popup_kriteria extends javax.swing.JFrame {
     }// GEN-LAST:event_tabelkriteriaMouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel6MouseClicked
-        new datarank().setVisible(true);
+        new DataRank().setVisible(true);
         this.dispose();
     }// GEN-LAST:event_jLabel6MouseClicked
 
@@ -146,25 +147,27 @@ public class popup_kriteria extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(popup_kriteria.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(PopupKriteria.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(popup_kriteria.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(PopupKriteria.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(popup_kriteria.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(PopupKriteria.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(popup_kriteria.class.getName()).log(java.util.logging.Level.SEVERE, null,
+            java.util.logging.Logger.getLogger(PopupKriteria.class.getName()).log(java.util.logging.Level.SEVERE, null,
                     ex);
         }
+        // </editor-fold>
+        // </editor-fold>
         // </editor-fold>
         // </editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new popup_kriteria().setVisible(true);
+                new PopupKriteria().setVisible(true);
             }
         });
     }
