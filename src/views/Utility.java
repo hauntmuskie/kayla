@@ -48,6 +48,7 @@ public class Utility extends javax.swing.JFrame {
         txtjml.setEditable(false);
         txtint.setEditable(false);
         txtpenangan.setEditable(false);
+        datatable();
     }
 
     private void datatable() {

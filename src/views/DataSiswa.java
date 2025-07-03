@@ -51,6 +51,7 @@ public class DataSiswa extends javax.swing.JFrame {
         autonumber();
         bubah.setEnabled(false);
         bhapus.setEnabled(false);
+        datatable();
     }
 
     protected void autonumber() {

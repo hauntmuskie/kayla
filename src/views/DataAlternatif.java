@@ -43,6 +43,7 @@ public class DataAlternatif extends javax.swing.JFrame {
         // non editable textfield
         txtid.setEditable(false);
         txtnm.setEditable(false);
+        datatable();
     }
 
     private void datatable() {

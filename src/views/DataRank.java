@@ -63,6 +63,7 @@ public class DataRank extends javax.swing.JFrame {
         txtkd4.setEditable(false);
         txtkd5.setEditable(false);
         txtnilaiakhir.setEditable(false);
+        datatable();
     }
 
     private void datatable() {
