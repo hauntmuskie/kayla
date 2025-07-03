@@ -103,50 +103,70 @@ INSERT INTO `kriteria` (`kode_kriteria`, `nama_kriteria`, `bobot_kriteria`) VALU
 ('K4', 'Sikap/Perilaku', 0.20),
 ('K5', 'Partisipasi Kegiatan Sekolah', 0.10);
 
--- 8. Data Siswa Contoh
+-- 8. Data Siswa Contoh (Berdasarkan Paper SMA Islam Terpadu Raflesia)
 INSERT INTO `siswa` (`id_siswa`, `nama_siswa`, `nisn`, `kelas`, `alamat`) VALUES
-('SIS001', 'Ahmad Fauzi Rahman', '1234567890', 'X IPA 1', 'Jl. Melati No. 15, Bogor'),
-('SIS002', 'Siti Aminah Putri', '1234567891', 'XI IPS 2', 'Jl. Kenanga No. 23, Bogor'),
-('SIS003', 'Muhammad Rizki Hakim', '1234567892', 'X IPA 2', 'Jl. Mawar No. 8, Bogor'),
-('SIS004', 'Fatimah Zahra', '1234567893', 'XI IPA 1', 'Jl. Dahlia No. 12, Bogor'),
-('SIS005', 'Abdullah Al-Farisi', '1234567894', 'X IPS 1', 'Jl. Anggrek No. 7, Bogor'),
-('SIS006', 'Khadijah Salsabila', '1234567895', 'XI IPA 2', 'Jl. Tulip No. 19, Bogor');
+('C1', 'Zahra Ainun Nadhiroh', '1234567801', 'XI IPA 1', 'Jl. Melati No. 15, Bogor'),
+('C2', 'Dhezan Shakti Al Hajj', '1234567802', 'XI IPA 1', 'Jl. Kenanga No. 23, Bogor'),
+('C3', 'Arfa Huriya Elfaradis', '1234567803', 'XI IPA 1', 'Jl. Mawar No. 8, Bogor'),
+('C4', 'Zaskia Nasywaa Pamungkas', '1234567804', 'XI IPA 1', 'Jl. Dahlia No. 12, Bogor'),
+('C5', 'Bunga Maulidya Caesar', '1234567805', 'XI IPA 1', 'Jl. Anggrek No. 7, Bogor'),
+('C6', 'Mayla Yunisiah', '1234567806', 'XI IPA 1', 'Jl. Tulip No. 19, Bogor'),
+('C7', 'Zauhara Maharani', '1234567807', 'XI IPA 1', 'Jl. Seroja No. 10, Bogor'),
+('C8', 'Vina Rahmah', '1234567808', 'XI IPA 1', 'Jl. Cempaka No. 5, Bogor'),
+('C9', 'Bunga Firjatullah', '1234567809', 'XI IPA 1', 'Jl. Flamboyan No. 20, Bogor'),
+('C10', 'Daffa Wicaksana', '1234567810', 'XI IPA 1', 'Jl. Kamboja No. 14, Bogor');
 
--- 9. Data Alternatif (Nilai Mentah)
+-- 9. Data Alternatif (Nilai Mentah berdasarkan Paper)
 INSERT INTO `alternatif` (`id_siswa`, `nama_siswa`, `nilai_akademik`, `prestasi_non_akademik`, `kehadiran`, `sikap_perilaku`, `partisipasi_kegiatan`) VALUES
-('SIS001', 'Ahmad Fauzi Rahman', 88.50, 'Juara 2 Olimpiade Matematika Tingkat Provinsi', 98.00, 'Sangat Baik', 'Aktif dan memiliki peran penting'),
-('SIS002', 'Siti Aminah Putri', 91.00, 'Juara 1 Lomba Debat Bahasa Inggris Tingkat Kota', 100.00, 'Sangat Baik', 'Aktif rutin dalam kegiatan'),
-('SIS003', 'Muhammad Rizki Hakim', 86.75, 'Partisipasi aktif dalam berbagai lomba', 93.50, 'Baik', 'Kadang-kadang aktif'),
-('SIS004', 'Fatimah Zahra', 92.25, 'Juara 3 Lomba Qiroah Tingkat Provinsi', 97.00, 'Sangat Baik', 'Aktif dan memiliki peran penting'),
-('SIS005', 'Abdullah Al-Farisi', 84.00, 'Tidak memiliki prestasi khusus', 89.00, 'Baik', 'Aktif rutin dalam kegiatan'),
-('SIS006', 'Khadijah Salsabila', 89.50, 'Juara 1 Lomba Karya Tulis Ilmiah Tingkat Kota', 95.50, 'Sangat Baik', 'Aktif dan memiliki peran penting');
+('C1', 'Zahra Ainun Nadhiroh', 86.00, 'Tidak memiliki prestasi', 93.00, 'Baik', 'Aktif rutin'),
+('C2', 'Dhezan Shakti Al Hajj', 89.00, 'Partisipasi aktif', 84.00, 'Baik', 'Aktif dan memiliki peran'),
+('C3', 'Arfa Huriya Elfaradis', 88.00, 'Tidak memiliki prestasi', 93.00, 'Baik', 'Kadang-kadang aktif'),
+('C4', 'Zaskia Nasywaa Pamungkas', 91.00, 'Partisipasi aktif', 100.00, 'Baik', 'Aktif dan memiliki peran'),
+('C5', 'Bunga Maulidya Caesar', 88.00, 'Juara tingkat provinsi/kota', 88.00, 'Baik', 'Aktif rutin'),
+('C6', 'Mayla Yunisiah', 87.00, 'Partisipasi aktif', 93.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
+('C7', 'Zauhara Maharani', 89.00, 'Juara tingkat sekolah', 84.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
+('C8', 'Vina Rahmah', 89.00, 'Partisipasi aktif', 84.00, 'Baik', 'Aktif dan memiliki peran'),
+('C9', 'Bunga Firjatullah', 89.00, 'Partisipasi aktif', 93.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
+('C10', 'Daffa Wicaksana', 86.00, 'Partisipasi aktif', 99.00, 'Baik', 'Aktif dan memiliki peran');
 
--- 10. Data Penilaian (Nilai Skala 0-100)
+-- 10. Data Penilaian (Nilai Skala 0-100 berdasarkan Paper)
 INSERT INTO `penilaian` (`id_siswa`, `nama_siswa`, `nilai_akademik`, `prestasi_non_akademik`, `kehadiran`, `sikap_perilaku`, `partisipasi_kegiatan`) VALUES
-('SIS001', 'Ahmad Fauzi Rahman', 90, 100, 98, 100, 90),
-('SIS002', 'Siti Aminah Putri', 95, 100, 100, 100, 85),
-('SIS003', 'Muhammad Rizki Hakim', 85, 70, 85, 85, 70),
-('SIS004', 'Fatimah Zahra', 97, 90, 95, 100, 90),
-('SIS005', 'Abdullah Al-Farisi', 80, 60, 80, 85, 85),
-('SIS006', 'Khadijah Salsabila', 92, 100, 93, 100, 90);
+('C1', 'Zahra Ainun Nadhiroh', 90, 60, 80, 85, 85),
+('C2', 'Dhezan Shakti Al Hajj', 90, 70, 60, 85, 100),
+('C3', 'Arfa Huriya Elfaradis', 90, 60, 80, 85, 75),
+('C4', 'Zaskia Nasywaa Pamungkas', 100, 70, 100, 85, 100),
+('C5', 'Bunga Maulidya Caesar', 90, 90, 70, 85, 85),
+('C6', 'Mayla Yunisiah', 90, 70, 80, 100, 100),
+('C7', 'Zauhara Maharani', 90, 80, 60, 100, 100),
+('C8', 'Vina Rahmah', 90, 70, 60, 85, 100),
+('C9', 'Bunga Firjatullah', 90, 70, 80, 100, 100),
+('C10', 'Daffa Wicaksana', 90, 70, 90, 85, 100);
 
--- 11. Data Utility (Contoh hasil perhitungan)
+-- 11. Data Utility (Hasil perhitungan berdasarkan Paper)
 INSERT INTO `utility` (`id_siswa`, `nama_siswa`, `utility_akademik`, `utility_prestasi`, `utility_kehadiran`, `utility_sikap`, `utility_partisipasi`) VALUES
-('SIS001', 'Ahmad Fauzi Rahman', 0.588, 1.000, 0.900, 1.000, 0.750),
-('SIS002', 'Siti Aminah Putri', 0.882, 1.000, 1.000, 1.000, 0.625),
-('SIS003', 'Muhammad Rizki Hakim', 0.294, 0.250, 0.250, 0.333, 0.250),
-('SIS004', 'Fatimah Zahra', 1.000, 0.750, 0.750, 1.000, 0.750),
-('SIS005', 'Abdullah Al-Farisi', 0.000, 0.000, 0.000, 0.333, 0.625),
-('SIS006', 'Khadijah Salsabila', 0.706, 1.000, 0.650, 1.000, 0.750);
+('C1', 'Zahra Ainun Nadhiroh', 0.000, 0.000, 0.500, 0.000, 0.400),
+('C2', 'Dhezan Shakti Al Hajj', 0.000, 0.333, 0.000, 0.000, 1.000),
+('C3', 'Arfa Huriya Elfaradis', 0.000, 0.000, 0.500, 0.000, 0.000),
+('C4', 'Zaskia Nasywaa Pamungkas', 1.000, 0.333, 1.000, 0.000, 1.000),
+('C5', 'Bunga Maulidya Caesar', 0.000, 1.000, 0.250, 0.000, 0.400),
+('C6', 'Mayla Yunisiah', 0.000, 0.333, 0.500, 1.000, 1.000),
+('C7', 'Zauhara Maharani', 0.000, 0.667, 0.000, 1.000, 1.000),
+('C8', 'Vina Rahmah', 0.000, 0.333, 0.000, 0.000, 1.000),
+('C9', 'Bunga Firjatullah', 0.000, 0.333, 0.500, 1.000, 1.000),
+('C10', 'Daffa Wicaksana', 0.000, 0.333, 0.750, 0.000, 1.000);
 
--- 12. Data Nilai Akhir (Hasil Perhitungan Metode SMART)
+-- 12. Data Nilai Akhir (Hasil Perhitungan Metode SMART berdasarkan Paper)
 INSERT INTO `nilai_akhir` (`id_siswa`, `nama_siswa`, `nilai_akhir_akademik`, `nilai_akhir_prestasi`, `nilai_akhir_kehadiran`, `nilai_akhir_sikap`, `nilai_akhir_partisipasi`, `jumlah_nilai_akhir`, `keputusan`) VALUES
-('SIS001', 'Ahmad Fauzi Rahman', 0.206, 0.200, 0.135, 0.200, 0.075, 0.816, 'Sangat Baik'),
-('SIS002', 'Siti Aminah Putri', 0.309, 0.200, 0.150, 0.200, 0.063, 0.922, 'Sangat Baik'),
-('SIS003', 'Muhammad Rizki Hakim', 0.103, 0.050, 0.038, 0.067, 0.025, 0.283, 'Kurang'),
-('SIS004', 'Fatimah Zahra', 0.350, 0.150, 0.113, 0.200, 0.075, 0.888, 'Sangat Baik'),
-('SIS005', 'Abdullah Al-Farisi', 0.000, 0.000, 0.000, 0.067, 0.063, 0.130, 'Kurang'),
-('SIS006', 'Khadijah Salsabila', 0.247, 0.200, 0.098, 0.200, 0.075, 0.820, 'Sangat Baik');
+('C1', 'Zahra Ainun Nadhiroh', 0.000, 0.000, 0.075, 0.000, 0.040, 0.115, 'Kurang'),
+('C2', 'Dhezan Shakti Al Hajj', 0.000, 0.066, 0.000, 0.000, 0.100, 0.166, 'Kurang'),
+('C3', 'Arfa Huriya Elfaradis', 0.000, 0.000, 0.075, 0.000, 0.000, 0.075, 'Kurang'),
+('C4', 'Zaskia Nasywaa Pamungkas', 0.350, 0.066, 0.150, 0.000, 0.100, 0.666, 'Baik'),
+('C5', 'Bunga Maulidya Caesar', 0.000, 0.200, 0.038, 0.000, 0.040, 0.278, 'Kurang'),
+('C6', 'Mayla Yunisiah', 0.000, 0.066, 0.075, 0.200, 0.100, 0.441, 'Cukup'),
+('C7', 'Zauhara Maharani', 0.000, 0.134, 0.000, 0.200, 0.100, 0.434, 'Cukup'),
+('C8', 'Vina Rahmah', 0.000, 0.066, 0.000, 0.000, 0.100, 0.166, 'Kurang'),
+('C9', 'Bunga Firjatullah', 0.000, 0.066, 0.075, 0.200, 0.100, 0.441, 'Cukup'),
+('C10', 'Daffa Wicaksana', 0.000, 0.066, 0.113, 0.000, 0.100, 0.279, 'Kurang');
 
 COMMIT;
 

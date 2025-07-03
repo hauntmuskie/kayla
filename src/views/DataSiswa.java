@@ -57,20 +57,25 @@ public class DataSiswa extends javax.swing.JFrame {
     protected void autonumber() {
         String siswa = "";
         try {
-            String sql = "SELECT id_siswa FROM siswa order by id_siswa asc";
+            String sql = "SELECT id_siswa FROM siswa ORDER BY LENGTH(id_siswa) DESC, id_siswa DESC";
             PreparedStatement stat = conn.prepareStatement(sql);
-            ResultSet rs = stat.executeQuery(sql);
-            while (rs.next()) {
+            ResultSet rs = stat.executeQuery();
+            if (rs.next()) {
                 siswa = rs.getString("id_siswa");
             }
         } catch (SQLException sqle) {
             siswa = "";
         }
-        if (siswa.length() < 1) {
-            siswa = "SIS001";
+        // If no data, start from C1
+        if (siswa == null || siswa.isEmpty() || !siswa.startsWith("C")) {
+            siswa = "C1";
         } else {
-            int u = Integer.parseInt(siswa.substring(3)) + 1;
-            siswa = "SIS" + String.format("%03d", u);
+            try {
+                int num = Integer.parseInt(siswa.substring(1));
+                siswa = "C" + (num + 1);
+            } catch (NumberFormatException e) {
+                siswa = "C1";
+            }
         }
         txtid.setText(siswa);
     }
