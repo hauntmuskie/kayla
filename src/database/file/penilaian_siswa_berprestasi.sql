@@ -46,7 +46,7 @@ CREATE TABLE `alternatif` (
   `id_siswa` VARCHAR(20) NOT NULL,
   `nama_siswa` VARCHAR(100) NOT NULL,
   `nilai_akademik` DECIMAL(5,2) NOT NULL,
-  `prestasi_non_akademik` VARCHAR(100) NOT NULL,
+  `prestasi_non_akademik` INT NOT NULL,
   `kehadiran` DECIMAL(5,2) NOT NULL,
   `sikap_perilaku` VARCHAR(50) NOT NULL,
   `partisipasi_kegiatan` VARCHAR(100) NOT NULL,
@@ -118,16 +118,16 @@ INSERT INTO `siswa` (`id_siswa`, `nama_siswa`, `nisn`, `kelas`, `alamat`) VALUES
 
 -- 9. Data Alternatif (Nilai Mentah berdasarkan Paper)
 INSERT INTO `alternatif` (`id_siswa`, `nama_siswa`, `nilai_akademik`, `prestasi_non_akademik`, `kehadiran`, `sikap_perilaku`, `partisipasi_kegiatan`) VALUES
-('C1', 'Zahra Ainun Nadhiroh', 86.00, 'Tidak memiliki prestasi', 93.00, 'Baik', 'Aktif rutin'),
-('C2', 'Dhezan Shakti Al Hajj', 89.00, 'Partisipasi aktif', 84.00, 'Baik', 'Aktif dan memiliki peran'),
-('C3', 'Arfa Huriya Elfaradis', 88.00, 'Tidak memiliki prestasi', 93.00, 'Baik', 'Kadang-kadang aktif'),
-('C4', 'Zaskia Nasywaa Pamungkas', 91.00, 'Partisipasi aktif', 100.00, 'Baik', 'Aktif dan memiliki peran'),
-('C5', 'Bunga Maulidya Caesar', 88.00, 'Juara tingkat provinsi/kota', 88.00, 'Baik', 'Aktif rutin'),
-('C6', 'Mayla Yunisiah', 87.00, 'Partisipasi aktif', 93.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
-('C7', 'Zauhara Maharani', 89.00, 'Juara tingkat sekolah', 84.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
-('C8', 'Vina Rahmah', 89.00, 'Partisipasi aktif', 84.00, 'Baik', 'Aktif dan memiliki peran'),
-('C9', 'Bunga Firjatullah', 89.00, 'Partisipasi aktif', 93.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
-('C10', 'Daffa Wicaksana', 86.00, 'Partisipasi aktif', 99.00, 'Baik', 'Aktif dan memiliki peran');
+('C1', 'Zahra Ainun Nadhiroh', 86.00, 60, 93.00, 'Baik', 'Aktif rutin'),
+('C2', 'Dhezan Shakti Al Hajj', 89.00, 70, 84.00, 'Baik', 'Aktif dan memiliki peran'),
+('C3', 'Arfa Huriya Elfaradis', 88.00, 60, 93.00, 'Baik', 'Kadang-kadang aktif'),
+('C4', 'Zaskia Nasywaa Pamungkas', 91.00, 70, 100.00, 'Baik', 'Aktif dan memiliki peran'),
+('C5', 'Bunga Maulidya Caesar', 88.00, 90, 88.00, 'Baik', 'Aktif rutin'),
+('C6', 'Mayla Yunisiah', 87.00, 70, 93.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
+('C7', 'Zauhara Maharani', 89.00, 80, 84.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
+('C8', 'Vina Rahmah', 89.00, 70, 84.00, 'Baik', 'Aktif dan memiliki peran'),
+('C9', 'Bunga Firjatullah', 89.00, 70, 93.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
+('C10', 'Daffa Wicaksana', 86.00, 70, 99.00, 'Baik', 'Aktif dan memiliki peran');
 
 -- 10. Data Penilaian (Nilai Skala 0-100 berdasarkan Paper)
 INSERT INTO `penilaian` (`id_siswa`, `nama_siswa`, `nilai_akademik`, `prestasi_non_akademik`, `kehadiran`, `sikap_perilaku`, `partisipasi_kegiatan`) VALUES
