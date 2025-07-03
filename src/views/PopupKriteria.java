@@ -69,6 +69,8 @@ public class PopupKriteria extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelkriteria = new javax.swing.JTable();
         jLabel6 = new javax.swing.JLabel();
+        txtcari = new javax.swing.JTextField();
+        bcari = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -92,7 +94,7 @@ public class PopupKriteria extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tabelkriteria);
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 70, 370, 160));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 540, 160));
 
         jLabel6.setBackground(new java.awt.Color(255, 255, 255));
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -105,9 +107,32 @@ public class PopupKriteria extends javax.swing.JFrame {
         });
         getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
+        txtcari.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtcariKeyPressed(evt);
+            }
+        });
+        getContentPane().add(txtcari, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 20, 330, -1));
+
+        bcari.setText("Cari");
+        bcari.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bcariActionPerformed(evt);
+            }
+        });
+        getContentPane().add(bcari, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 20, -1, -1));
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtcariKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtcariKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtcariKeyPressed
+
+    private void bcariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bcariActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bcariActionPerformed
 
     private void tabelkriteriaMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelkriteriaMouseClicked
         try {
@@ -173,8 +198,10 @@ public class PopupKriteria extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bcari;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tabelkriteria;
+    private javax.swing.JTextField txtcari;
     // End of variables declaration//GEN-END:variables
 }

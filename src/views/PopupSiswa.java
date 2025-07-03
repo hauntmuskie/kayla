@@ -55,7 +55,7 @@ public class PopupSiswa extends javax.swing.JFrame {
                 });
 
             }
-            tabelsiswa.setModel(tabmode);
+            tableSiswa.setModel(tabmode);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
         }
@@ -82,7 +82,7 @@ public class PopupSiswa extends javax.swing.JFrame {
 
                 });
             }
-            tabelsiswa.setModel(tabmode);
+            tableSiswa.setModel(tabmode);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
         }
@@ -96,7 +96,8 @@ public class PopupSiswa extends javax.swing.JFrame {
         txtcari = new javax.swing.JTextField();
         bcari = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tabelsiswa = new javax.swing.JTable();
+        tableSiswa = new javax.swing.JTable();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -114,7 +115,7 @@ public class PopupSiswa extends javax.swing.JFrame {
             }
         });
 
-        tabelsiswa.setModel(new javax.swing.table.DefaultTableModel(
+        tableSiswa.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
                 {},
@@ -125,21 +126,29 @@ public class PopupSiswa extends javax.swing.JFrame {
 
             }
         ));
-        tabelsiswa.addMouseListener(new java.awt.event.MouseAdapter() {
+        tableSiswa.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tabelkurirMouseClicked(evt);
+                tableSiswaMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tabelsiswa);
+        jScrollPane1.setViewportView(tableSiswa);
+
+        jLabel6.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/back_arrow_14447.png"))); // NOI18N
+        jLabel6.setText("Kembali");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, 307, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(bcari, javax.swing.GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+                .addComponent(bcari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(1, 1, 1))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
         );
@@ -148,7 +157,8 @@ public class PopupSiswa extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bcari))
+                    .addComponent(bcari)
+                    .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -160,17 +170,17 @@ public class PopupSiswa extends javax.swing.JFrame {
         cari();
     }// GEN-LAST:event_bcariActionPerformed
 
-    private void tabelkurirMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelkurirMouseClicked
+    private void tableSiswaMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tableSiswaMouseClicked
         try {
-            int tabelpopup = tabelsiswa.getSelectedRow();
-            da.idsiswa = tabelsiswa.getValueAt(tabelpopup, 0).toString();
-            da.nama = tabelsiswa.getValueAt(tabelpopup, 1).toString();
+            int tabelpopup = tableSiswa.getSelectedRow();
+            da.idsiswa = tableSiswa.getValueAt(tabelpopup, 0).toString();
+            da.nama = tableSiswa.getValueAt(tabelpopup, 1).toString();
             da.itemTerpilih();
             this.dispose();
         } catch (Exception e) {
 
         }
-    }// GEN-LAST:event_tabelkurirMouseClicked
+    }// GEN-LAST:event_tableSiswaMouseClicked
 
     private void txtcariKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtcariKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -226,8 +236,9 @@ public class PopupSiswa extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bcari;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tabelsiswa;
+    private javax.swing.JTable tableSiswa;
     private javax.swing.JTextField txtcari;
     // End of variables declaration//GEN-END:variables
 }
