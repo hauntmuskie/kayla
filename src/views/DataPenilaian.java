@@ -122,22 +122,84 @@ public class DataPenilaian extends javax.swing.JFrame {
     }
 
     private void tambah() {
-        String sql = "INSERT INTO penilaian (id_siswa, nama_siswa, nilai_akademik, prestasi_non_akademik, kehadiran, sikap_perilaku, partisipasi_kegiatan) VALUES (?,?,?,?,?,?,?)";
         try {
-            PreparedStatement stat = conn.prepareStatement(sql);
-            stat.setString(1, txtid.getText());
-            stat.setString(2, txtnm.getText());
-            stat.setString(3, txtk1.getText()); // map to nilai_akademik
-            stat.setString(4, txtk2.getText()); // map to prestasi_non_akademik
-            stat.setString(5, txtk3.getText()); // map to kehadiran
-            stat.setString(6, txtk4.getText()); // map to sikap_perilaku
-            stat.setString(7, txtk5.getText()); // map to partisipasi_kegiatan
-            stat.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
+            // Validasi input
+            if (txtk1.getText().trim().isEmpty() || txtk2.getText().trim().isEmpty() || 
+                txtk3.getText().trim().isEmpty() || txtk4.getText().trim().isEmpty() || 
+                txtk5.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Harap klik 'Cek Nilai Bobot' terlebih dahulu untuk menghitung skor!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String idSiswa = txtid.getText();
+            String namaSiswa = txtnm.getText();
+
+            // Simpan data kategori asli ke tabel penilaian_kategori (untuk record keeping)
+            String kategorySql = "INSERT INTO penilaian_kategori (id_siswa, nama_siswa, nilai_akademik, prestasi_non_akademik, kehadiran, sikap_perilaku, partisipasi_kegiatan) " +
+                               "VALUES (?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE " +
+                               "nama_siswa = VALUES(nama_siswa), nilai_akademik = VALUES(nilai_akademik), " +
+                               "prestasi_non_akademik = VALUES(prestasi_non_akademik), kehadiran = VALUES(kehadiran), " +
+                               "sikap_perilaku = VALUES(sikap_perilaku), partisipasi_kegiatan = VALUES(partisipasi_kegiatan)";
+            
+            try {
+                PreparedStatement kategoryStat = conn.prepareStatement(kategorySql);
+                kategoryStat.setString(1, idSiswa);
+                kategoryStat.setString(2, namaSiswa);
+                kategoryStat.setString(3, txttepat.getText()); // nilai akademik asli
+                kategoryStat.setString(4, txtakurasi.getText()); // prestasi kategori asli
+                kategoryStat.setString(5, txtjml.getText()); // kehadiran asli
+                kategoryStat.setString(6, txtint.getText()); // sikap kategori asli
+                kategoryStat.setString(7, txtpenangan.getText()); // partisipasi kategori asli
+                kategoryStat.executeUpdate();
+            } catch (SQLException e) {
+                // Jika tabel penilaian_kategori belum ada, buat terlebih dahulu
+                System.out.println("Tabel penilaian_kategori mungkin belum ada: " + e.getMessage());
+            }
+
+            // Cek apakah data sudah ada di tabel penilaian (numerical scores)
+            String checkSql = "SELECT COUNT(*) FROM penilaian WHERE id_siswa = ?";
+            PreparedStatement checkStat = conn.prepareStatement(checkSql);
+            checkStat.setString(1, idSiswa);
+            ResultSet checkResult = checkStat.executeQuery();
+            checkResult.next();
+            boolean exists = checkResult.getInt(1) > 0;
+
+            if (exists) {
+                // Update data yang sudah ada
+                String updateSql = "UPDATE penilaian SET nama_siswa = ?, nilai_akademik = ?, prestasi_non_akademik = ?, " +
+                                 "kehadiran = ?, sikap_perilaku = ?, partisipasi_kegiatan = ? WHERE id_siswa = ?";
+                PreparedStatement updateStat = conn.prepareStatement(updateSql);
+                updateStat.setString(1, namaSiswa);
+                updateStat.setInt(2, Integer.parseInt(txtk1.getText())); // nilai_akademik (numerical)
+                updateStat.setInt(3, Integer.parseInt(txtk2.getText())); // prestasi_non_akademik (converted to numerical)
+                updateStat.setInt(4, Integer.parseInt(txtk3.getText())); // kehadiran (numerical)
+                updateStat.setInt(5, Integer.parseInt(txtk4.getText())); // sikap_perilaku (converted to numerical)
+                updateStat.setInt(6, Integer.parseInt(txtk5.getText())); // partisipasi_kegiatan (numerical)
+                updateStat.setString(7, idSiswa);
+                updateStat.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data berhasil diperbarui\n\nKategori asli disimpan untuk referensi\nSkor numerical digunakan untuk perhitungan SMART", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Insert data baru
+                String insertSql = "INSERT INTO penilaian (id_siswa, nama_siswa, nilai_akademik, prestasi_non_akademik, kehadiran, sikap_perilaku, partisipasi_kegiatan) VALUES (?,?,?,?,?,?,?)";
+                PreparedStatement insertStat = conn.prepareStatement(insertSql);
+                insertStat.setString(1, idSiswa);
+                insertStat.setString(2, namaSiswa);
+                insertStat.setInt(3, Integer.parseInt(txtk1.getText())); // nilai_akademik (numerical)
+                insertStat.setInt(4, Integer.parseInt(txtk2.getText())); // prestasi_non_akademik (converted to numerical)
+                insertStat.setInt(5, Integer.parseInt(txtk3.getText())); // kehadiran (numerical)
+                insertStat.setInt(6, Integer.parseInt(txtk4.getText())); // sikap_perilaku (converted to numerical)
+                insertStat.setInt(7, Integer.parseInt(txtk5.getText())); // partisipasi_kegiatan (numerical)
+                insertStat.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data berhasil disimpan\n\nKategori asli disimpan untuk referensi\nSkor numerical digunakan untuk perhitungan SMART", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
             kosong();
             txtid.requestFocus();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Nilai skor harus berupa angka! Harap klik 'Cek Nilai Bobot' terlebih dahulu.", "Error Format", JOptionPane.ERROR_MESSAGE);
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Data gagal disimpan" + e);
+            JOptionPane.showMessageDialog(null, "Data gagal disimpan: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
         datatable();
     }
@@ -160,6 +222,7 @@ public class DataPenilaian extends javax.swing.JFrame {
      * regenerated by the Form Editor.
      */
     @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -210,7 +273,7 @@ public class DataPenilaian extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        jPanel2.setBackground(new java.awt.Color(0, 51, 51));
+        jPanel2.setBackground(new java.awt.Color(51, 255, 0));
         jPanel2.setForeground(new java.awt.Color(32, 33, 35));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -653,8 +716,6 @@ public class DataPenilaian extends javax.swing.JFrame {
                 .addContainerGap(28, Short.MAX_VALUE))
         );
 
-        jPanel3.getAccessibleContext().setAccessibleName("Data Siswa");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -757,85 +818,368 @@ public class DataPenilaian extends javax.swing.JFrame {
     }// GEN-LAST:event_brefreshActionPerformed
 
     private void bcekActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcekActionPerformed
-        int Tepat = Integer.parseInt(txttepat.getText());
-        int Akurasi = Integer.parseInt(txtakurasi.getText());
-        int Jumlah = Integer.parseInt(txtjml.getText());
-        int Integ = Integer.parseInt(txtint.getText());
-        String penangan = txtpenangan.getText();
-        int score, score1, score2, score3, score4;
+        try {
+            // Validasi input tidak kosong
+            if (txtid.getText().trim().isEmpty() || txtnm.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "ID Siswa dan Nama Siswa harus diisi terlebih dahulu!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        // Konversi nilai berdasarkan kriteria
-        if (Tepat >= 1 && Tepat <= 5) {
-            score = 90;
-        } else if (Tepat >= 6 && Tepat <= 10) {
-            score = 70;
-        } else if (Tepat >= 11) {
-            score = 60;
-        } else {
-            score = 100;
-        }
-        // Konversi nilai berdasarkan kriteria
-        if (Akurasi >= 1 && Akurasi <= 5) {
-            score1 = 90;
-        } else if (Akurasi >= 6 && Akurasi <= 10) {
-            score1 = 80;
-        } else if (Akurasi >= 11) {
-            score1 = 60;
-        } else {
-            score1 = 100;
-        }
-        // Jumlah Paket Terkirim
-        if (Jumlah >= 1 && Jumlah <= 5) {
-            score2 = 85;
-        } else if (Jumlah >= 6 && Jumlah <= 10) {
-            score2 = 60;
-        } else if (Jumlah >= 11) {
-            score2 = 50;
-        } else {
-            score2 = 100;
-        }
-        // Integritas Paket
-        if (Integ >= 1 && Integ <= 5) {
-            score3 = 80;
-        } else if (Integ >= 6 && Integ <= 10) {
-            score3 = 60;
-        } else if (Integ >= 11) {
-            score3 = 40;
-        } else {
-            score3 = 100;
-        }
-        // Kualitas Penanganan Paket
-        switch (penangan.toLowerCase()) {
-            case "sangat baik":
-                score4 = 100;
-                break;
-            case "baik":
-                score4 = 85;
-                break;
-            case "cukup":
-                score4 = 75;
-                break;
-            case "buruk":
-                score4 = 60;
-                break;
-            case "sangat buruk":
-                score4 = 40;
-                break;
-            default:
-                score4 = -1; // Nilai default jika penangan tidak sesuai
-        }
+            // 1. Ambil input dari field
+            String akademikStr = txttepat.getText().trim();
+            String prestasiStr = txtakurasi.getText().trim();
+            String kehadiranStr = txtjml.getText().trim();
+            String sikapStr = txtint.getText().trim();
+            String partisipasiStr = txtpenangan.getText().trim();
 
-        if (score4 != -1) {
-            txtk5.setText(Integer.toString(score));
-        } else {
-            txtk5.setText("Keterangan tidak valid");
-        }
+            // Validasi field tidak kosong
+            if (akademikStr.isEmpty() || prestasiStr.isEmpty() || kehadiranStr.isEmpty() || 
+                sikapStr.isEmpty() || partisipasiStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Semua field kriteria harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        txtk1.setText(Integer.toString(score));
-        txtk2.setText(Integer.toString(score1));
-        txtk3.setText(Integer.toString(score2));
-        txtk4.setText(Integer.toString(score3));
-        txtk5.setText(Integer.toString(score4));
+            int skorK1 = 0, skorK2 = 0, skorK3 = 0, skorK4 = 0, skorK5 = 0;
+
+            // 2. Konversi ke skor sesuai tabel paper (Tabel 4.2 - 4.6)
+            
+            // K1: Nilai Akademik (Tabel 4.2)
+            try {
+                double akademik = Double.parseDouble(akademikStr);
+                if (akademik >= 90 && akademik <= 100)
+                    skorK1 = 100;
+                else if (akademik >= 85 && akademik <= 89)
+                    skorK1 = 90;
+                else if (akademik >= 80 && akademik <= 84)
+                    skorK1 = 80;
+                else if (akademik >= 75 && akademik <= 79)
+                    skorK1 = 70;
+                else
+                    skorK1 = 60;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Nilai Akademik harus berupa angka!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // K2: Prestasi Non-Akademik (Tabel 4.3) - Enhanced categorical matching
+            String prestasi = prestasiStr.toLowerCase().trim();
+            if (prestasi.contains("juara tingkat nasional") || prestasi.contains("nasional") || prestasi.contains("juara nasional"))
+                skorK2 = 100;
+            else if (prestasi.contains("juara tingkat provinsi") || prestasi.contains("provinsi") || prestasi.contains("juara provinsi") || 
+                     prestasi.contains("juara tingkat kota") || prestasi.contains("kota") || prestasi.contains("juara kota"))
+                skorK2 = 90;
+            else if (prestasi.contains("juara tingkat sekolah") || prestasi.contains("sekolah") || prestasi.contains("juara sekolah"))
+                skorK2 = 80;
+            else if (prestasi.contains("partisipasi aktif") || prestasi.contains("partisipasi") || 
+                     prestasi.contains("mengikuti") || prestasi.contains("berpartisipasi"))
+                skorK2 = 70;
+            else if (prestasi.contains("tidak memiliki prestasi") || prestasi.contains("tidak ada") || 
+                     prestasi.contains("tidak") || prestasi.contains("belum") || prestasi.isEmpty())
+                skorK2 = 60;
+            else
+                skorK2 = 60; // default untuk input tidak dikenali
+
+            // K3: Kehadiran (Tabel 4.4)
+            try {
+                double kehadiran = Double.parseDouble(kehadiranStr.replace("%", ""));
+                if (kehadiran == 100)
+                    skorK3 = 100;
+                else if (kehadiran >= 95 && kehadiran <= 99)
+                    skorK3 = 90;
+                else if (kehadiran >= 90 && kehadiran <= 94)
+                    skorK3 = 80;
+                else if (kehadiran >= 85 && kehadiran <= 89)
+                    skorK3 = 70;
+                else
+                    skorK3 = 60;
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Kehadiran harus berupa angka (dalam persen)!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // K4: Sikap/Perilaku (Tabel 4.5) - Enhanced categorical matching
+            String sikap = sikapStr.toLowerCase().trim();
+            if (sikap.contains("sangat baik") || sikap.equals("sangat baik"))
+                skorK4 = 100;
+            else if (sikap.contains("baik") && !sikap.contains("sangat") && !sikap.contains("kurang"))
+                skorK4 = 85;
+            else if (sikap.contains("cukup") || sikap.contains("sedang"))
+                skorK4 = 75;
+            else if (sikap.contains("kurang") && !sikap.contains("sangat"))
+                skorK4 = 60;
+            else if (sikap.contains("sangat kurang") || sikap.contains("buruk"))
+                skorK4 = 40;
+            else
+                skorK4 = 85; // default untuk input tidak dikenali (anggap baik)
+
+            // K5: Partisipasi Kegiatan Sekolah (Tabel 4.6)
+            String partisipasi = partisipasiStr.toLowerCase();
+            if (partisipasi.contains("aktif dan memiliki peran") || partisipasi.contains("memiliki peran"))
+                skorK5 = 100;
+            else if (partisipasi.contains("aktif rutin"))
+                skorK5 = 85;
+            else if (partisipasi.contains("kadang-kadang aktif") || partisipasi.contains("kadang"))
+                skorK5 = 75;
+            else if (partisipasi.contains("tidak aktif"))
+                skorK5 = 60;
+            else
+                skorK5 = 75; // default untuk input tidak dikenali
+
+            // Tampilkan skor pada field K1-K5
+            txtk1.setText(Integer.toString(skorK1));
+            txtk2.setText(Integer.toString(skorK2));
+            txtk3.setText(Integer.toString(skorK3));
+            txtk4.setText(Integer.toString(skorK4));
+            txtk5.setText(Integer.toString(skorK5));
+
+            // 3. Simpan data kategori asli dan skor numerik
+            String idSiswa = txtid.getText();
+            String namaSiswa = txtnm.getText();
+
+            try {
+                // Simpan raw input ke tabel alternatif
+                try {
+                    double akademikRaw = Double.parseDouble(akademikStr);
+                    double kehadiranPersen = Double.parseDouble(kehadiranStr.replace("%", ""));
+                    
+                    String checkAlternatifSql = "SELECT COUNT(*) FROM alternatif WHERE id_siswa = ?";
+                    PreparedStatement checkAlternatifStat = conn.prepareStatement(checkAlternatifSql);
+                    checkAlternatifStat.setString(1, idSiswa);
+                    ResultSet checkAlternatifResult = checkAlternatifStat.executeQuery();
+                    checkAlternatifResult.next();
+                    boolean alternatifExists = checkAlternatifResult.getInt(1) > 0;
+
+                    if (alternatifExists) {
+                        String updateAlternatifSql = "UPDATE alternatif SET nama_siswa = ?, nilai_akademik = ?, " +
+                                                   "prestasi_non_akademik = ?, kehadiran = ?, " +
+                                                   "sikap_perilaku = ?, partisipasi_kegiatan = ? WHERE id_siswa = ?";
+                        PreparedStatement updateAlternatifStat = conn.prepareStatement(updateAlternatifSql);
+                        updateAlternatifStat.setString(1, namaSiswa);
+                        updateAlternatifStat.setDouble(2, akademikRaw);
+                        updateAlternatifStat.setString(3, prestasiStr);
+                        updateAlternatifStat.setDouble(4, kehadiranPersen);
+                        updateAlternatifStat.setString(5, sikapStr);
+                        updateAlternatifStat.setString(6, partisipasiStr);
+                        updateAlternatifStat.setString(7, idSiswa);
+                        updateAlternatifStat.executeUpdate();
+                    } else {
+                        String insertAlternatifSql = "INSERT INTO alternatif (id_siswa, nama_siswa, nilai_akademik, " +
+                                                   "prestasi_non_akademik, kehadiran, sikap_perilaku, " +
+                                                   "partisipasi_kegiatan) VALUES (?,?,?,?,?,?,?)";
+                        PreparedStatement insertAlternatifStat = conn.prepareStatement(insertAlternatifSql);
+                        insertAlternatifStat.setString(1, idSiswa);
+                        insertAlternatifStat.setString(2, namaSiswa);
+                        insertAlternatifStat.setDouble(3, akademikRaw);
+                        insertAlternatifStat.setString(4, prestasiStr);
+                        insertAlternatifStat.setDouble(5, kehadiranPersen);
+                        insertAlternatifStat.setString(6, sikapStr);
+                        insertAlternatifStat.setString(7, partisipasiStr);
+                        insertAlternatifStat.executeUpdate();
+                    }
+                } catch (SQLException e) {
+                    System.err.println("Warning: Could not save raw data to alternatif table: " + e.getMessage());
+                }
+
+                // Simpan skor numerik ke tabel penilaian
+                String checkSql = "SELECT COUNT(*) FROM penilaian WHERE id_siswa = ?";
+                PreparedStatement checkStat = conn.prepareStatement(checkSql);
+                checkStat.setString(1, idSiswa);
+                ResultSet checkResult = checkStat.executeQuery();
+                checkResult.next();
+                boolean exists = checkResult.getInt(1) > 0;
+
+                if (exists) {
+                    // Update data yang sudah ada
+                    String updateSql = "UPDATE penilaian SET nama_siswa = ?, nilai_akademik = ?, prestasi_non_akademik = ?, " +
+                                     "kehadiran = ?, sikap_perilaku = ?, partisipasi_kegiatan = ? WHERE id_siswa = ?";
+                    PreparedStatement updateStat = conn.prepareStatement(updateSql);
+                    updateStat.setString(1, namaSiswa);
+                    updateStat.setInt(2, skorK1);
+                    updateStat.setInt(3, skorK2);
+                    updateStat.setInt(4, skorK3);
+                    updateStat.setInt(5, skorK4);
+                    updateStat.setInt(6, skorK5);
+                    updateStat.setString(7, idSiswa);
+                    updateStat.executeUpdate();
+                } else {
+                    // Insert data baru
+                    String insertSql = "INSERT INTO penilaian (id_siswa, nama_siswa, nilai_akademik, prestasi_non_akademik, " +
+                                     "kehadiran, sikap_perilaku, partisipasi_kegiatan) VALUES (?,?,?,?,?,?,?)";
+                    PreparedStatement insertStat = conn.prepareStatement(insertSql);
+                    insertStat.setString(1, idSiswa);
+                    insertStat.setString(2, namaSiswa);
+                    insertStat.setInt(3, skorK1);
+                    insertStat.setInt(4, skorK2);
+                    insertStat.setInt(5, skorK3);
+                    insertStat.setInt(6, skorK4);
+                    insertStat.setInt(7, skorK5);
+                    insertStat.executeUpdate();
+                }
+
+                // 4. Hitung Utility sesuai dengan formula paper
+                // Ui(ai) = (Cij - CjMin) / (CjMax - CjMin)
+                
+                // Nilai min dan max berdasarkan data dari paper (Table 4.20)
+                int[] minValues = {90, 60, 60, 85, 75}; // Min values dari paper
+                int[] maxValues = {100, 90, 100, 100, 100}; // Max values dari paper
+
+                // Hitung utility untuk setiap kriteria
+                double u1 = (maxValues[0] == minValues[0]) ? 0 : (double)(skorK1 - minValues[0]) / (maxValues[0] - minValues[0]);
+                double u2 = (maxValues[1] == minValues[1]) ? 0 : (double)(skorK2 - minValues[1]) / (maxValues[1] - minValues[1]);
+                double u3 = (maxValues[2] == minValues[2]) ? 0 : (double)(skorK3 - minValues[2]) / (maxValues[2] - minValues[2]);
+                double u4 = (maxValues[3] == minValues[3]) ? 0 : (double)(skorK4 - minValues[3]) / (maxValues[3] - minValues[3]);
+                double u5 = (maxValues[4] == minValues[4]) ? 0 : (double)(skorK5 - minValues[4]) / (maxValues[4] - minValues[4]);
+
+                // Normalisasi utility (pastikan dalam range 0-1)
+                u1 = Math.max(0, Math.min(1, u1));
+                u2 = Math.max(0, Math.min(1, u2));
+                u3 = Math.max(0, Math.min(1, u3));
+                u4 = Math.max(0, Math.min(1, u4));
+                u5 = Math.max(0, Math.min(1, u5));
+
+                // 5. Simpan/Update data ke tabel utility
+                String checkUtilitySql = "SELECT COUNT(*) FROM utility WHERE id_siswa = ?";
+                PreparedStatement checkUtilityStat = conn.prepareStatement(checkUtilitySql);
+                checkUtilityStat.setString(1, idSiswa);
+                ResultSet checkUtilityResult = checkUtilityStat.executeQuery();
+                checkUtilityResult.next();
+                boolean utilityExists = checkUtilityResult.getInt(1) > 0;
+
+                if (utilityExists) {
+                    // Update data yang sudah ada
+                    String updateUtilitySql = "UPDATE utility SET nama_siswa = ?, utility_akademik = ?, utility_prestasi = ?, " +
+                                            "utility_kehadiran = ?, utility_sikap = ?, utility_partisipasi = ? WHERE id_siswa = ?";
+                    PreparedStatement updateUtilityStat = conn.prepareStatement(updateUtilitySql);
+                    updateUtilityStat.setString(1, namaSiswa);
+                    updateUtilityStat.setDouble(2, u1);
+                    updateUtilityStat.setDouble(3, u2);
+                    updateUtilityStat.setDouble(4, u3);
+                    updateUtilityStat.setDouble(5, u4);
+                    updateUtilityStat.setDouble(6, u5);
+                    updateUtilityStat.setString(7, idSiswa);
+                    updateUtilityStat.executeUpdate();
+                } else {
+                    // Insert data baru
+                    String insertUtilitySql = "INSERT INTO utility (id_siswa, nama_siswa, utility_akademik, utility_prestasi, " +
+                                            "utility_kehadiran, utility_sikap, utility_partisipasi) VALUES (?,?,?,?,?,?,?)";
+                    PreparedStatement insertUtilityStat = conn.prepareStatement(insertUtilitySql);
+                    insertUtilityStat.setString(1, idSiswa);
+                    insertUtilityStat.setString(2, namaSiswa);
+                    insertUtilityStat.setDouble(3, u1);
+                    insertUtilityStat.setDouble(4, u2);
+                    insertUtilityStat.setDouble(5, u3);
+                    insertUtilityStat.setDouble(6, u4);
+                    insertUtilityStat.setDouble(7, u5);
+                    insertUtilityStat.executeUpdate();
+                }
+
+                // 6. Hitung Nilai Akhir sesuai dengan metode SMART
+                // Ambil bobot kriteria (Tabel 4.7 dari paper)
+                double[] bobot = {0.35, 0.20, 0.15, 0.20, 0.10}; // Bobot sesuai paper
+
+                // Hitung nilai akhir untuk setiap kriteria (utility * bobot)
+                double nilaiAkhir1 = u1 * bobot[0];
+                double nilaiAkhir2 = u2 * bobot[1];
+                double nilaiAkhir3 = u3 * bobot[2];
+                double nilaiAkhir4 = u4 * bobot[3];
+                double nilaiAkhir5 = u5 * bobot[4];
+
+                // Hitung total nilai akhir (jumlah semua nilai akhir)
+                double totalNilaiAkhir = nilaiAkhir1 + nilaiAkhir2 + nilaiAkhir3 + nilaiAkhir4 + nilaiAkhir5;
+
+                // Tentukan keputusan berdasarkan total nilai akhir
+                String keputusan;
+                if (totalNilaiAkhir >= 0.6)
+                    keputusan = "Baik";
+                else if (totalNilaiAkhir >= 0.4)
+                    keputusan = "Cukup";
+                else
+                    keputusan = "Kurang";
+
+                // 7. Simpan/Update data ke tabel nilai_akhir
+                String checkNilaiSql = "SELECT COUNT(*) FROM nilai_akhir WHERE id_siswa = ?";
+                PreparedStatement checkNilaiStat = conn.prepareStatement(checkNilaiSql);
+                checkNilaiStat.setString(1, idSiswa);
+                ResultSet checkNilaiResult = checkNilaiStat.executeQuery();
+                checkNilaiResult.next();
+                boolean nilaiExists = checkNilaiResult.getInt(1) > 0;
+
+                if (nilaiExists) {
+                    // Update data yang sudah ada
+                    String updateNilaiSql = "UPDATE nilai_akhir SET nama_siswa = ?, nilai_akhir_akademik = ?, " +
+                                          "nilai_akhir_prestasi = ?, nilai_akhir_kehadiran = ?, nilai_akhir_sikap = ?, " +
+                                          "nilai_akhir_partisipasi = ?, jumlah_nilai_akhir = ?, keputusan = ? WHERE id_siswa = ?";
+                    PreparedStatement updateNilaiStat = conn.prepareStatement(updateNilaiSql);
+                    updateNilaiStat.setString(1, namaSiswa);
+                    updateNilaiStat.setDouble(2, nilaiAkhir1);
+                    updateNilaiStat.setDouble(3, nilaiAkhir2);
+                    updateNilaiStat.setDouble(4, nilaiAkhir3);
+                    updateNilaiStat.setDouble(5, nilaiAkhir4);
+                    updateNilaiStat.setDouble(6, nilaiAkhir5);
+                    updateNilaiStat.setDouble(7, totalNilaiAkhir);
+                    updateNilaiStat.setString(8, keputusan);
+                    updateNilaiStat.setString(9, idSiswa);
+                    updateNilaiStat.executeUpdate();
+                } else {
+                    // Insert data baru
+                    String insertNilaiSql = "INSERT INTO nilai_akhir (id_siswa, nama_siswa, nilai_akhir_akademik, " +
+                                          "nilai_akhir_prestasi, nilai_akhir_kehadiran, nilai_akhir_sikap, " +
+                                          "nilai_akhir_partisipasi, jumlah_nilai_akhir, keputusan) VALUES (?,?,?,?,?,?,?,?,?)";
+                    PreparedStatement insertNilaiStat = conn.prepareStatement(insertNilaiSql);
+                    insertNilaiStat.setString(1, idSiswa);
+                    insertNilaiStat.setString(2, namaSiswa);
+                    insertNilaiStat.setDouble(3, nilaiAkhir1);
+                    insertNilaiStat.setDouble(4, nilaiAkhir2);
+                    insertNilaiStat.setDouble(5, nilaiAkhir3);
+                    insertNilaiStat.setDouble(6, nilaiAkhir4);
+                    insertNilaiStat.setDouble(7, nilaiAkhir5);
+                    insertNilaiStat.setDouble(8, totalNilaiAkhir);
+                    insertNilaiStat.setString(9, keputusan);
+                    insertNilaiStat.executeUpdate();
+                }
+
+                // 8. Tampilkan hasil perhitungan
+                String message = String.format(
+                    "Perhitungan SMART lengkap berhasil!\n\n" +
+                    "=== INPUT RAW (ALTERNATIF) ===\n" +
+                    "K1 (Nilai Akademik): %s\n" +
+                    "K2 (Prestasi Non-Akademik): %s\n" +
+                    "K3 (Kehadiran): %s%%\n" +
+                    "K4 (Sikap/Perilaku): %s\n" +
+                    "K5 (Partisipasi): %s\n\n" +
+                    "=== SKOR KONVERSI (PENILAIAN) ===\n" +
+                    "K1 (Nilai Akademik): %d\n" +
+                    "K2 (Prestasi Non-Akademik): %d\n" +
+                    "K3 (Kehadiran): %d\n" +
+                    "K4 (Sikap/Perilaku): %d\n" +
+                    "K5 (Partisipasi): %d\n\n" +
+                    "=== NILAI UTILITY ===\n" +
+                    "U1 (Akademik): %.3f\n" +
+                    "U2 (Prestasi): %.3f\n" +
+                    "U3 (Kehadiran): %.3f\n" +
+                    "U4 (Sikap): %.3f\n" +
+                    "U5 (Partisipasi): %.3f\n\n" +
+                    "=== NILAI AKHIR ===\n" +
+                    "Total Nilai Akhir: %.3f\n" +
+                    "Keputusan: %s\n\n" +
+                    "Data raw dan konversi telah disimpan ke database.",
+                    akademikStr, prestasiStr, kehadiranStr, sikapStr, partisipasiStr,
+                    skorK1, skorK2, skorK3, skorK4, skorK5,
+                    u1, u2, u3, u4, u5,
+                    totalNilaiAkhir, keputusan
+                );
+                
+                JOptionPane.showMessageDialog(null, message, "Hasil Perhitungan SMART", JOptionPane.INFORMATION_MESSAGE);
+
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error saat menyimpan data: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }// GEN-LAST:event_bcekActionPerformed
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel6MouseClicked

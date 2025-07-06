@@ -52,27 +52,80 @@ public class DataRank extends javax.swing.JFrame {
         txtjml.setEditable(false);
         txtint.setEditable(false);
         txtpenangan.setEditable(false);
-        txtk1.setText("0,25");
-        txtk2.setText("0,20");
-        txtk3.setText("0,15");
-        txtk4.setText("0,20");
-        txtk5.setText("0,20");
         txtkd1.setEditable(false);
         txtkd2.setEditable(false);
         txtkd3.setEditable(false);
         txtkd4.setEditable(false);
         txtkd5.setEditable(false);
         txtnilaiakhir.setEditable(false);
+
+        // Load bobot kriteria from database
+        try {
+            String sql = "SELECT bobot_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
+            Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            int idx = 1;
+            while (rs.next() && idx <= 5) {
+                String bobot = String.format(Locale.US, "%.2f", rs.getDouble("bobot_kriteria"));
+                switch (idx) {
+                    case 1:
+                        txtk1.setText(bobot);
+                        break;
+                    case 2:
+                        txtk2.setText(bobot);
+                        break;
+                    case 3:
+                        txtk3.setText(bobot);
+                        break;
+                    case 4:
+                        txtk4.setText(bobot);
+                        break;
+                    case 5:
+                        txtk5.setText(bobot);
+                        break;
+                }
+                idx++;
+            }
+        } catch (SQLException e) {
+            // fallback default if db error
+            txtk1.setText("0.35");
+            txtk2.setText("0.20");
+            txtk3.setText("0.15");
+            txtk4.setText("0.20");
+            txtk5.setText("0.10");
+        }
+
         datatable();
     }
 
     private void datatable() {
-        Object[] Baris = { "ID Siswa", "Nama Siswa", "Nilai Akhir Akademik", "Nilai Akhir Prestasi",
-                "Nilai Akhir Kehadiran", "Nilai Akhir Sikap", "Nilai Akhir Partisipasi", "Jumlah Nilai Akhir",
-                "Keputusan" };
-        tabmode = new DefaultTableModel(null, Baris);
+        // Load criteria names from database for dynamic column headers
+        String[] criteriaNames = new String[5];
         try {
-            String sql = "SELECT * FROM nilai_akhir ORDER BY id_siswa";
+            String sqlCriteria = "SELECT nama_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
+            Statement statCriteria = conn.createStatement();
+            ResultSet rsCriteria = statCriteria.executeQuery(sqlCriteria);
+            int idx = 0;
+            while (rsCriteria.next() && idx < 5) {
+                criteriaNames[idx] = rsCriteria.getString("nama_kriteria");
+                idx++;
+            }
+        } catch (SQLException e) {
+            // Fallback criteria names if database error
+            criteriaNames[0] = "Nilai Akademik";
+            criteriaNames[1] = "Prestasi Non-Akademik";
+            criteriaNames[2] = "Kehadiran";
+            criteriaNames[3] = "Sikap/Perilaku";
+            criteriaNames[4] = "Partisipasi Kegiatan Sekolah";
+        }
+        
+        // Create dynamic column headers
+        Object[] Baris = { "ID Siswa", "Nama Siswa", criteriaNames[0], criteriaNames[1], criteriaNames[2], 
+                          criteriaNames[3], criteriaNames[4], "Jumlah Nilai Akhir", "Keputusan" };
+        tabmode = new DefaultTableModel(null, Baris);
+        
+        try {
+            String sql = "SELECT * FROM nilai_akhir ORDER BY jumlah_nilai_akhir DESC";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
@@ -95,13 +148,34 @@ public class DataRank extends javax.swing.JFrame {
     }
 
     private void cari() {
-        Object[] Baris = { "ID Siswa", "Nama Siswa", "Nilai Akhir Akademik", "Nilai Akhir Prestasi",
-                "Nilai Akhir Kehadiran", "Nilai Akhir Sikap", "Nilai Akhir Partisipasi", "Jumlah Nilai Akhir",
-                "Keputusan" };
+        // Load criteria names from database for dynamic column headers
+        String[] criteriaNames = new String[5];
+        try {
+            String sqlCriteria = "SELECT nama_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
+            Statement statCriteria = conn.createStatement();
+            ResultSet rsCriteria = statCriteria.executeQuery(sqlCriteria);
+            int idx = 0;
+            while (rsCriteria.next() && idx < 5) {
+                criteriaNames[idx] = rsCriteria.getString("nama_kriteria");
+                idx++;
+            }
+        } catch (SQLException e) {
+            // Fallback criteria names if database error
+            criteriaNames[0] = "Nilai Akademik";
+            criteriaNames[1] = "Prestasi Non-Akademik";
+            criteriaNames[2] = "Kehadiran";
+            criteriaNames[3] = "Sikap/Perilaku";
+            criteriaNames[4] = "Partisipasi Kegiatan Sekolah";
+        }
+        
+        // Create dynamic column headers
+        Object[] Baris = { "ID Siswa", "Nama Siswa", criteriaNames[0], criteriaNames[1], criteriaNames[2], 
+                          criteriaNames[3], criteriaNames[4], "Jumlah Nilai Akhir", "Keputusan" };
         tabmode = new DefaultTableModel(null, Baris);
+        
         String cariitem = txtcari.getText();
         try {
-            String sql = "SELECT * FROM nilai_akhir WHERE id_siswa = ? OR nama_siswa = ? OR nilai_akhir_akademik = ? OR nilai_akhir_prestasi = ? OR nilai_akhir_kehadiran = ? OR nilai_akhir_sikap = ? OR nilai_akhir_partisipasi = ? OR jumlah_nilai_akhir = ? OR keputusan = ?";
+            String sql = "SELECT * FROM nilai_akhir WHERE id_siswa = ? OR nama_siswa = ? OR nilai_akhir_akademik = ? OR nilai_akhir_prestasi = ? OR nilai_akhir_kehadiran = ? OR nilai_akhir_sikap = ? OR nilai_akhir_partisipasi = ? OR jumlah_nilai_akhir = ? OR keputusan = ? ORDER BY jumlah_nilai_akhir DESC";
             PreparedStatement stat = conn.prepareStatement(sql);
             for (int i = 1; i <= 9; i++) {
                 stat.setString(i, cariitem);
@@ -188,6 +262,7 @@ public class DataRank extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -254,7 +329,7 @@ public class DataRank extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        jPanel1.setBackground(new java.awt.Color(0, 51, 51));
+        jPanel1.setBackground(new java.awt.Color(51, 255, 0));
 
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -874,42 +949,60 @@ public class DataRank extends javax.swing.JFrame {
 
     private void bhitungActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bhitungActionPerformed
         try {
-
+            // Get utility values (should be 0.000 to 1.000)
             double tepat = Double.parseDouble(txttepat.getText().replace(",", "."));
             double akurasi = Double.parseDouble(txtakurasi.getText().replace(",", "."));
             double jml = Double.parseDouble(txtjml.getText().replace(",", "."));
             double intg = Double.parseDouble(txtint.getText().replace(",", "."));
             double penangan = Double.parseDouble(txtpenangan.getText().replace(",", "."));
 
+            // Get weight values (should be 0.35, 0.20, 0.15, 0.20, 0.10)
             double k1 = Double.parseDouble(txtk1.getText().replace(",", "."));
             double k2 = Double.parseDouble(txtk2.getText().replace(",", "."));
             double k3 = Double.parseDouble(txtk3.getText().replace(",", "."));
             double k4 = Double.parseDouble(txtk4.getText().replace(",", "."));
             double k5 = Double.parseDouble(txtk5.getText().replace(",", "."));
 
+            // Debug: Print input values
+            System.out.printf("DEBUG DataRank - Utility values: U1=%.3f, U2=%.3f, U3=%.3f, U4=%.3f, U5=%.3f%n", 
+                            tepat, akurasi, jml, intg, penangan);
+            System.out.printf("DEBUG DataRank - Weight values: W1=%.3f, W2=%.3f, W3=%.3f, W4=%.3f, W5=%.3f%n", 
+                            k1, k2, k3, k4, k5);
+
+            // Calculate final values using SMART formula: Ui * Wi
             double hasilK1 = tepat * k1;
             double hasilK2 = akurasi * k2;
             double hasilK3 = jml * k3;
             double hasilK4 = intg * k4;
             double hasilK5 = penangan * k5;
 
-            txtkd1.setText(String.format("%.2f", hasilK1));
-            txtkd2.setText(String.format("%.2f", hasilK2));
-            txtkd3.setText(String.format("%.2f", hasilK3));
-            txtkd4.setText(String.format("%.2f", hasilK4));
-            txtkd5.setText(String.format("%.2f", hasilK5));
+            // Debug: Print calculated values
+            System.out.printf("DEBUG DataRank - Final values: F1=%.5f, F2=%.5f, F3=%.5f, F4=%.5f, F5=%.5f%n", 
+                            hasilK1, hasilK2, hasilK3, hasilK4, hasilK5);
+
+            // Display with 5 decimal places to match SMART precision
+            txtkd1.setText(String.format("%.5f", hasilK1));
+            txtkd2.setText(String.format("%.5f", hasilK2));
+            txtkd3.setText(String.format("%.5f", hasilK3));
+            txtkd4.setText(String.format("%.5f", hasilK4));
+            txtkd5.setText(String.format("%.5f", hasilK5));
 
             double nilaiAkhir = hasilK1 + hasilK2 + hasilK3 + hasilK4 + hasilK5;
-            txtnilaiakhir.setText(String.format("%.2f", nilaiAkhir));
+            txtnilaiakhir.setText(String.format("%.5f", nilaiAkhir));
+            
+            // Debug: Print final total
+            System.out.printf("DEBUG DataRank - Total final score: %.5f%n", nilaiAkhir);
+            
             String predikat;
-            if (nilaiAkhir >= 90) {
+            // SMART score is between 0.0 and 1.0, so adjust thresholds accordingly
+            if (nilaiAkhir >= 0.80) {
                 predikat = "Sangat Baik";
-            } else if (nilaiAkhir >= 80 && nilaiAkhir <= 89) {
+            } else if (nilaiAkhir >= 0.60) {
                 predikat = "Baik";
-            } else if (nilaiAkhir >= 66 && nilaiAkhir <= 79) {
+            } else if (nilaiAkhir >= 0.40) {
                 predikat = "Cukup";
             } else {
-                predikat = "Buruk";
+                predikat = "Kurang";
             }
 
             // Menampilkan predikat di txtrank

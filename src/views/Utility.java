@@ -215,7 +215,7 @@ public class Utility extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        jPanel2.setBackground(new java.awt.Color(0, 51, 51));
+        jPanel2.setBackground(new java.awt.Color(51, 255, 0));
         jPanel2.setForeground(new java.awt.Color(32, 33, 35));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -818,26 +818,172 @@ public class Utility extends javax.swing.JFrame {
     }// GEN-LAST:event_brefreshActionPerformed
 
     private void bcekActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcekActionPerformed
-        double tepat = Double.parseDouble(txttepat.getText());
-        double akurasi = Double.parseDouble(txtakurasi.getText());
-        double jml = Double.parseDouble(txtjml.getText());
-        double intKriteria = Double.parseDouble(txtint.getText());
-        double penangan = Double.parseDouble(txtpenangan.getText());
-        double max = 100;
-        double min = 0;
-        // Menghitung nilai Utility sesuai rumus SMART
-        double k1 = 100 * ((tepat - min) / (max - min));
-        double k2 = 100 * ((akurasi - min) / (max - min));
-        double k3 = 100 * ((jml - min) / (max - min));
-        double k4 = 100 * ((intKriteria - min) / (max - min));
-        double k5 = 100 * ((penangan - min) / (max - min));
+        try {
+            // Validasi input tidak kosong
+            if (txtid.getText().trim().isEmpty() || txtnm.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "ID Siswa dan Nama Siswa harus diisi terlebih dahulu!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
-        // Menampilkan hasil perhitungan di TextField
-        txtk1.setText(String.valueOf(k1));
-        txtk2.setText(String.valueOf(k2));
-        txtk3.setText(String.valueOf(k3));
-        txtk4.setText(String.valueOf(k4));
-        txtk5.setText(String.valueOf(k5));
+            // 1. Ambil input dari field (yang sudah diisi dari tabel penilaian)
+            // CATATAN: Field ini berisi nilai yang sudah dikonversi (dari tabel penilaian), 
+            // bukan nilai mentah dari tabel alternatif
+            String akademikStr = txttepat.getText().trim();
+            String prestasiStr = txtakurasi.getText().trim(); 
+            String kehadiranStr = txtjml.getText().trim();
+            String sikapStr = txtint.getText().trim();
+            String partisipasiStr = txtpenangan.getText().trim();
+
+            // Validasi field tidak kosong
+            if (akademikStr.isEmpty() || prestasiStr.isEmpty() || kehadiranStr.isEmpty() || 
+                sikapStr.isEmpty() || partisipasiStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Semua field kriteria harus diisi!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int skorK1 = 0, skorK2 = 0, skorK3 = 0, skorK4 = 0, skorK5 = 0;
+
+            // 2. Konversi input ke skor numerik (karena field sudah berisi nilai terkonversi dari tabel penilaian)
+            try {
+                skorK1 = Integer.parseInt(akademikStr);
+                skorK2 = Integer.parseInt(prestasiStr);
+                skorK3 = Integer.parseInt(kehadiranStr);
+                skorK4 = Integer.parseInt(sikapStr);
+                skorK5 = Integer.parseInt(partisipasiStr);
+                
+                // Debug: tampilkan skor yang digunakan
+                System.out.printf("DEBUG - Skor dari tabel penilaian: K1=%d, K2=%d, K3=%d, K4=%d, K5=%d%n", 
+                                skorK1, skorK2, skorK3, skorK4, skorK5);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Semua field kriteria harus berupa angka (skor yang sudah dikonversi)!", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 3. Hitung Utility sesuai dengan formula paper (Table 4.20)
+            // Ui(ai) = (Cij - CjMin) / (CjMax - CjMin)
+            // Min/Max values berdasarkan Table 4.9 dari paper
+            int[] minValues = {90, 60, 60, 85, 75}; // Min values dari semua siswa di Table 4.9
+            int[] maxValues = {100, 90, 100, 100, 100}; // Max values dari semua siswa di Table 4.9
+            int[] skorArr = {skorK1, skorK2, skorK3, skorK4, skorK5};
+            double[] utilities = new double[5];
+            
+            // Debug info - tampilkan skor yang digunakan
+            String debugInfo = String.format("DEBUG - Skor Konversi:\nK1=%d, K2=%d, K3=%d, K4=%d, K5=%d\n", 
+                                            skorK1, skorK2, skorK3, skorK4, skorK5);
+            System.out.println(debugInfo);
+            
+            for (int i = 0; i < 5; i++) {
+                if (maxValues[i] == minValues[i]) {
+                    utilities[i] = 0.0;
+                } else {
+                    utilities[i] = (double)(skorArr[i] - minValues[i]) / (double)(maxValues[i] - minValues[i]);
+                }
+                // Pastikan dalam range 0-1
+                utilities[i] = Math.max(0.0, Math.min(1.0, utilities[i]));
+                
+                // Debug utility calculation
+                System.out.printf("K%d: (%d-%d)/(%d-%d) = %.3f\n", 
+                                i+1, skorArr[i], minValues[i], maxValues[i], minValues[i], utilities[i]);
+            }
+
+            // 4. Tampilkan hasil utility pada field K1-K5 (format 3 decimal places)
+            txtk1.setText(String.format("%.3f", utilities[0]));
+            txtk2.setText(String.format("%.3f", utilities[1]));
+            txtk3.setText(String.format("%.3f", utilities[2]));
+            txtk4.setText(String.format("%.3f", utilities[3]));
+            txtk5.setText(String.format("%.3f", utilities[4]));
+
+            // 5. Simpan/Update data ke tabel utility
+            String idSiswa = txtid.getText();
+            String namaSiswa = txtnm.getText();
+            try {
+                // Cek apakah data sudah ada
+                String checkSql = "SELECT COUNT(*) FROM utility WHERE id_siswa = ?";
+                PreparedStatement checkStat = conn.prepareStatement(checkSql);
+                checkStat.setString(1, idSiswa);
+                ResultSet checkResult = checkStat.executeQuery();
+                checkResult.next();
+                boolean exists = checkResult.getInt(1) > 0;
+
+                if (exists) {
+                    // Update data yang sudah ada
+                    String updateSql = "UPDATE utility SET nama_siswa = ?, utility_akademik = ?, utility_prestasi = ?, " +
+                                     "utility_kehadiran = ?, utility_sikap = ?, utility_partisipasi = ? WHERE id_siswa = ?";
+                    PreparedStatement updateStat = conn.prepareStatement(updateSql);
+                    updateStat.setString(1, namaSiswa);
+                    updateStat.setDouble(2, utilities[0]);
+                    updateStat.setDouble(3, utilities[1]);
+                    updateStat.setDouble(4, utilities[2]);
+                    updateStat.setDouble(5, utilities[3]);
+                    updateStat.setDouble(6, utilities[4]);
+                    updateStat.setString(7, idSiswa);
+                    updateStat.executeUpdate();
+                    
+                    // Debug: print what was saved
+                    System.out.printf("DEBUG - Updated utilities for %s: %.3f, %.3f, %.3f, %.3f, %.3f%n", 
+                                    idSiswa, utilities[0], utilities[1], utilities[2], utilities[3], utilities[4]);
+                } else {
+                    // Insert data baru
+                    String insertSql = "INSERT INTO utility (id_siswa, nama_siswa, utility_akademik, utility_prestasi, " +
+                                     "utility_kehadiran, utility_sikap, utility_partisipasi) VALUES (?,?,?,?,?,?,?)";
+                    PreparedStatement insertStat = conn.prepareStatement(insertSql);
+                    insertStat.setString(1, idSiswa);
+                    insertStat.setString(2, namaSiswa);
+                    insertStat.setDouble(3, utilities[0]);
+                    insertStat.setDouble(4, utilities[1]);
+                    insertStat.setDouble(5, utilities[2]);
+                    insertStat.setDouble(6, utilities[3]);
+                    insertStat.setDouble(7, utilities[4]);
+                    insertStat.executeUpdate();
+                    
+                    // Debug: print what was saved
+                    System.out.printf("DEBUG - Inserted utilities for %s: %.3f, %.3f, %.3f, %.3f, %.3f%n", 
+                                    idSiswa, utilities[0], utilities[1], utilities[2], utilities[3], utilities[4]);
+                }
+
+                // 6. Tampilkan hasil perhitungan
+                String message = String.format(
+                    "Perhitungan Utility SMART berhasil!\n\n" +
+                    "=== SKOR PENILAIAN (SUDAH DIKONVERSI) ===\n" +
+                    "K1 (Nilai Akademik): %d\n" +
+                    "K2 (Prestasi Non-Akademik): %d\n" +
+                    "K3 (Kehadiran): %d\n" +
+                    "K4 (Sikap/Perilaku): %d\n" +
+                    "K5 (Partisipasi): %d\n\n" +
+                    "=== MIN/MAX VALUES (DARI SEMUA SISWA) ===\n" +
+                    "K1: min=%d, max=%d\n" +
+                    "K2: min=%d, max=%d\n" +
+                    "K3: min=%d, max=%d\n" +
+                    "K4: min=%d, max=%d\n" +
+                    "K5: min=%d, max=%d\n\n" +
+                    "=== NILAI UTILITY ===\n" +
+                    "U1 (Akademik): %.3f = (%d-%d)/(%d-%d)\n" +
+                    "U2 (Prestasi): %.3f = (%d-%d)/(%d-%d)\n" +
+                    "U3 (Kehadiran): %.3f = (%d-%d)/(%d-%d)\n" +
+                    "U4 (Sikap): %.3f = (%d-%d)/(%d-%d)\n" +
+                    "U5 (Partisipasi): %.3f = (%d-%d)/(%d-%d)\n\n" +
+                    "Data telah disimpan ke tabel utility.",
+                    skorK1, skorK2, skorK3, skorK4, skorK5,
+                    minValues[0], maxValues[0], minValues[1], maxValues[1], minValues[2], maxValues[2], 
+                    minValues[3], maxValues[3], minValues[4], maxValues[4],
+                    utilities[0], skorK1, minValues[0], maxValues[0], minValues[0],
+                    utilities[1], skorK2, minValues[1], maxValues[1], minValues[1],
+                    utilities[2], skorK3, minValues[2], maxValues[2], minValues[2],
+                    utilities[3], skorK4, minValues[3], maxValues[3], minValues[3],
+                    utilities[4], skorK5, minValues[4], maxValues[4], minValues[4]
+                );
+                JOptionPane.showMessageDialog(null, message, "Hasil Perhitungan Utility SMART", JOptionPane.INFORMATION_MESSAGE);
+                
+                // Refresh table to show updated utility values
+                datatable();
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Error saat menyimpan data: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
+                e.printStackTrace();
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
     }// GEN-LAST:event_bcekActionPerformed
 
     private void bcariActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcariActionPerformed

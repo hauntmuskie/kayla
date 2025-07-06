@@ -41,12 +41,12 @@ CREATE TABLE `kriteria` (
   `bobot_kriteria` DECIMAL(4,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- 3. Tabel Data Alternatif (Nilai Mentah Siswa per Kriteria)
+-- 3. Tabel Data Alternatif (Nilai Mentah/Raw Input Siswa per Kriteria)
 CREATE TABLE `alternatif` (
   `id_siswa` VARCHAR(20) NOT NULL,
   `nama_siswa` VARCHAR(100) NOT NULL,
   `nilai_akademik` DECIMAL(5,2) NOT NULL,
-  `prestasi_non_akademik` INT NOT NULL,
+  `prestasi_non_akademik` VARCHAR(100) NOT NULL,
   `kehadiran` DECIMAL(5,2) NOT NULL,
   `sikap_perilaku` VARCHAR(50) NOT NULL,
   `partisipasi_kegiatan` VARCHAR(100) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE `alternatif` (
   FOREIGN KEY (`id_siswa`) REFERENCES `siswa`(`id_siswa`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- 4. Tabel Data Penilaian (Nilai Skala 0-100 per Kriteria)
+-- 4. Tabel Data Penilaian (Nilai Konversi Skala 0-100 per Kriteria)
 CREATE TABLE `penilaian` (
   `id_siswa` VARCHAR(20) NOT NULL,
   `nama_siswa` VARCHAR(100) NOT NULL,
@@ -66,6 +66,8 @@ CREATE TABLE `penilaian` (
   PRIMARY KEY (`id_siswa`),
   FOREIGN KEY (`id_siswa`) REFERENCES `siswa`(`id_siswa`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+
 
 -- 5. Tabel Utility (Nilai Utility per Kriteria)
 CREATE TABLE `utility` (
@@ -84,12 +86,12 @@ CREATE TABLE `utility` (
 CREATE TABLE `nilai_akhir` (
   `id_siswa` VARCHAR(20) NOT NULL,
   `nama_siswa` VARCHAR(100) NOT NULL,
-  `nilai_akhir_akademik` DECIMAL(5,3) NOT NULL,
-  `nilai_akhir_prestasi` DECIMAL(5,3) NOT NULL,
-  `nilai_akhir_kehadiran` DECIMAL(5,3) NOT NULL,
-  `nilai_akhir_sikap` DECIMAL(5,3) NOT NULL,
-  `nilai_akhir_partisipasi` DECIMAL(5,3) NOT NULL,
-  `jumlah_nilai_akhir` DECIMAL(5,3) NOT NULL,
+  `nilai_akhir_akademik` DECIMAL(8,5) NOT NULL,
+  `nilai_akhir_prestasi` DECIMAL(8,5) NOT NULL,
+  `nilai_akhir_kehadiran` DECIMAL(8,5) NOT NULL,
+  `nilai_akhir_sikap` DECIMAL(8,5) NOT NULL,
+  `nilai_akhir_partisipasi` DECIMAL(8,5) NOT NULL,
+  `jumlah_nilai_akhir` DECIMAL(8,5) NOT NULL,
   `keputusan` VARCHAR(50) NOT NULL,
   PRIMARY KEY (`id_siswa`),
   FOREIGN KEY (`id_siswa`) REFERENCES `siswa`(`id_siswa`) ON DELETE CASCADE
@@ -116,20 +118,20 @@ INSERT INTO `siswa` (`id_siswa`, `nama_siswa`, `nisn`, `kelas`, `alamat`) VALUES
 ('C9', 'Bunga Firjatullah', '1234567809', 'XI IPA 1', 'Jl. Flamboyan No. 20, Bogor'),
 ('C10', 'Daffa Wicaksana', '1234567810', 'XI IPA 1', 'Jl. Kamboja No. 14, Bogor');
 
--- 9. Data Alternatif (Nilai Mentah berdasarkan Paper)
+-- 9. Data Alternatif (Raw Input berdasarkan Paper Tabel 4.8)
 INSERT INTO `alternatif` (`id_siswa`, `nama_siswa`, `nilai_akademik`, `prestasi_non_akademik`, `kehadiran`, `sikap_perilaku`, `partisipasi_kegiatan`) VALUES
-('C1', 'Zahra Ainun Nadhiroh', 86.00, 60, 93.00, 'Baik', 'Aktif rutin'),
-('C2', 'Dhezan Shakti Al Hajj', 89.00, 70, 84.00, 'Baik', 'Aktif dan memiliki peran'),
-('C3', 'Arfa Huriya Elfaradis', 88.00, 60, 93.00, 'Baik', 'Kadang-kadang aktif'),
-('C4', 'Zaskia Nasywaa Pamungkas', 91.00, 70, 100.00, 'Baik', 'Aktif dan memiliki peran'),
-('C5', 'Bunga Maulidya Caesar', 88.00, 90, 88.00, 'Baik', 'Aktif rutin'),
-('C6', 'Mayla Yunisiah', 87.00, 70, 93.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
-('C7', 'Zauhara Maharani', 89.00, 80, 84.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
-('C8', 'Vina Rahmah', 89.00, 70, 84.00, 'Baik', 'Aktif dan memiliki peran'),
-('C9', 'Bunga Firjatullah', 89.00, 70, 93.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
-('C10', 'Daffa Wicaksana', 86.00, 70, 99.00, 'Baik', 'Aktif dan memiliki peran');
+('C1', 'Zahra Ainun Nadhiroh', 86.00, 'Tidak memiliki prestasi', 93.00, 'Baik', 'Aktif rutin'),
+('C2', 'Dhezan Shakti Al Hajj', 89.00, 'Partisipasi aktif', 84.00, 'Baik', 'Aktif dan memiliki peran'),
+('C3', 'Arfa Huriya Elfaradis', 88.00, 'Tidak memiliki prestasi', 93.00, 'Baik', 'Kadang-kadang aktif'),
+('C4', 'Zaskia Nasywaa Pamungkas', 91.00, 'Partisipasi aktif', 100.00, 'Baik', 'Aktif dan memiliki peran'),
+('C5', 'Bunga Maulidya Caesar', 88.00, 'Juara tingkat provinsi/kota', 88.00, 'Baik', 'Aktif rutin'),
+('C6', 'Mayla Yunisiah', 87.00, 'Partisipasi aktif', 93.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
+('C7', 'Zauhara Maharani', 89.00, 'Juara tingkat sekolah', 84.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
+('C8', 'Vina Rahmah', 89.00, 'Partisipasi aktif', 84.00, 'Baik', 'Aktif dan memiliki peran'),
+('C9', 'Bunga Firjatullah', 89.00, 'Partisipasi aktif', 93.00, 'Sangat Baik', 'Aktif dan memiliki peran'),
+('C10', 'Daffa Wicaksana', 86.00, 'Partisipasi aktif', 99.00, 'Baik', 'Aktif dan memiliki peran');
 
--- 10. Data Penilaian (Nilai Skala 0-100 berdasarkan Paper)
+-- 10. Data Penilaian (Nilai Konversi Skala 0-100 berdasarkan Paper Tabel 4.9)
 INSERT INTO `penilaian` (`id_siswa`, `nama_siswa`, `nilai_akademik`, `prestasi_non_akademik`, `kehadiran`, `sikap_perilaku`, `partisipasi_kegiatan`) VALUES
 ('C1', 'Zahra Ainun Nadhiroh', 90, 60, 80, 85, 85),
 ('C2', 'Dhezan Shakti Al Hajj', 90, 70, 60, 85, 100),
@@ -141,32 +143,6 @@ INSERT INTO `penilaian` (`id_siswa`, `nama_siswa`, `nilai_akademik`, `prestasi_n
 ('C8', 'Vina Rahmah', 90, 70, 60, 85, 100),
 ('C9', 'Bunga Firjatullah', 90, 70, 80, 100, 100),
 ('C10', 'Daffa Wicaksana', 90, 70, 90, 85, 100);
-
--- 11. Data Utility (Hasil perhitungan berdasarkan Paper)
-INSERT INTO `utility` (`id_siswa`, `nama_siswa`, `utility_akademik`, `utility_prestasi`, `utility_kehadiran`, `utility_sikap`, `utility_partisipasi`) VALUES
-('C1', 'Zahra Ainun Nadhiroh', 0.000, 0.000, 0.500, 0.000, 0.400),
-('C2', 'Dhezan Shakti Al Hajj', 0.000, 0.333, 0.000, 0.000, 1.000),
-('C3', 'Arfa Huriya Elfaradis', 0.000, 0.000, 0.500, 0.000, 0.000),
-('C4', 'Zaskia Nasywaa Pamungkas', 1.000, 0.333, 1.000, 0.000, 1.000),
-('C5', 'Bunga Maulidya Caesar', 0.000, 1.000, 0.250, 0.000, 0.400),
-('C6', 'Mayla Yunisiah', 0.000, 0.333, 0.500, 1.000, 1.000),
-('C7', 'Zauhara Maharani', 0.000, 0.667, 0.000, 1.000, 1.000),
-('C8', 'Vina Rahmah', 0.000, 0.333, 0.000, 0.000, 1.000),
-('C9', 'Bunga Firjatullah', 0.000, 0.333, 0.500, 1.000, 1.000),
-('C10', 'Daffa Wicaksana', 0.000, 0.333, 0.750, 0.000, 1.000);
-
--- 12. Data Nilai Akhir (Hasil Perhitungan Metode SMART berdasarkan Paper)
-INSERT INTO `nilai_akhir` (`id_siswa`, `nama_siswa`, `nilai_akhir_akademik`, `nilai_akhir_prestasi`, `nilai_akhir_kehadiran`, `nilai_akhir_sikap`, `nilai_akhir_partisipasi`, `jumlah_nilai_akhir`, `keputusan`) VALUES
-('C1', 'Zahra Ainun Nadhiroh', 0.000, 0.000, 0.075, 0.000, 0.040, 0.115, 'Kurang'),
-('C2', 'Dhezan Shakti Al Hajj', 0.000, 0.066, 0.000, 0.000, 0.100, 0.166, 'Kurang'),
-('C3', 'Arfa Huriya Elfaradis', 0.000, 0.000, 0.075, 0.000, 0.000, 0.075, 'Kurang'),
-('C4', 'Zaskia Nasywaa Pamungkas', 0.350, 0.066, 0.150, 0.000, 0.100, 0.666, 'Baik'),
-('C5', 'Bunga Maulidya Caesar', 0.000, 0.200, 0.038, 0.000, 0.040, 0.278, 'Kurang'),
-('C6', 'Mayla Yunisiah', 0.000, 0.066, 0.075, 0.200, 0.100, 0.441, 'Cukup'),
-('C7', 'Zauhara Maharani', 0.000, 0.134, 0.000, 0.200, 0.100, 0.434, 'Cukup'),
-('C8', 'Vina Rahmah', 0.000, 0.066, 0.000, 0.000, 0.100, 0.166, 'Kurang'),
-('C9', 'Bunga Firjatullah', 0.000, 0.066, 0.075, 0.200, 0.100, 0.441, 'Cukup'),
-('C10', 'Daffa Wicaksana', 0.000, 0.066, 0.113, 0.000, 0.100, 0.279, 'Kurang');
 
 COMMIT;
 
