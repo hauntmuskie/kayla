@@ -10,18 +10,13 @@ import com.placeholder.PlaceHolder;
 
 import database.DatabaseConnection;
 
-import java.util.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Locale;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -38,7 +33,7 @@ public class DataSiswa extends javax.swing.JFrame {
     public String idsiswa, nama;
 
     /**
-     * Creates new form datakurir
+     * Creates new form DataSiswa
      */
 
     public DataSiswa() {
@@ -46,7 +41,7 @@ public class DataSiswa extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         aktif();
         kosong();
-        Locale locale = new Locale("id", "ID");
+        Locale locale = Locale.of("id", "ID");
         Locale.setDefault(locale);
         autonumber();
         bubah.setEnabled(false);
@@ -134,7 +129,7 @@ public class DataSiswa extends javax.swing.JFrame {
         txtid.setText("");
         txtnm.setText("");
         txttlp.setText("");
-        date.setDate(null);
+        txtkelas.setText("");
         txtalamat.setText("");
         pl = new PlaceHolder(txtcari, "Pencarian data...");
     }
@@ -150,9 +145,7 @@ public class DataSiswa extends javax.swing.JFrame {
             stat.setString(1, txtid.getText());
             stat.setString(2, txtnm.getText());
             stat.setString(3, txttlp.getText()); // NISN field
-            // For now, use a placeholder kelas value
-            String kelas = "X IPA 1"; // This should be replaced with proper input field
-            stat.setString(4, kelas); // kelas field
+            stat.setString(4, txtkelas.getText()); // kelas field
             stat.setString(5, txtalamat.getText());
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
@@ -190,7 +183,7 @@ public class DataSiswa extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         txtalamat = new javax.swing.JTextArea();
         jLabel7 = new javax.swing.JLabel();
-        date = new com.toedter.calendar.JDateChooser();
+        txtkelas = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabelkurir = new javax.swing.JTable();
         bsimpan = new javax.swing.JButton();
@@ -213,7 +206,7 @@ public class DataSiswa extends javax.swing.JFrame {
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
         jLabel1.setFont(new java.awt.Font("SansSerif", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("DATA KURIR");
+        jLabel1.setText("DATA SISWA");
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -221,7 +214,7 @@ public class DataSiswa extends javax.swing.JFrame {
 
         jLabel3.setText("Nama Siswa");
 
-        jLabel4.setText("No.Telepon");
+        jLabel4.setText("NISN");
 
         jLabel5.setText("Alamat");
 
@@ -240,7 +233,7 @@ public class DataSiswa extends javax.swing.JFrame {
         txtalamat.setRows(5);
         jScrollPane1.setViewportView(txtalamat);
 
-        jLabel7.setText("Tanggal Masuk Sekolah");
+        jLabel7.setText("Kelas");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -261,7 +254,7 @@ public class DataSiswa extends javax.swing.JFrame {
                     .addComponent(txttlp)
                     .addComponent(txtnm)
                     .addComponent(txtid)
-                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtkelas, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(79, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -282,7 +275,7 @@ public class DataSiswa extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel7)
-                    .addComponent(date, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtkelas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
@@ -491,16 +484,15 @@ public class DataSiswa extends javax.swing.JFrame {
     }// GEN-LAST:event_jLabel6MouseClicked
 
     private void bsimpanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bsimpanActionPerformed
-        String textId, textNama, textTlp, textAlamat;
+        String textId, textNama, textTlp, textKelas, textAlamat;
 
         textId = txtid.getText();
         textNama = txtnm.getText();
         textTlp = txttlp.getText();
-        Date tanggal;
-        tanggal = date.getDate();
+        textKelas = txtkelas.getText();
         textAlamat = txtalamat.getText();
         if ((textId.equals("")
-                | (textNama.equals("") | textTlp.equals("") | (tanggal == null) | textAlamat.equals("")))) {
+                | (textNama.equals("") | textTlp.equals("") | textKelas.equals("") | textAlamat.equals("")))) {
             JOptionPane.showMessageDialog(null, "Pengisian Data Tidak Boleh Kosong");
             txtid.requestFocus();
         } else {
@@ -522,7 +514,7 @@ public class DataSiswa extends javax.swing.JFrame {
 
     private void bhapusActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bhapusActionPerformed
         // TODO add your handling code here:
-        int ok = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus data kurir ini?", "Konfirmasi dialog!",
+        int ok = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus data siswa ini?", "Konfirmasi dialog!",
                 JOptionPane.YES_NO_OPTION);
         if (ok == 0) {
             int row = tabelkurir.getSelectedRow();
@@ -550,9 +542,7 @@ public class DataSiswa extends javax.swing.JFrame {
             PreparedStatement stat = conn.prepareStatement(sql);
             stat.setString(1, txtnm.getText());
             stat.setString(2, txttlp.getText());
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-            String tgl = dateFormat.format(date.getDate());
-            stat.setString(3, tgl);
+            stat.setString(3, txtkelas.getText());
             stat.setString(4, txtalamat.getText());
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null, "data berhasil diubah");
@@ -572,17 +562,12 @@ public class DataSiswa extends javax.swing.JFrame {
         String a = tabmode.getValueAt(bar, 0).toString();
         String b = tabmode.getValueAt(bar, 1).toString();
         String c = tabmode.getValueAt(bar, 2).toString();
-        Date d = null;
-        try {
-            d = new SimpleDateFormat("dd-MM-yyyy").parse((String) tabmode.getValueAt(bar, 3));
-        } catch (ParseException ex) {
-            Logger.getLogger(DataSiswa.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        String d = tabmode.getValueAt(bar, 3).toString();
         String e = tabmode.getValueAt(bar, 4).toString();
         txtid.setText(a);
         txtnm.setText(b);
         txttlp.setText(c);
-        date.setDate(d);
+        txtkelas.setText(d);
         txtalamat.setText(e);
     }// GEN-LAST:event_tabelkurirMouseClicked
 
@@ -603,8 +588,8 @@ public class DataSiswa extends javax.swing.JFrame {
 
     private void bcetakActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcetakActionPerformed
         try {
-            String report = "./src/laporan/laporankurir.jasper";
-            HashMap param = new HashMap();
+            String report = "./src/laporan/laporansiswa.jasper";
+            HashMap<String, Object> param = new HashMap<>();
             // param.put("parameter1", cari.getText());
             JasperPrint print = JasperFillManager.fillReport(report, param, conn);
             JasperViewer.viewReport(print, false);
@@ -663,7 +648,6 @@ public class DataSiswa extends javax.swing.JFrame {
     private javax.swing.JButton brefresh;
     private javax.swing.JButton bsimpan;
     private javax.swing.JButton bubah;
-    private com.toedter.calendar.JDateChooser date;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -681,6 +665,7 @@ public class DataSiswa extends javax.swing.JFrame {
     private javax.swing.JTextArea txtalamat;
     private javax.swing.JTextField txtcari;
     private javax.swing.JTextField txtid;
+    private javax.swing.JTextField txtkelas;
     private javax.swing.JTextField txtnm;
     private javax.swing.JTextField txttlp;
     // End of variables declaration//GEN-END:variables

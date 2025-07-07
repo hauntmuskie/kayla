@@ -155,7 +155,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="DATA KURIR"/>
+            <Property name="text" type="java.lang.String" value="DATA SISWA"/>
           </Properties>
         </Component>
         <Container class="javax.swing.JPanel" name="jPanel1">
@@ -237,7 +237,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="No.Telepon"/>
+                <Property name="text" type="java.lang.String" value="NISN"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">
@@ -272,10 +272,10 @@
             </Container>
             <Component class="javax.swing.JLabel" name="jLabel7">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Tanggal Masuk Sekolah"/>
+                <Property name="text" type="java.lang.String" value="Kelas"/>
               </Properties>
             </Component>
-            <Component class="com.toedter.calendar.JDateChooser" name="date">
+            <Component class="javax.swing.JTextField" name="txtkelas">
             </Component>
           </SubComponents>
         </Container>
