@@ -9,6 +9,7 @@ import java.sql.Connection;
 import com.placeholder.PlaceHolder;
 
 import database.DatabaseConnection;
+import utils.AutoIDGenerator;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -39,40 +40,26 @@ public class DataSiswa extends javax.swing.JFrame {
     public DataSiswa() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        // Make ID field non-editable since it's auto-generated
+        txtid.setEditable(false);
+        
         aktif();
         kosong();
         Locale locale = Locale.of("id", "ID");
         Locale.setDefault(locale);
         autonumber();
+        
+        // Set initial button states
+        bsimpan.setEnabled(true);
         bubah.setEnabled(false);
         bhapus.setEnabled(false);
         datatable();
     }
 
     protected void autonumber() {
-        String siswa = "";
-        try {
-            String sql = "SELECT id_siswa FROM siswa ORDER BY LENGTH(id_siswa) DESC, id_siswa DESC";
-            PreparedStatement stat = conn.prepareStatement(sql);
-            ResultSet rs = stat.executeQuery();
-            if (rs.next()) {
-                siswa = rs.getString("id_siswa");
-            }
-        } catch (SQLException sqle) {
-            siswa = "";
-        }
-        // If no data, start from C1
-        if (siswa == null || siswa.isEmpty() || !siswa.startsWith("C")) {
-            siswa = "C1";
-        } else {
-            try {
-                int num = Integer.parseInt(siswa.substring(1));
-                siswa = "C" + (num + 1);
-            } catch (NumberFormatException e) {
-                siswa = "C1";
-            }
-        }
-        txtid.setText(siswa);
+        String nextID = AutoIDGenerator.generateSiswaID();
+        txtid.setText(nextID);
     }
 
     private void datatable() {
@@ -126,16 +113,24 @@ public class DataSiswa extends javax.swing.JFrame {
 
     private void kosong() {
         txtcari.setText("");
-        txtid.setText("");
         txtnm.setText("");
         txttlp.setText("");
         txtkelas.setText("");
         txtalamat.setText("");
+        
+        // Auto-generate new ID for new record
+        autonumber();
+        
+        // Enable Simpan button for new records
+        bsimpan.setEnabled(true);
+        bubah.setEnabled(false);
+        bhapus.setEnabled(false);
+        
         pl = new PlaceHolder(txtcari, "Pencarian data...");
     }
 
     private void aktif() {
-        txtid.requestFocus();
+        txtnm.requestFocus(); // Focus on nama siswa since ID is auto-generated
     }
 
     private void tambah() {
@@ -149,8 +144,8 @@ public class DataSiswa extends javax.swing.JFrame {
             stat.setString(5, txtalamat.getText());
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
-            kosong();
-            txtid.requestFocus();
+            kosong(); // This will auto-generate new ID and reset button states
+            txtnm.requestFocus(); // Focus on first editable field
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Data gagal disimpan" + e);
         }
@@ -194,7 +189,6 @@ public class DataSiswa extends javax.swing.JFrame {
         txtcari = new javax.swing.JTextField();
         bcari = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         bcetak = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -254,7 +248,7 @@ public class DataSiswa extends javax.swing.JFrame {
                     .addComponent(txttlp)
                     .addComponent(txtnm)
                     .addComponent(txtid)
-                    .addComponent(txtkelas, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtkelas))
                 .addContainerGap(79, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -373,8 +367,6 @@ public class DataSiswa extends javax.swing.JFrame {
             }
         });
 
-        jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/logo kecil.png"))); // NOI18N
-
         bcetak.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         bcetak.setForeground(new java.awt.Color(0, 51, 51));
         bcetak.setText("Cetak Laporan Siswa");
@@ -415,14 +407,12 @@ public class DataSiswa extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(bcari, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane2))
-                        .addGap(9, 9, 9))
+                        .addContainerGap(15, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(100, 100, 100)
-                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -430,11 +420,10 @@ public class DataSiswa extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(15, 15, 15)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 46, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -494,22 +483,18 @@ public class DataSiswa extends javax.swing.JFrame {
         if ((textId.equals("")
                 | (textNama.equals("") | textTlp.equals("") | textKelas.equals("") | textAlamat.equals("")))) {
             JOptionPane.showMessageDialog(null, "Pengisian Data Tidak Boleh Kosong");
-            txtid.requestFocus();
+            txtnm.requestFocus(); // Focus on first editable field
         } else {
-            tambah();
-            autonumber();
+            tambah(); // tambah() already handles ID generation and cleanup
         }
     }// GEN-LAST:event_bsimpanActionPerformed
 
     private void brefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_brefreshActionPerformed
         // TODO add your handling code here:
         datatable();
-        autonumber();
+        kosong(); // This will auto-generate ID and reset button states
         txtcari.setText("");
         pl = new PlaceHolder(txtcari, "Pencarian data...");
-        bsimpan.setEnabled(true);
-        bubah.setEnabled(false);
-        bhapus.setEnabled(false);
     }// GEN-LAST:event_brefreshActionPerformed
 
     private void bhapusActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bhapusActionPerformed
@@ -546,8 +531,8 @@ public class DataSiswa extends javax.swing.JFrame {
             stat.setString(4, txtalamat.getText());
             stat.executeUpdate();
             JOptionPane.showMessageDialog(null, "data berhasil diubah");
-            kosong();
-            txtid.requestFocus();
+            kosong(); // This will auto-generate new ID and reset button states
+            txtnm.requestFocus(); // Focus on first editable field
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "data gagal diubah " + e);
         }
@@ -576,14 +561,13 @@ public class DataSiswa extends javax.swing.JFrame {
     }// GEN-LAST:event_bbatalActionPerformed
 
     private void txtidKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtidKeyTyped
-        char enter = evt.getKeyChar();
-        if (!(Character.isDigit(enter))) {
-            evt.consume();
-        }
+        // ID field is auto-generated and not editable, so prevent any input
+        evt.consume();
     }// GEN-LAST:event_txtidKeyTyped
 
     private void txtidMouseReleased(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_txtidMouseReleased
-        // TODO add your handling code here:
+        // ID field is auto-generated, redirect focus to first editable field
+        txtnm.requestFocus();
     }// GEN-LAST:event_txtidMouseReleased
 
     private void bcetakActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcetakActionPerformed
@@ -655,7 +639,6 @@ public class DataSiswa extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JProgressBar jProgressBar1;

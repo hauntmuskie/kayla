@@ -6,6 +6,7 @@
 package views;
 
 import database.DatabaseConnection;
+import utils.AutoIDGenerator;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,43 +30,41 @@ public class DataKriteria extends javax.swing.JFrame {
     public DataKriteria() {
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        // Make kode field non-editable since it's auto-generated
+        txtkode.setEditable(false);
+        
         aktif();
         kosong();
         autonumber();
+        
+        // Set initial button states
+        btambah.setEnabled(true);
         bubah.setEnabled(false);
         bhapus.setEnabled(false);
         datatable();
     }
 
     protected void autonumber() {
-        String kriteria = "";
-        try {
-            String sql = "SELECT kode_kriteria FROM kriteria order by kode_kriteria asc";
-            PreparedStatement stat = conn.prepareStatement(sql);
-            ResultSet rs = stat.executeQuery(sql);
-            while (rs.next()) {
-                kriteria = rs.getString("kode_kriteria");
-            }
-        } catch (SQLException sqle) {
-            kriteria = "";
-        }
-        if (kriteria.length() < 1) {
-            kriteria = "K1";
-        } else {
-            int u = Integer.parseInt(kriteria.substring(1)) + 1;
-            kriteria = "K" + u;
-        }
-        txtkode.setText(kriteria);
+        String nextID = AutoIDGenerator.generateKriteriaID();
+        txtkode.setText(nextID);
     }
 
     private void aktif() {
-        txtkode.requestFocus();
+        txtnama.requestFocus(); // Focus on nama kriteria since kode is auto-generated
     }
 
     private void kosong() {
-        txtkode.setText("");
         txtnama.setText("");
         txtnilai.setText("");
+        
+        // Auto-generate new kode for new record
+        autonumber();
+        
+        // Enable Add button for new records
+        btambah.setEnabled(true);
+        bubah.setEnabled(false);
+        bhapus.setEnabled(false);
     }
 
     private void datatable() {
@@ -423,10 +422,8 @@ public class DataKriteria extends javax.swing.JFrame {
     }// GEN-LAST:event_brefreshActionPerformed
 
     private void txtkodeKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtkodeKeyTyped
-        char enter = evt.getKeyChar();
-        if (!(Character.isDigit(enter))) {
-            evt.consume();
-        }
+        // Kode field is auto-generated and not editable, so prevent any input
+        evt.consume();
     }// GEN-LAST:event_txtkodeKeyTyped
 
     /**
