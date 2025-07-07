@@ -19,6 +19,7 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -1424,13 +1425,43 @@ public class DataRank extends javax.swing.JFrame {
 
         private void bcetakActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcetakActionPerformed
                 try {
-                        String report = "./src/laporan/laporannilaiakhir.jasper";
-                        HashMap param = new HashMap();
-                        // param.put("parameter1", cari.getText());
-                        JasperPrint print = JasperFillManager.fillReport(report, param, conn);
+                        // Check if database connection is established
+                        if (conn == null) {
+                                conn = new DatabaseConnection().connect();
+                                if (conn == null) {
+                                        JOptionPane.showMessageDialog(rootPane, "Gagal terhubung ke database!");
+                                        return;
+                                }
+                        }
+
+                        // Use the new student final scores report
+                        String reportJRXML = "./src/reports/laporannilaiakhirsiswa.jrxml";
+                        String reportJasper = "./src/reports/laporannilaiakhirsiswa.jasper";
+
+                        // Check if compiled report exists, if not compile from JRXML
+                        java.io.File jasperFile = new java.io.File(reportJasper);
+                        if (!jasperFile.exists()) {
+                                java.io.File jrxmlFile = new java.io.File(reportJRXML);
+                                if (jrxmlFile.exists()) {
+                                        // Compile JRXML to JASPER
+                                        net.sf.jasperreports.engine.JasperCompileManager
+                                                        .compileReportToFile(reportJRXML, reportJasper);
+                                } else {
+                                        JOptionPane.showMessageDialog(rootPane,
+                                                        "File laporan tidak ditemukan: " + reportJRXML);
+                                        return;
+                                }
+                        }
+
+                        HashMap<String, Object> param = new HashMap<>();
+                        // You can add parameters here if needed
+                        // param.put("parameter1", someValue);
+
+                        JasperPrint print = JasperFillManager.fillReport(reportJasper, param, conn);
                         JasperViewer.viewReport(print, false);
                 } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(rootPane, "Dokumen Tidak Ada " + ex);
+                        JOptionPane.showMessageDialog(rootPane, "Error membuat laporan: " + ex.getMessage());
+                        ex.printStackTrace(); // This will help debug the exact error
                 }
         }// GEN-LAST:event_bcetakActionPerformed
 

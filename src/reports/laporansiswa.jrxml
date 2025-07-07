@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="laporansiswa" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ae05671d-19ba-45ff-af78-b936faf087a4">
+	<property name="ireport.zoom" value="1.331000000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     siswa.`id_siswa` AS siswa_id_siswa,
+     siswa.`nama_siswa` AS siswa_nama_siswa,
+     siswa.`nisn` AS siswa_nisn,
+     siswa.`kelas` AS siswa_kelas,
+     siswa.`alamat` AS siswa_alamat
+FROM
+     `siswa` siswa
+ORDER BY siswa.`id_siswa`]]>
+	</queryString>
+	<field name="siswa_id_siswa" class="java.lang.String"/>
+	<field name="siswa_nama_siswa" class="java.lang.String"/>
+	<field name="siswa_nisn" class="java.lang.String"/>
+	<field name="siswa_kelas" class="java.lang.String"/>
+	<field name="siswa_alamat" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="217" y="0" width="351" height="28" uuid="88008704-b7db-41dc-b64d-67b046a02b6d"/>
+				<textElement textAlignment="Center" rotation="None">
+					<font size="22" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAPORAN DATA SISWA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="40" width="432" height="17" uuid="d5d7c02e-849d-4a17-bd4e-7931b77b64b1"/>
+				<textElement textAlignment="Center" rotation="None">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Sistem Penilaian Siswa Berprestasi]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="190" y="57" width="432" height="22" uuid="9102469b-58ad-4739-ba61-ecfb17dda40f"/>
+				<textElement textAlignment="Center" rotation="None">
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Data Siswa Terdaftar]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="40" width="100" height="20" uuid="cfc7e3ed-84b9-4a31-9ff9-c79e77e8d4e8"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID Siswa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="100" y="40" width="200" height="20" uuid="9e73c67c-e70b-411b-aefb-4b2a32b5c1ac"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nama Siswa]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="300" y="40" width="100" height="20" uuid="9e73c67c-e70b-411b-aefb-4b2a32b5c1ac"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[NISN]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="400" y="40" width="100" height="20" uuid="9e73c67c-e70b-411b-aefb-4b2a32b5c1ac"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Kelas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="500" y="40" width="302" height="20" uuid="9e73c67c-e70b-411b-aefb-4b2a32b5c1ac"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Alamat]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="e2a8c0ca-2c48-4073-ac16-c4b8f6b9b710"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{siswa_id_siswa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="200" height="20" uuid="e2a8c0ca-2c48-4073-ac16-c4b8f6b9b710"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{siswa_nama_siswa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="100" height="20" uuid="e2a8c0ca-2c48-4073-ac16-c4b8f6b9b710"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{siswa_nisn}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="400" y="0" width="100" height="20" uuid="e2a8c0ca-2c48-4073-ac16-c4b8f6b9b710"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{siswa_kelas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="500" y="0" width="302" height="20" uuid="e2a8c0ca-2c48-4073-ac16-c4b8f6b9b710"/>
+				<box>
+					<pen lineWidth="1.0"/>
+					<topPen lineWidth="1.0"/>
+					<leftPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+					<rightPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{siswa_alamat}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="682" y="34" width="80" height="20" uuid="ff7c8c87-b1b4-41b8-a2e6-c21a8b1a9e7c"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="762" y="34" width="40" height="20" uuid="b1e0a2b0-8635-4c5a-ba0e-1e1d1e9a9e7c"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>
