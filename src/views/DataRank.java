@@ -1425,40 +1425,51 @@ public class DataRank extends javax.swing.JFrame {
 
         private void bcetakActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcetakActionPerformed
                 try {
-                        // Check if database connection is established
+                        // Always refresh database connection to ensure fresh data
+                        conn = new DatabaseConnection().connect();
                         if (conn == null) {
-                                conn = new DatabaseConnection().connect();
-                                if (conn == null) {
-                                        JOptionPane.showMessageDialog(rootPane, "Gagal terhubung ke database!");
-                                        return;
-                                }
+                                JOptionPane.showMessageDialog(rootPane, "Gagal terhubung ke database!");
+                                return;
                         }
 
-                        // Use the new student final scores report
+                        // Use the final scores report
                         String reportJRXML = "./src/reports/laporannilaiakhirsiswa.jrxml";
                         String reportJasper = "./src/reports/laporannilaiakhirsiswa.jasper";
 
-                        // Check if compiled report exists, if not compile from JRXML
-                        java.io.File jasperFile = new java.io.File(reportJasper);
-                        if (!jasperFile.exists()) {
-                                java.io.File jrxmlFile = new java.io.File(reportJRXML);
-                                if (jrxmlFile.exists()) {
-                                        // Compile JRXML to JASPER
+                        // Always compile fresh from JRXML to ensure latest report template
+                        java.io.File jrxmlFile = new java.io.File(reportJRXML);
+                        if (jrxmlFile.exists()) {
+                                try {
+                                        // Always compile JRXML to JASPER for fresh compilation
                                         net.sf.jasperreports.engine.JasperCompileManager
                                                         .compileReportToFile(reportJRXML, reportJasper);
-                                } else {
-                                        JOptionPane.showMessageDialog(rootPane,
-                                                        "File laporan tidak ditemukan: " + reportJRXML);
+                                        System.out.println("Final scores report compiled fresh from JRXML");
+                                } catch (Exception compileEx) {
+                                        JOptionPane.showMessageDialog(rootPane, 
+                                                "Error kompilasi laporan: " + compileEx.getMessage() + 
+                                                "\nPastikan file JRXML tidak memiliki error UUID atau format XML.", 
+                                                "Compilation Error", 
+                                                JOptionPane.ERROR_MESSAGE);
+                                        compileEx.printStackTrace();
                                         return;
                                 }
+                        } else {
+                                JOptionPane.showMessageDialog(rootPane, "File laporan tidak ditemukan: " + reportJRXML);
+                                return;
                         }
+
+                        // Refresh data table to ensure we're working with latest data
+                        datatable();
 
                         HashMap<String, Object> param = new HashMap<>();
                         // You can add parameters here if needed
                         // param.put("parameter1", someValue);
 
+                        // Fill report with fresh data from database
                         JasperPrint print = JasperFillManager.fillReport(reportJasper, param, conn);
                         JasperViewer.viewReport(print, false);
+                        
+                        System.out.println("Final scores report generated successfully with fresh data");
                 } catch (Exception ex) {
                         JOptionPane.showMessageDialog(rootPane, "Error membuat laporan: " + ex.getMessage());
                         ex.printStackTrace(); // This will help debug the exact error

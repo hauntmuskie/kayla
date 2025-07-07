@@ -22,11 +22,18 @@ FROM
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="79" splitType="Stretch">
+		<band height="100" splitType="Stretch">
 			<staticText>
-				<reportElement x="217" y="0" width="351" height="28" uuid="88008704-b7db-41dc-b64d-67b046a02b6d"/>
+				<reportElement x="150" y="5" width="500" height="25" uuid="88008704-b7db-41dc-b64d-67b046a02b6d"/>
 				<textElement textAlignment="Center" rotation="None">
-					<font size="22" isBold="true"/>
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SEKOLAH MENENGAH ATAS ISLAM TERPADU]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="25" width="500" height="20" uuid="b2c45e7f-3a1d-4e6b-8f9c-1d2e3f4a5b6c"/>
+				<textElement textAlignment="Center" rotation="None">
+					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SMA IT RAFLESIA]]></text>
 			</staticText>
@@ -35,40 +42,40 @@ FROM
 				<imageExpression><![CDATA["C:\\Users\\riocl\\Documents\\code\\java\\Skripsi\\src\\image\\sma_it_raflesia_logo.png"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="190" y="25" width="432" height="15" uuid="d5d7c02e-849d-4a17-bd4e-7931b77b64b1"/>
+				<reportElement x="150" y="45" width="500" height="15" uuid="d5d7c02e-849d-4a17-bd4e-7931b77b64b1"/>
 				<textElement textAlignment="Center" rotation="None">
 					<font size="11" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Terakreditasi A]]></text>
+				<text><![CDATA[TERAKREDITASI A]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="190" y="40" width="432" height="17" uuid="9102469b-58ad-4739-ba61-ecfb17dda40f"/>
+				<reportElement x="150" y="60" width="500" height="15" uuid="9102469b-58ad-4739-ba61-ecfb17dda40f"/>
 				<textElement textAlignment="Center" rotation="None">
-					<font size="12" isBold="false"/>
+					<font size="11" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Jl. Raya Parung - Bogor KM. 35, Kemang, Bogor 16310]]></text>
+				<text><![CDATA[Jl. Mahkota Raya No. 32 B Pondok Duta Cimanggis-Depok 16951]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="190" y="57" width="432" height="22" uuid="contact-info"/>
+				<reportElement x="150" y="75" width="500" height="15" uuid="b2c3d4e5-f6a7-8901-2345-678901bcdef0"/>
 				<textElement textAlignment="Center" rotation="None">
-					<font size="12" isBold="false"/>
+					<font size="11" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Telp: (021) 8944-5566 | Email: info@smaitraflesia.sch.id]]></text>
+				<text><![CDATA[Telp. (021) 8712294 - 8702735. Fax. 87709480 E-mail: smait_raflesia@yahoo.co.id]]></text>
 			</staticText>
+			<line>
+				<reportElement x="0" y="95" width="802" height="1" uuid="7a8b9c0d-1e2f-3456-789a-bcdef0123456"/>
+			</line>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="35" splitType="Stretch">
+		<band height="40" splitType="Stretch">
 			<staticText>
-				<reportElement x="227" y="7" width="351" height="28" uuid="a83ad6a0-6a1d-4ec0-a6d8-b44c9dd97cb3"/>
+				<reportElement x="227" y="10" width="351" height="28" uuid="a83ad6a0-6a1d-4ec0-a6d8-b44c9dd97cb3"/>
 				<textElement textAlignment="Center" rotation="None">
 					<font size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Laporan Data Siswa]]></text>
 			</staticText>
-			<line>
-				<reportElement x="0" y="0" width="802" height="1" uuid="61613787-81ae-4332-9120-2d224a51f331"/>
-			</line>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -176,7 +183,7 @@ FROM
 				<textElement textAlignment="Center" rotation="None">
 					<font size="12" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Jakarta,]]></text>
+				<text><![CDATA[Jakarta, ]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="601" y="22" width="68" height="22" uuid="e01251de-0e0a-4734-82b5-c31966946a0a"/>
@@ -190,14 +197,14 @@ FROM
 				<textElement textAlignment="Left" rotation="None">
 					<font size="12" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Rahman]]></text>
+				<text><![CDATA[Nur Hasanudin]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="602" y="45" width="144" height="22" uuid="395c8d13-e36d-43d7-99b8-d5f70d09902e"/>
 				<textElement textAlignment="Left" rotation="None">
 					<font size="12" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Kepala Cabang]]></text>
+				<text><![CDATA[Waka Kurikulum]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
 				<reportElement x="644" y="1" width="147" height="20" uuid="d68dc51b-0e80-456b-8700-c626b699e7b8"/>
