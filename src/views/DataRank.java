@@ -19,7 +19,6 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -1445,11 +1444,11 @@ public class DataRank extends javax.swing.JFrame {
                                                         .compileReportToFile(reportJRXML, reportJasper);
                                         System.out.println("Final scores report compiled fresh from JRXML");
                                 } catch (Exception compileEx) {
-                                        JOptionPane.showMessageDialog(rootPane, 
-                                                "Error kompilasi laporan: " + compileEx.getMessage() + 
-                                                "\nPastikan file JRXML tidak memiliki error UUID atau format XML.", 
-                                                "Compilation Error", 
-                                                JOptionPane.ERROR_MESSAGE);
+                                        JOptionPane.showMessageDialog(rootPane,
+                                                        "Error kompilasi laporan: " + compileEx.getMessage() +
+                                                                        "\nPastikan file JRXML tidak memiliki error UUID atau format XML.",
+                                                        "Compilation Error",
+                                                        JOptionPane.ERROR_MESSAGE);
                                         compileEx.printStackTrace();
                                         return;
                                 }
@@ -1468,7 +1467,7 @@ public class DataRank extends javax.swing.JFrame {
                         // Fill report with fresh data from database
                         JasperPrint print = JasperFillManager.fillReport(reportJasper, param, conn);
                         JasperViewer.viewReport(print, false);
-                        
+
                         System.out.println("Final scores report generated successfully with fresh data");
                 } catch (Exception ex) {
                         JOptionPane.showMessageDialog(rootPane, "Error membuat laporan: " + ex.getMessage());

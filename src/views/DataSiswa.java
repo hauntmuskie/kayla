@@ -21,7 +21,6 @@ import java.util.Locale;
 
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.view.JasperViewer;
 
 /**
@@ -66,7 +65,7 @@ public class DataSiswa extends javax.swing.JFrame {
     }
 
     private void datatable() {
-        Object[] Baris = { "ID Siswa", "Nama Siswa", "NISN", "Kelas", "Alamat" };
+        Object[] Baris = { "ID Siswa", "Nama Siswa", "NIS", "Kelas", "Alamat" };
         tabmode = new DefaultTableModel(null, Baris);
         try {
             String sql = "SELECT * FROM siswa ORDER by id_siswa";
@@ -76,7 +75,7 @@ public class DataSiswa extends javax.swing.JFrame {
                 tabmode.addRow(new Object[] {
                         hasil.getString("id_siswa"),
                         hasil.getString("nama_siswa"),
-                        hasil.getString("nisn"),
+                        hasil.getString("nis"),
                         hasil.getString("kelas"),
                         hasil.getString("alamat")
                 });
@@ -88,14 +87,14 @@ public class DataSiswa extends javax.swing.JFrame {
     }
 
     private void cari() {
-        Object[] Baris = { "ID Siswa", "Nama Siswa", "NISN", "Kelas", "Alamat" };
+        Object[] Baris = { "ID Siswa", "Nama Siswa", "NIS", "Kelas", "Alamat" };
         tabmode = new DefaultTableModel(null, Baris);
         String cariitem = txtcari.getText();
 
         try {
             String sql = "SELECT * FROM siswa where id_siswa LIKE '" + cariitem + "' or nama_siswa LIKE '" + cariitem
                     + "' "
-                    + "or nisn LIKE '" + cariitem + "' ";
+                    + "or nis LIKE '" + cariitem + "' ";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
@@ -137,12 +136,12 @@ public class DataSiswa extends javax.swing.JFrame {
     }
 
     private void tambah() {
-        String sql = "INSERT INTO siswa (id_siswa, nama_siswa, nisn, kelas, alamat) VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO siswa (id_siswa, nama_siswa, nis, kelas, alamat) VALUES (?,?,?,?,?)";
         try {
             PreparedStatement stat = conn.prepareStatement(sql);
             stat.setString(1, txtid.getText());
             stat.setString(2, txtnm.getText());
-            stat.setString(3, txttlp.getText()); // NISN field
+            stat.setString(3, txttlp.getText()); // NIS field
             stat.setString(4, txtkelas.getText()); // kelas field
             stat.setString(5, txtalamat.getText());
             stat.executeUpdate();
@@ -212,7 +211,7 @@ public class DataSiswa extends javax.swing.JFrame {
 
         jLabel3.setText("Nama Siswa");
 
-        jLabel4.setText("NISN");
+        jLabel4.setText("NIS");
 
         jLabel5.setText("Alamat");
 
@@ -593,7 +592,7 @@ public class DataSiswa extends javax.swing.JFrame {
 
     private void bubahActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bubahActionPerformed
         try {
-            String sql = "UPDATE siswa SET nama_siswa = ?, nisn = ?, kelas = ?, alamat = ?"
+            String sql = "UPDATE siswa SET nama_siswa = ?, nis = ?, kelas = ?, alamat = ?"
                     + "WHERE id_siswa = '" + txtid.getText() + "' ";
             PreparedStatement stat = conn.prepareStatement(sql);
             stat.setString(1, txtnm.getText());

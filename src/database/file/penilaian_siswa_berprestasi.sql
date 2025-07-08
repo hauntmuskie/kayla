@@ -29,7 +29,7 @@ USE `penilaian_siswa_berprestasi`;
 CREATE TABLE `siswa` (
   `id_siswa` VARCHAR(20) PRIMARY KEY,
   `nama_siswa` VARCHAR(100) NOT NULL,
-  `nisn` VARCHAR(20) NOT NULL,
+  `nis` VARCHAR(20) NOT NULL,
   `kelas` VARCHAR(30) NOT NULL,
   `alamat` VARCHAR(200) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -66,8 +66,6 @@ CREATE TABLE `penilaian` (
   PRIMARY KEY (`id_siswa`),
   FOREIGN KEY (`id_siswa`) REFERENCES `siswa`(`id_siswa`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
-
 
 -- 5. Tabel Utility (Nilai Utility per Kriteria)
 CREATE TABLE `utility` (
@@ -106,7 +104,7 @@ INSERT INTO `kriteria` (`kode_kriteria`, `nama_kriteria`, `bobot_kriteria`) VALU
 ('K5', 'Partisipasi Kegiatan Sekolah', 0.10);
 
 -- 8. Data Siswa Contoh (Berdasarkan Paper SMA Islam Terpadu Raflesia)
-INSERT INTO `siswa` (`id_siswa`, `nama_siswa`, `nisn`, `kelas`, `alamat`) VALUES
+INSERT INTO `siswa` (`id_siswa`, `nama_siswa`, `nis`, `kelas`, `alamat`) VALUES
 ('C1', 'Zahra Ainun Nadhiroh', '1234567801', 'XI IPA 1', 'Jl. Melati No. 15, Bogor'),
 ('C2', 'Dhezan Shakti Al Hajj', '1234567802', 'XI IPA 1', 'Jl. Kenanga No. 23, Bogor'),
 ('C3', 'Arfa Huriya Elfaradis', '1234567803', 'XI IPA 1', 'Jl. Mawar No. 8, Bogor'),

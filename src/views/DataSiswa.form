@@ -234,7 +234,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>
-                <Property name="text" type="java.lang.String" value="NISN"/>
+                <Property name="text" type="java.lang.String" value="NIS"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel5">

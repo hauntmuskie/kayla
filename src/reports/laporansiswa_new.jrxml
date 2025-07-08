@@ -7,7 +7,7 @@
 		<![CDATA[SELECT
      siswa.`id_siswa` AS siswa_id_siswa,
      siswa.`nama_siswa` AS siswa_nama_siswa,
-     siswa.`nisn` AS siswa_nisn,
+     siswa.`nis` AS siswa_nis,
      siswa.`kelas` AS siswa_kelas,
      siswa.`alamat` AS siswa_alamat
 FROM
@@ -15,7 +15,7 @@ FROM
 	</queryString>
 	<field name="siswa_id_siswa" class="java.lang.String"/>
 	<field name="siswa_nama_siswa" class="java.lang.String"/>
-	<field name="siswa_nisn" class="java.lang.String"/>
+	<field name="siswa_nis" class="java.lang.String"/>
 	<field name="siswa_kelas" class="java.lang.String"/>
 	<field name="siswa_alamat" class="java.lang.String"/>
 	<background>
@@ -114,7 +114,7 @@ FROM
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[NISN]]></text>
+				<text><![CDATA[NIS]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="521" y="38" width="228" height="20" uuid="3bfe957b-825f-4ba1-815d-9b1a33beb035"/>
@@ -162,7 +162,7 @@ FROM
 			<textField>
 				<reportElement x="296" y="-1" width="100" height="20" uuid="e5165bcd-d641-4e44-a53c-cacaaddc4867"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{siswa_nisn}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{siswa_nis}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="396" y="-1" width="125" height="20" uuid="e5f95a2f-1139-4a57-8966-f510654f6e13"/>
