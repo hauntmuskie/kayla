@@ -1236,47 +1236,8 @@ public class DataPenilaian extends javax.swing.JFrame {
                 else
                     keputusan = "Kurang";
 
-                // 7. Simpan/Update data ke tabel nilai_akhir
-                String checkNilaiSql = "SELECT COUNT(*) FROM nilai_akhir WHERE id_siswa = ?";
-                PreparedStatement checkNilaiStat = conn.prepareStatement(checkNilaiSql);
-                checkNilaiStat.setString(1, idSiswa);
-                ResultSet checkNilaiResult = checkNilaiStat.executeQuery();
-                checkNilaiResult.next();
-                boolean nilaiExists = checkNilaiResult.getInt(1) > 0;
-
-                if (nilaiExists) {
-                    // Update data yang sudah ada
-                    String updateNilaiSql = "UPDATE nilai_akhir SET nama_siswa = ?, nilai_akhir_akademik = ?, " +
-                            "nilai_akhir_prestasi = ?, nilai_akhir_kehadiran = ?, nilai_akhir_sikap = ?, " +
-                            "nilai_akhir_partisipasi = ?, jumlah_nilai_akhir = ?, keputusan = ? WHERE id_siswa = ?";
-                    PreparedStatement updateNilaiStat = conn.prepareStatement(updateNilaiSql);
-                    updateNilaiStat.setString(1, namaSiswa);
-                    updateNilaiStat.setDouble(2, nilaiAkhir1);
-                    updateNilaiStat.setDouble(3, nilaiAkhir2);
-                    updateNilaiStat.setDouble(4, nilaiAkhir3);
-                    updateNilaiStat.setDouble(5, nilaiAkhir4);
-                    updateNilaiStat.setDouble(6, nilaiAkhir5);
-                    updateNilaiStat.setDouble(7, totalNilaiAkhir);
-                    updateNilaiStat.setString(8, keputusan);
-                    updateNilaiStat.setString(9, idSiswa);
-                    updateNilaiStat.executeUpdate();
-                } else {
-                    // Insert data baru
-                    String insertNilaiSql = "INSERT INTO nilai_akhir (id_siswa, nama_siswa, nilai_akhir_akademik, " +
-                            "nilai_akhir_prestasi, nilai_akhir_kehadiran, nilai_akhir_sikap, " +
-                            "nilai_akhir_partisipasi, jumlah_nilai_akhir, keputusan) VALUES (?,?,?,?,?,?,?,?,?)";
-                    PreparedStatement insertNilaiStat = conn.prepareStatement(insertNilaiSql);
-                    insertNilaiStat.setString(1, idSiswa);
-                    insertNilaiStat.setString(2, namaSiswa);
-                    insertNilaiStat.setDouble(3, nilaiAkhir1);
-                    insertNilaiStat.setDouble(4, nilaiAkhir2);
-                    insertNilaiStat.setDouble(5, nilaiAkhir3);
-                    insertNilaiStat.setDouble(6, nilaiAkhir4);
-                    insertNilaiStat.setDouble(7, nilaiAkhir5);
-                    insertNilaiStat.setDouble(8, totalNilaiAkhir);
-                    insertNilaiStat.setString(9, keputusan);
-                    insertNilaiStat.executeUpdate();
-                }
+                // 7. JANGAN simpan ke tabel nilai_akhir di sini!
+                // (Bagian simpan/update nilai_akhir dihapus sesuai permintaan)
 
                 // 8. Tampilkan hasil perhitungan
                 String message = String.format(
@@ -1302,7 +1263,7 @@ public class DataPenilaian extends javax.swing.JFrame {
                                 "=== NILAI AKHIR ===\n" +
                                 "Total Nilai Akhir: %.3f\n" +
                                 "Keputusan: %s\n\n" +
-                                "Data raw dan konversi telah disimpan ke database.",
+                                "Data raw dan konversi telah disimpan ke database (bukan ke hasil akhir/nilai_akhir).",
                         akademikStr, prestasiStr, kehadiranStr, sikapStr, partisipasiStr,
                         skorK1, skorK2, skorK3, skorK4, skorK5,
                         u1, u2, u3, u4, u5,
