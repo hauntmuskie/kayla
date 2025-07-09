@@ -18,7 +18,7 @@ import java.awt.event.KeyEvent;
 
 /**
  *
- * @author raymond
+ * @author Elza Kayla
  */
 public class PopupSiswa extends javax.swing.JFrame {
     private Connection conn = new DatabaseConnection().connect();

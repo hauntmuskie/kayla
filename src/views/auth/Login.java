@@ -9,7 +9,7 @@ import views.MenuUtama;
 
 /**
  *
- * @author raymond
+ * @author Elza Kayla
  */
 public class Login extends javax.swing.JFrame {
 

@@ -7,7 +7,7 @@ package views;
 
 /**
  *
- * @author raymond
+ * @author Elza Kayla
  */
 public class MetodeSmart extends javax.swing.JFrame {
 

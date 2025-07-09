@@ -25,7 +25,7 @@ import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
- * @author raymond
+ * @author Elza Kayla
  */
 public class DataRank extends javax.swing.JFrame {
         private Connection conn = new DatabaseConnection().connect();

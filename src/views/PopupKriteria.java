@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author raymond
+ * @author Elza Kayla
  */
 public class PopupKriteria extends javax.swing.JFrame {
     private Connection conn = new DatabaseConnection().connect();

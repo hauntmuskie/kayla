@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author raymond
+ * @author Elza Kayla
  */
 public class DataKriteria extends javax.swing.JFrame {
     private Connection conn = new DatabaseConnection().connect();
