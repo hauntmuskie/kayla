@@ -46,7 +46,7 @@ public class DataSiswa extends javax.swing.JFrame {
 
         aktif();
         kosong();
-        Locale locale = Locale.of("id", "ID");
+        Locale locale = new Locale("id", "ID");
         Locale.setDefault(locale);
         autonumber();
 
