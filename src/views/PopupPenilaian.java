@@ -11,6 +11,7 @@ import database.DatabaseConnection;
 
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
@@ -66,11 +67,13 @@ public class PopupPenilaian extends javax.swing.JFrame {
         tabmode = new DefaultTableModel(null, Baris);
         String cariitem = txtcari.getText();
         try {
-            String sql = "SELECT * FROM penilaian where id_siswa LIKE '" + cariitem + "' or nama_siswa LIKE '"
-                    + cariitem + "' "
-                    + "or nilai_akademik LIKE '" + cariitem + "' ";
-            Statement stat = conn.createStatement();
-            ResultSet hasil = stat.executeQuery(sql);
+            String sql = "SELECT * FROM penilaian WHERE id_siswa LIKE ? OR nama_siswa LIKE ? OR nilai_akademik LIKE ? ORDER BY id_siswa";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            String searchPattern = "%" + cariitem + "%";
+            pst.setString(1, searchPattern);
+            pst.setString(2, searchPattern);
+            pst.setString(3, searchPattern);
+            ResultSet hasil = pst.executeQuery();
             while (hasil.next()) {
                 tabmode.addRow(new Object[] {
                         hasil.getString("id_siswa"),
@@ -83,8 +86,9 @@ public class PopupPenilaian extends javax.swing.JFrame {
                 });
             }
             tabelpenilaian.setModel(tabmode);
+            pst.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
+            JOptionPane.showMessageDialog(null, "Data gagal dipanggil: " + e.getMessage());
         }
     }
 
@@ -180,7 +184,7 @@ public class PopupPenilaian extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel6MouseClicked
-        // TODO add your handling code here:
+        this.dispose();
     }// GEN-LAST:event_jLabel6MouseClicked
 
     private void tabelpenilaianMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelpenilaianMouseClicked

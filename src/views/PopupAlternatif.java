@@ -11,6 +11,7 @@ import database.DatabaseConnection;
 
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
@@ -35,6 +36,16 @@ public class PopupAlternatif extends javax.swing.JFrame {
         datatable();
         pl = new PlaceHolder(txtcari, "Pencarian data...");
         bcari.requestFocus();
+
+        // Add ESC key listener to close popup
+        this.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+                    dispose();
+                }
+            }
+        });
+        this.setFocusable(true);
     }
 
     private void datatable() {
@@ -68,11 +79,13 @@ public class PopupAlternatif extends javax.swing.JFrame {
         tabmode = new DefaultTableModel(null, Baris);
         String cariitem = txtcari.getText();
         try {
-            String sql = "SELECT * FROM alternatif where id_siswa LIKE '" + cariitem + "' or nama_siswa LIKE '"
-                    + cariitem + "' "
-                    + "or nilai_akademik LIKE '" + cariitem + "' ";
-            Statement stat = conn.createStatement();
-            ResultSet hasil = stat.executeQuery(sql);
+            String sql = "SELECT * FROM alternatif WHERE id_siswa LIKE ? OR nama_siswa LIKE ? OR nilai_akademik LIKE ? ORDER BY id_siswa";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            String searchPattern = "%" + cariitem + "%";
+            pst.setString(1, searchPattern);
+            pst.setString(2, searchPattern);
+            pst.setString(3, searchPattern);
+            ResultSet hasil = pst.executeQuery();
             while (hasil.next()) {
                 tabmode.addRow(new Object[] {
                         hasil.getString("id_siswa"),
@@ -85,9 +98,28 @@ public class PopupAlternatif extends javax.swing.JFrame {
                 });
             }
             tabelalternatif.setModel(tabmode);
+            pst.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
+            JOptionPane.showMessageDialog(null, "Data gagal dipanggil: " + e.getMessage());
         }
+    }
+
+    private void closeConnection() {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                System.err.println("Error closing connection: " + e.getMessage());
+            }
+        }
+    }
+
+    private void showError(String message, Exception e) {
+        String errorMsg = message;
+        if (e != null) {
+            errorMsg += ": " + e.getMessage();
+        }
+        JOptionPane.showMessageDialog(this, errorMsg, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
     /**
@@ -182,22 +214,27 @@ public class PopupAlternatif extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel6MouseClicked
-        // TODO add your handling code here:
+        closeConnection();
+        this.dispose();
     }// GEN-LAST:event_jLabel6MouseClicked
 
     private void tabelalternatifMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelalternatifMouseClicked
         try {
             int tabelpopup = tabelalternatif.getSelectedRow();
-            dp.idsiswa = tabelalternatif.getValueAt(tabelpopup, 0).toString();
-            dp.nama = tabelalternatif.getValueAt(tabelpopup, 1).toString();
-            dp.akademik = tabelalternatif.getValueAt(tabelpopup, 2).toString();
-            dp.prestasi = tabelalternatif.getValueAt(tabelpopup, 3).toString();
-            dp.kehadiran = tabelalternatif.getValueAt(tabelpopup, 4).toString();
-            dp.sikap = tabelalternatif.getValueAt(tabelpopup, 5).toString();
-            dp.partisipasi = tabelalternatif.getValueAt(tabelpopup, 6).toString();
-            dp.itemTerpilih();
-            this.dispose();
+            if (tabelpopup >= 0 && dp != null) {
+                dp.idsiswa = tabelalternatif.getValueAt(tabelpopup, 0).toString();
+                dp.nama = tabelalternatif.getValueAt(tabelpopup, 1).toString();
+                dp.akademik = tabelalternatif.getValueAt(tabelpopup, 2).toString();
+                dp.prestasi = tabelalternatif.getValueAt(tabelpopup, 3).toString();
+                dp.kehadiran = tabelalternatif.getValueAt(tabelpopup, 4).toString();
+                dp.sikap = tabelalternatif.getValueAt(tabelpopup, 5).toString();
+                dp.partisipasi = tabelalternatif.getValueAt(tabelpopup, 6).toString();
+                dp.itemTerpilih();
+                closeConnection();
+                this.dispose();
+            }
         } catch (Exception e) {
+            showError("Error selecting item", e);
         }
     }// GEN-LAST:event_tabelalternatifMouseClicked
 

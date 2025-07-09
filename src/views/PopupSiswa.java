@@ -67,11 +67,13 @@ public class PopupSiswa extends javax.swing.JFrame {
         String cariitem = txtcari.getText();
 
         try {
-            String sql = "SELECT * FROM siswa where id_siswa LIKE '" + cariitem + "' or nama_siswa LIKE '" + cariitem
-                    + "' "
-                    + "or nis LIKE '" + cariitem + "' ";
-            Statement stat = conn.createStatement();
-            ResultSet hasil = stat.executeQuery(sql);
+            String sql = "SELECT * FROM siswa WHERE id_siswa LIKE ? OR nama_siswa LIKE ? OR nis LIKE ? ORDER BY id_siswa";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            String searchPattern = "%" + cariitem + "%";
+            pst.setString(1, searchPattern);
+            pst.setString(2, searchPattern);
+            pst.setString(3, searchPattern);
+            ResultSet hasil = pst.executeQuery();
             while (hasil.next()) {
                 tabmode.addRow(new Object[] {
                         hasil.getString(1),
@@ -83,8 +85,9 @@ public class PopupSiswa extends javax.swing.JFrame {
                 });
             }
             tableSiswa.setModel(tabmode);
+            pst.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
+            JOptionPane.showMessageDialog(null, "Data gagal dipanggil: " + e.getMessage());
         }
     }
 
@@ -137,6 +140,11 @@ public class PopupSiswa extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/back_arrow_14447.png"))); // NOI18N
         jLabel6.setText("Kembali");
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -185,6 +193,10 @@ public class PopupSiswa extends javax.swing.JFrame {
 
         }
     }// GEN-LAST:event_tableSiswaMouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel6MouseClicked
+        this.dispose();
+    }// GEN-LAST:event_jLabel6MouseClicked
 
     private void txtcariKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtcariKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {

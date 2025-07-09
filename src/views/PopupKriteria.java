@@ -11,6 +11,7 @@ import database.DatabaseConnection;
 
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
@@ -34,6 +35,41 @@ public class PopupKriteria extends javax.swing.JFrame {
         this.setLocationRelativeTo(null); // layar jadi ada di tengah
         datatable();
 
+        // Add ESC key listener to close popup
+        this.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ESCAPE) {
+                    dispose();
+                }
+            }
+        });
+        this.setFocusable(true);
+    }
+
+    private void cari() {
+        Object[] Baris = { "Kode Kriteria", "Nama Kriteria", "Nilai Bobot" };
+        tabmode = new DefaultTableModel(null, Baris);
+        String cariitem = txtcari.getText();
+        try {
+            String sql = "SELECT * FROM datakriteria WHERE kdkriteria LIKE ? OR nmkriteria LIKE ? OR bobot LIKE ? ORDER BY kdkriteria";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            String searchPattern = "%" + cariitem + "%";
+            pst.setString(1, searchPattern);
+            pst.setString(2, searchPattern);
+            pst.setString(3, searchPattern);
+            ResultSet hasil = pst.executeQuery();
+            while (hasil.next()) {
+                tabmode.addRow(new Object[] {
+                        hasil.getString(1),
+                        hasil.getString(2),
+                        hasil.getString(3)
+                });
+            }
+            tabelkriteria.setModel(tabmode);
+            pst.close();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Data gagal dipanggil: " + e.getMessage());
+        }
     }
 
     private void datatable() {
@@ -53,6 +89,16 @@ public class PopupKriteria extends javax.swing.JFrame {
             tabelkriteria.setModel(tabmode);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
+        }
+    }
+
+    private void closeConnection() {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                System.err.println("Error closing connection: " + e.getMessage());
+            }
         }
     }
 
@@ -127,27 +173,33 @@ public class PopupKriteria extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtcariKeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_txtcariKeyPressed
-        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            cari();
+        }
     }// GEN-LAST:event_txtcariKeyPressed
 
     private void bcariActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcariActionPerformed
-        // TODO add your handling code here:
+        cari();
     }// GEN-LAST:event_bcariActionPerformed
 
     private void tabelkriteriaMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelkriteriaMouseClicked
         try {
             int tabelpopup = tabelkriteria.getSelectedRow();
-            dr.nilaikriteria = tabelkriteria.getValueAt(tabelpopup, 0).toString();
-            // ... Penugasan lain ...
-            dr.itemTerpilih(); // Panggil metode ini untuk mengirim nilai yang dipilih kembali ke DataRank
-            this.dispose();
+            if (tabelpopup >= 0 && dr != null) {
+                dr.nilaikriteria = tabelkriteria.getValueAt(tabelpopup, 0).toString();
+                // ... Penugasan lain ...
+                dr.itemTerpilih(); // Panggil metode ini untuk mengirim nilai yang dipilih kembali ke DataRank
+                closeConnection();
+                this.dispose();
+            }
         } catch (Exception e) {
-            // Tangani pengecualian
+            JOptionPane.showMessageDialog(this, "Error selecting item: " + e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }// GEN-LAST:event_tabelkriteriaMouseClicked
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel6MouseClicked
-        new DataRank().setVisible(true);
+        closeConnection();
         this.dispose();
     }// GEN-LAST:event_jLabel6MouseClicked
 

@@ -11,6 +11,7 @@ import database.DatabaseConnection;
 
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
@@ -66,11 +67,13 @@ public class PopupUtility extends javax.swing.JFrame {
         tabmode = new DefaultTableModel(null, Baris);
         String cariitem = txtcari.getText();
         try {
-            String sql = "SELECT * FROM utility where id_siswa LIKE '" + cariitem + "' or nama_siswa LIKE '" + cariitem
-                    + "' "
-                    + "or utility_akademik LIKE '" + cariitem + "' ";
-            Statement stat = conn.createStatement();
-            ResultSet hasil = stat.executeQuery(sql);
+            String sql = "SELECT * FROM utility WHERE id_siswa LIKE ? OR nama_siswa LIKE ? OR utility_akademik LIKE ? ORDER BY id_siswa";
+            PreparedStatement pst = conn.prepareStatement(sql);
+            String searchPattern = "%" + cariitem + "%";
+            pst.setString(1, searchPattern);
+            pst.setString(2, searchPattern);
+            pst.setString(3, searchPattern);
+            ResultSet hasil = pst.executeQuery();
             while (hasil.next()) {
                 tabmode.addRow(new Object[] {
                         hasil.getString(1),
@@ -83,8 +86,9 @@ public class PopupUtility extends javax.swing.JFrame {
                 });
             }
             tabelutility.setModel(tabmode);
+            pst.close();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
+            JOptionPane.showMessageDialog(null, "Data gagal dipanggil: " + e.getMessage());
         }
     }
 
@@ -142,6 +146,11 @@ public class PopupUtility extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/back_arrow_14447.png"))); // NOI18N
         jLabel6.setText("Kembali");
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -190,6 +199,10 @@ public class PopupUtility extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }// GEN-LAST:event_tabelutilityMouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel6MouseClicked
+        this.dispose();
+    }// GEN-LAST:event_jLabel6MouseClicked
 
     private void bcariActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcariActionPerformed
         cari();
