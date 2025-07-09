@@ -218,11 +218,6 @@ public class Utility extends javax.swing.JFrame {
                                                 JOptionPane.INFORMATION_MESSAGE);
                         }
 
-                        // Don't clear the form after successful save - user might want to see the
-                        // values
-                        // kosong();
-                        // txtid.requestFocus();
-
                         // Refresh the table to show updated data
                         datatable();
 
@@ -1198,40 +1193,6 @@ public class Utility extends javax.swing.JFrame {
                         txtk3.setText(String.format("%.3f", utilities[2]));
                         txtk4.setText(String.format("%.3f", utilities[3]));
                         txtk5.setText(String.format("%.3f", utilities[4]));
-
-                        // 5. Tampilkan hasil perhitungan (tidak menyimpan ke database)
-                        String message = String.format(
-                                        "Perhitungan Utility SMART berhasil!\n\n" +
-                                                        "=== SKOR PENILAIAN (SUDAH DIKONVERSI) ===\n" +
-                                                        "K1 (Nilai Akademik): %d\n" +
-                                                        "K2 (Prestasi Non-Akademik): %d\n" +
-                                                        "K3 (Kehadiran): %d\n" +
-                                                        "K4 (Sikap/Perilaku): %d\n" +
-                                                        "K5 (Partisipasi): %d\n\n" +
-                                                        "=== MIN/MAX VALUES (DARI SEMUA SISWA) ===\n" +
-                                                        "K1: min=%d, max=%d\n" +
-                                                        "K2: min=%d, max=%d\n" +
-                                                        "K3: min=%d, max=%d\n" +
-                                                        "K4: min=%d, max=%d\n" +
-                                                        "K5: min=%d, max=%d\n\n" +
-                                                        "=== NILAI UTILITY ===\n" +
-                                                        "U1 (Akademik): %.3f = (%d-%d)/(%d-%d)\n" +
-                                                        "U2 (Prestasi): %.3f = (%d-%d)/(%d-%d)\n" +
-                                                        "U3 (Kehadiran): %.3f = (%d-%d)/(%d-%d)\n" +
-                                                        "U4 (Sikap): %.3f = (%d-%d)/(%d-%d)\n" +
-                                                        "U5 (Partisipasi): %.3f = (%d-%d)/(%d-%d)\n\n" +
-                                                        "Klik tombol 'Simpan' untuk menyimpan hasil ke database.",
-                                        skorK1, skorK2, skorK3, skorK4, skorK5,
-                                        minValues[0], maxValues[0], minValues[1], maxValues[1], minValues[2],
-                                        maxValues[2],
-                                        minValues[3], maxValues[3], minValues[4], maxValues[4],
-                                        utilities[0], skorK1, minValues[0], maxValues[0], minValues[0],
-                                        utilities[1], skorK2, minValues[1], maxValues[1], minValues[1],
-                                        utilities[2], skorK3, minValues[2], maxValues[2], minValues[2],
-                                        utilities[3], skorK4, minValues[3], maxValues[3], minValues[3],
-                                        utilities[4], skorK5, minValues[4], maxValues[4], minValues[4]);
-                        JOptionPane.showMessageDialog(null, message, "Hasil Perhitungan Utility SMART",
-                                        JOptionPane.INFORMATION_MESSAGE);
 
                 } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage(), "Error",

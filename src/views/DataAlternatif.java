@@ -195,6 +195,8 @@ public class DataAlternatif extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -214,10 +216,10 @@ public class DataAlternatif extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         txttepat = new javax.swing.JTextField();
-        cmbPrestasi = new javax.swing.JComboBox<>();
+        cmbPrestasi = new javax.swing.JComboBox();
         txtjml = new javax.swing.JTextField();
-        cmbSikap = new javax.swing.JComboBox<>();
-        cmbPartisipasi = new javax.swing.JComboBox<>();
+        cmbSikap = new javax.swing.JComboBox();
+        cmbPartisipasi = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelalternatif = new javax.swing.JTable();
         bsimpan = new javax.swing.JButton();
@@ -349,11 +351,21 @@ public class DataAlternatif extends javax.swing.JFrame {
             }
         });
 
+        cmbPrestasi.setModel(
+                new javax.swing.DefaultComboBoxModel<>(new String[] { "Tidak memiliki prestasi", "Partisipasi aktif",
+                        "Juara tingkat sekolah", "Juara tingkat provinsi/kota", "Juara tingkat nasional" }));
+
         txtjml.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtjmlActionPerformed(evt);
             }
         });
+
+        cmbSikap.setModel(new javax.swing.DefaultComboBoxModel<>(
+                new String[] { "Sangat kurang", "Kurang", "Cukup", "Baik", "Sangat Baik" }));
+
+        cmbPartisipasi.setModel(new javax.swing.DefaultComboBoxModel<>(
+                new String[] { "Tidak aktif", "Kadang-kadang aktif", "Aktif rutin", "Aktif dan memiliki peran" }));
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -504,47 +516,65 @@ public class DataAlternatif extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel2Layout
-                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
-                                                        javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                        .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel1)
-                                        .addGroup(jPanel2Layout
-                                                .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addGroup(jPanel2Layout.createSequentialGroup()
-                                                        .addComponent(brefresh, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(
-                                                                javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                        .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                593, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(
-                                                                javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(bcari, javax.swing.GroupLayout.PREFERRED_SIZE, 90,
-                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout
-                                                        .createSequentialGroup()
-                                                        .addComponent(bsimpan, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(32, 32, 32)
-                                                        .addComponent(bubah, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addGap(26, 26, 26)
-                                                        .addComponent(bhapus, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addPreferredGap(
-                                                                javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                        .addComponent(bbersih, javax.swing.GroupLayout.PREFERRED_SIZE,
-                                                                175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addGroup(jPanel2Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING,
+                                                                false)
+                                                        .addComponent(jPanel3,
+                                                                javax.swing.GroupLayout.Alignment.LEADING,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(jPanel4,
+                                                                javax.swing.GroupLayout.Alignment.LEADING,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addGroup(jPanel2Layout
+                                                        .createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING,
+                                                                false)
+                                                        .addGroup(jPanel2Layout
+                                                                .createParallelGroup(
+                                                                        javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                        .addComponent(brefresh,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                90,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addGap(18, 18, 18)
+                                                                        .addComponent(txtcari,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                411,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                        .addGap(18, 18, 18)
+                                                                        .addComponent(bcari,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE,
+                                                                                90,
+                                                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addComponent(jScrollPane1,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 627,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                                .addComponent(bsimpan,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 107,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(bubah,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        javax.swing.GroupLayout.DEFAULT_SIZE,
+                                                                        Short.MAX_VALUE)
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(bhapus,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 147,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addGap(18, 18, 18)
+                                                                .addComponent(bbersih,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE, 175,
+                                                                        javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                                .addComponent(jLabel6)
+                                                .addGap(376, 376, 376)
+                                                .addComponent(jLabel1)))
+                                .addContainerGap(30, Short.MAX_VALUE)));
         jPanel2Layout.setVerticalGroup(
                 jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel2Layout.createSequentialGroup()
@@ -553,10 +583,10 @@ public class DataAlternatif extends javax.swing.JFrame {
                                                 .addContainerGap()
                                                 .addComponent(jLabel6))
                                         .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGap(31, 31, 31)
+                                                .addGap(30, 30, 30)
                                                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(36, 36, 36)
+                                .addGap(37, 37, 37)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel2Layout.createSequentialGroup()
                                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE,
@@ -566,7 +596,8 @@ public class DataAlternatif extends javax.swing.JFrame {
                                                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                         javax.swing.GroupLayout.DEFAULT_SIZE,
                                                         javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout
+                                                .createSequentialGroup()
                                                 .addGroup(jPanel2Layout
                                                         .createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                                         .addComponent(bsimpan)
@@ -584,18 +615,20 @@ public class DataAlternatif extends javax.swing.JFrame {
                                                         .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE,
                                                                 javax.swing.GroupLayout.DEFAULT_SIZE,
                                                                 javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(bcari)))
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE, 379,
-                                                javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                        .addComponent(bcari))
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368,
+                                                        javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE,
-                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE)));
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE,
@@ -726,7 +759,8 @@ public class DataAlternatif extends javax.swing.JFrame {
         // Set combo box selection based on prestasi value
         if (d != null && !d.isEmpty()) {
             for (int i = 0; i < cmbPrestasi.getItemCount(); i++) {
-                if (cmbPrestasi.getItemAt(i).toLowerCase().contains(d.toLowerCase())) {
+                String item = (String) cmbPrestasi.getItemAt(i);
+                if (item.toLowerCase().contains(d.toLowerCase())) {
                     cmbPrestasi.setSelectedIndex(i);
                     break;
                 }
@@ -738,7 +772,8 @@ public class DataAlternatif extends javax.swing.JFrame {
         // Set combo box selection based on sikap value
         if (f != null && !f.isEmpty()) {
             for (int i = 0; i < cmbSikap.getItemCount(); i++) {
-                if (cmbSikap.getItemAt(i).toLowerCase().contains(f.toLowerCase())) {
+                String item = (String) cmbSikap.getItemAt(i);
+                if (item.toLowerCase().contains(f.toLowerCase())) {
                     cmbSikap.setSelectedIndex(i);
                     break;
                 }
@@ -748,7 +783,8 @@ public class DataAlternatif extends javax.swing.JFrame {
         // Set combo box selection based on partisipasi value
         if (g != null && !g.isEmpty()) {
             for (int i = 0; i < cmbPartisipasi.getItemCount(); i++) {
-                if (cmbPartisipasi.getItemAt(i).toLowerCase().contains(g.toLowerCase())) {
+                String item = (String) cmbPartisipasi.getItemAt(i);
+                if (item.toLowerCase().contains(g.toLowerCase())) {
                     cmbPartisipasi.setSelectedIndex(i);
                     break;
                 }
@@ -808,9 +844,9 @@ public class DataAlternatif extends javax.swing.JFrame {
     private javax.swing.JButton brefresh;
     private javax.swing.JButton bsimpan;
     private javax.swing.JButton bubah;
-    private javax.swing.JComboBox<String> cmbPartisipasi;
-    private javax.swing.JComboBox<String> cmbPrestasi;
-    private javax.swing.JComboBox<String> cmbSikap;
+    private javax.swing.JComboBox cmbPartisipasi;
+    private javax.swing.JComboBox cmbPrestasi;
+    private javax.swing.JComboBox cmbSikap;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
