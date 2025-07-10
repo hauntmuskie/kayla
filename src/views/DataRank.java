@@ -28,258 +28,263 @@ import net.sf.jasperreports.view.JasperViewer;
  * @author Elza Kayla
  */
 public class DataRank extends javax.swing.JFrame {
-        private Connection conn = new DatabaseConnection().connect();
-        public String nilaikriteria;
-        private DefaultTableModel tabmode;
-        PlaceHolder pl;
-        public String idsiswa, nama, akademik, prestasi, kehadiran, sikap, partisipasi, kri1, kri2, kri3;
+    private Connection conn = new DatabaseConnection().connect();
+    public String nilaikriteria;
+    private DefaultTableModel tabmode;
+    PlaceHolder pl;
+    public String idsiswa, nama, akademik, prestasi, kehadiran, sikap, partisipasi, kri1, kri2, kri3;
 
-        /**
-         * Creates new form datarank
-         */
-        public DataRank() {
-                initComponents();
-                kosong();
-                Locale locale = new Locale("id", "ID");
-                Locale.setDefault(locale);
-                bhapus.setEnabled(false);
+    /**
+     * Creates new form datarank
+     */
+    public DataRank() {
+        initComponents();
+        kosong();
+        Locale locale = new Locale("id", "ID");
+        Locale.setDefault(locale);
+        bhapus.setEnabled(false);
 
-                // non editable textfield
-                txtid.setEditable(false);
-                txtnm.setEditable(false);
-                txttepat.setEditable(false);
-                txtakurasi.setEditable(false);
-                txtjml.setEditable(false);
-                txtint.setEditable(false);
-                txtpenangan.setEditable(false);
-                txtkd1.setEditable(false);
-                txtkd2.setEditable(false);
-                txtkd3.setEditable(false);
-                txtkd4.setEditable(false);
-                txtkd5.setEditable(false);
-                txtnilaiakhir.setEditable(false);
+        // non editable textfield
+        txtid.setEditable(false);
+        txtnm.setEditable(false);
+        txttepat.setEditable(false);
+        txtakurasi.setEditable(false);
+        txtjml.setEditable(false);
+        txtint.setEditable(false);
+        txtpenangan.setEditable(false);
+        txtkd1.setEditable(false);
+        txtkd2.setEditable(false);
+        txtkd3.setEditable(false);
+        txtkd4.setEditable(false);
+        txtkd5.setEditable(false);
+        txtnilaiakhir.setEditable(false);
 
-                // Load bobot kriteria from database
-                try {
-                        String sql = "SELECT bobot_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
-                        Statement stat = conn.createStatement();
-                        ResultSet rs = stat.executeQuery(sql);
-                        int idx = 1;
-                        while (rs.next() && idx <= 5) {
-                                String bobot = String.format(Locale.US, "%.2f", rs.getDouble("bobot_kriteria"));
-                                switch (idx) {
-                                        case 1:
-                                                txtk1.setText(bobot);
-                                                break;
-                                        case 2:
-                                                txtk2.setText(bobot);
-                                                break;
-                                        case 3:
-                                                txtk3.setText(bobot);
-                                                break;
-                                        case 4:
-                                                txtk4.setText(bobot);
-                                                break;
-                                        case 5:
-                                                txtk5.setText(bobot);
-                                                break;
-                                }
-                                idx++;
-                        }
-                } catch (SQLException e) {
-                        // fallback default if db error
-                        txtk1.setText("0.35");
-                        txtk2.setText("0.20");
-                        txtk3.setText("0.15");
-                        txtk4.setText("0.20");
-                        txtk5.setText("0.10");
+        // Load bobot kriteria from database
+        try {
+            String sql = "SELECT bobot_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
+            Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery(sql);
+            int idx = 1;
+            while (rs.next() && idx <= 5) {
+                String bobot = String.format(Locale.US, "%.2f", rs.getDouble("bobot_kriteria"));
+                switch (idx) {
+                    case 1:
+                        txtk1.setText(bobot);
+                        break;
+                    case 2:
+                        txtk2.setText(bobot);
+                        break;
+                    case 3:
+                        txtk3.setText(bobot);
+                        break;
+                    case 4:
+                        txtk4.setText(bobot);
+                        break;
+                    case 5:
+                        txtk5.setText(bobot);
+                        break;
                 }
-
-                datatable();
+                idx++;
+            }
+        } catch (SQLException e) {
+            // fallback default if db error
+            txtk1.setText("0.35");
+            txtk2.setText("0.20");
+            txtk3.setText("0.15");
+            txtk4.setText("0.20");
+            txtk5.setText("0.10");
         }
 
-        private void datatable() {
-                // Load criteria names from database for dynamic column headers
-                String[] criteriaNames = new String[5];
-                try {
-                        String sqlCriteria = "SELECT nama_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
-                        Statement statCriteria = conn.createStatement();
-                        ResultSet rsCriteria = statCriteria.executeQuery(sqlCriteria);
-                        int idx = 0;
-                        while (rsCriteria.next() && idx < 5) {
-                                criteriaNames[idx] = rsCriteria.getString("nama_kriteria");
-                                idx++;
-                        }
-                } catch (SQLException e) {
-                        // Fallback criteria names if database error
-                        criteriaNames[0] = "Nilai Akademik";
-                        criteriaNames[1] = "Prestasi Non-Akademik";
-                        criteriaNames[2] = "Kehadiran";
-                        criteriaNames[3] = "Sikap/Perilaku";
-                        criteriaNames[4] = "Partisipasi Kegiatan Sekolah";
-                }
+        datatable();
+    }
 
-                // Create dynamic column headers
-                Object[] Baris = { "ID Siswa", "Nama Siswa", criteriaNames[0], criteriaNames[1], criteriaNames[2],
-                                criteriaNames[3], criteriaNames[4], "Jumlah Nilai Akhir", "Keputusan" };
-                tabmode = new DefaultTableModel(null, Baris);
-
-                try {
-                        String sql = "SELECT * FROM nilai_akhir ORDER BY jumlah_nilai_akhir DESC";
-                        Statement stat = conn.createStatement();
-                        ResultSet hasil = stat.executeQuery(sql);
-                        while (hasil.next()) {
-                                tabmode.addRow(new Object[] {
-                                                hasil.getString("id_siswa"),
-                                                hasil.getString("nama_siswa"),
-                                                hasil.getString("nilai_akhir_akademik"),
-                                                hasil.getString("nilai_akhir_prestasi"),
-                                                hasil.getString("nilai_akhir_kehadiran"),
-                                                hasil.getString("nilai_akhir_sikap"),
-                                                hasil.getString("nilai_akhir_partisipasi"),
-                                                hasil.getString("jumlah_nilai_akhir"),
-                                                hasil.getString("keputusan")
-                                });
-                        }
-                        tabelrank.setModel(tabmode);
-                } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "data gagal dipanggil: " + e);
-                }
+    private void datatable() {
+        // Load criteria names from database for dynamic column headers
+        String[] criteriaNames = new String[5];
+        try {
+            String sqlCriteria = "SELECT nama_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
+            Statement statCriteria = conn.createStatement();
+            ResultSet rsCriteria = statCriteria.executeQuery(sqlCriteria);
+            int idx = 0;
+            while (rsCriteria.next() && idx < 5) {
+                criteriaNames[idx] = rsCriteria.getString("nama_kriteria");
+                idx++;
+            }
+        } catch (SQLException e) {
+            // Fallback criteria names if database error
+            criteriaNames[0] = "Nilai Akademik";
+            criteriaNames[1] = "Prestasi Non-Akademik";
+            criteriaNames[2] = "Kehadiran";
+            criteriaNames[3] = "Sikap/Perilaku";
+            criteriaNames[4] = "Partisipasi Kegiatan Sekolah";
         }
 
-        private void cari() {
-                // Load criteria names from database for dynamic column headers
-                String[] criteriaNames = new String[5];
-                try {
-                        String sqlCriteria = "SELECT nama_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
-                        Statement statCriteria = conn.createStatement();
-                        ResultSet rsCriteria = statCriteria.executeQuery(sqlCriteria);
-                        int idx = 0;
-                        while (rsCriteria.next() && idx < 5) {
-                                criteriaNames[idx] = rsCriteria.getString("nama_kriteria");
-                                idx++;
-                        }
-                } catch (SQLException e) {
-                        // Fallback criteria names if database error
-                        criteriaNames[0] = "Nilai Akademik";
-                        criteriaNames[1] = "Prestasi Non-Akademik";
-                        criteriaNames[2] = "Kehadiran";
-                        criteriaNames[3] = "Sikap/Perilaku";
-                        criteriaNames[4] = "Partisipasi Kegiatan Sekolah";
-                }
+        // Create dynamic column headers
+        Object[] Baris = { "ID Siswa", "Nama Siswa", criteriaNames[0], criteriaNames[1], criteriaNames[2],
+                criteriaNames[3], criteriaNames[4], "Jumlah Nilai Akhir", "Ranking" };
+        tabmode = new DefaultTableModel(null, Baris);
 
-                // Create dynamic column headers
-                Object[] Baris = { "ID Siswa", "Nama Siswa", criteriaNames[0], criteriaNames[1], criteriaNames[2],
-                                criteriaNames[3], criteriaNames[4], "Jumlah Nilai Akhir", "Keputusan" };
-                tabmode = new DefaultTableModel(null, Baris);
+        try {
+            String sql = "SELECT * FROM nilai_akhir ORDER BY jumlah_nilai_akhir DESC";
+            Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()) {
+                tabmode.addRow(new Object[] {
+                        hasil.getString("id_siswa"),
+                        hasil.getString("nama_siswa"),
+                        hasil.getString("nilai_akhir_akademik"),
+                        hasil.getString("nilai_akhir_prestasi"),
+                        hasil.getString("nilai_akhir_kehadiran"),
+                        hasil.getString("nilai_akhir_sikap"),
+                        hasil.getString("nilai_akhir_partisipasi"),
+                        hasil.getString("jumlah_nilai_akhir"),
+                        hasil.getInt("ranking")
+                });
+            }
+            tabelrank.setModel(tabmode);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "data gagal dipanggil: " + e);
+        }
+    }
 
-                String cariitem = txtcari.getText();
-                try {
-                        String sql = "SELECT * FROM nilai_akhir WHERE id_siswa = ? OR nama_siswa = ? OR nilai_akhir_akademik = ? OR nilai_akhir_prestasi = ? OR nilai_akhir_kehadiran = ? OR nilai_akhir_sikap = ? OR nilai_akhir_partisipasi = ? OR jumlah_nilai_akhir = ? OR keputusan = ? ORDER BY jumlah_nilai_akhir DESC";
-                        PreparedStatement stat = conn.prepareStatement(sql);
-                        for (int i = 1; i <= 9; i++) {
-                                stat.setString(i, cariitem);
-                        }
-                        ResultSet hasil = stat.executeQuery();
-                        while (hasil.next()) {
-                                tabmode.addRow(new Object[] {
-                                                hasil.getString("id_siswa"),
-                                                hasil.getString("nama_siswa"),
-                                                hasil.getString("nilai_akhir_akademik"),
-                                                hasil.getString("nilai_akhir_prestasi"),
-                                                hasil.getString("nilai_akhir_kehadiran"),
-                                                hasil.getString("nilai_akhir_sikap"),
-                                                hasil.getString("nilai_akhir_partisipasi"),
-                                                hasil.getString("jumlah_nilai_akhir"),
-                                                hasil.getString("keputusan")
-                                });
-                        }
-                        tabelrank.setModel(tabmode);
-                } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "data gagal dipanggil: " + e);
-                }
+    private void cari() {
+        // Load criteria names from database for dynamic column headers
+        String[] criteriaNames = new String[5];
+        try {
+            String sqlCriteria = "SELECT nama_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
+            Statement statCriteria = conn.createStatement();
+            ResultSet rsCriteria = statCriteria.executeQuery(sqlCriteria);
+            int idx = 0;
+            while (rsCriteria.next() && idx < 5) {
+                criteriaNames[idx] = rsCriteria.getString("nama_kriteria");
+                idx++;
+            }
+        } catch (SQLException e) {
+            // Fallback criteria names if database error
+            criteriaNames[0] = "Nilai Akademik";
+            criteriaNames[1] = "Prestasi Non-Akademik";
+            criteriaNames[2] = "Kehadiran";
+            criteriaNames[3] = "Sikap/Perilaku";
+            criteriaNames[4] = "Partisipasi Kegiatan Sekolah";
         }
 
-        private void kosong() {
-                txtid.setText("");
-                txtnm.setText("");
-                txttepat.setText("");
-                txtakurasi.setText("");
-                txtjml.setText("");
-                txtint.setText("");
-                txtpenangan.setText("");
-                txtkd1.setText("");
-                txtkd2.setText("");
-                txtkd3.setText("");
-                txtkd4.setText("");
-                txtkd5.setText("");
-                txtnilaiakhir.setText("");
-                txtrank.setText("");
-                txtcari.setText("");
-                pl = new PlaceHolder(txtcari, "Pencarian data...");
+        // Create dynamic column headers
+        Object[] Baris = { "ID Siswa", "Nama Siswa", criteriaNames[0], criteriaNames[1], criteriaNames[2],
+                criteriaNames[3], criteriaNames[4], "Jumlah Nilai Akhir", "Ranking" };
+        tabmode = new DefaultTableModel(null, Baris);
+
+        String cariitem = txtcari.getText();
+        try {
+            String sql = "SELECT * FROM nilai_akhir WHERE id_siswa = ? OR nama_siswa = ? OR nilai_akhir_akademik = ? OR nilai_akhir_prestasi = ? OR nilai_akhir_kehadiran = ? OR nilai_akhir_sikap = ? OR nilai_akhir_partisipasi = ? OR jumlah_nilai_akhir = ? OR ranking = ? ORDER BY jumlah_nilai_akhir DESC";
+            PreparedStatement stat = conn.prepareStatement(sql);
+            for (int i = 1; i <= 9; i++) {
+                stat.setString(i, cariitem);
+            }
+            ResultSet hasil = stat.executeQuery();
+            while (hasil.next()) {
+                tabmode.addRow(new Object[] {
+                        hasil.getString("id_siswa"),
+                        hasil.getString("nama_siswa"),
+                        hasil.getString("nilai_akhir_akademik"),
+                        hasil.getString("nilai_akhir_prestasi"),
+                        hasil.getString("nilai_akhir_kehadiran"),
+                        hasil.getString("nilai_akhir_sikap"),
+                        hasil.getString("nilai_akhir_partisipasi"),
+                        hasil.getString("jumlah_nilai_akhir"),
+                        hasil.getInt("ranking")
+                });
+            }
+            tabelrank.setModel(tabmode);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "data gagal dipanggil: " + e);
         }
+    }
 
-        private void tambah() {
-                String sql = "INSERT INTO nilai_akhir (id_siswa, nama_siswa, nilai_akhir_akademik, nilai_akhir_prestasi, nilai_akhir_kehadiran, nilai_akhir_sikap, nilai_akhir_partisipasi, jumlah_nilai_akhir, keputusan) VALUES (?,?,?,?,?,?,?,?,?)";
-                try {
-                        PreparedStatement stat = conn.prepareStatement(sql);
-                        stat.setString(1, txtid.getText());
-                        stat.setString(2, txtnm.getText());
+    private void kosong() {
+        txtid.setText("");
+        txtnm.setText("");
+        txttepat.setText("");
+        txtakurasi.setText("");
+        txtjml.setText("");
+        txtint.setText("");
+        txtpenangan.setText("");
+        txtkd1.setText("");
+        txtkd2.setText("");
+        txtkd3.setText("");
+        txtkd4.setText("");
+        txtkd5.setText("");
+        txtnilaiakhir.setText("");
+        txtrank.setText("");
+        txtcari.setText("");
+        pl = new PlaceHolder(txtcari, "Pencarian data...");
+    }
 
-                        // Parse decimal values with proper locale handling (replace comma with dot)
-                        double nilaiAkhirAkademik = Double.parseDouble(txtkd1.getText().replace(",", "."));
-                        double nilaiAkhirPrestasi = Double.parseDouble(txtkd2.getText().replace(",", "."));
-                        double nilaiAkhirKehadiran = Double.parseDouble(txtkd3.getText().replace(",", "."));
-                        double nilaiAkhirSikap = Double.parseDouble(txtkd4.getText().replace(",", "."));
-                        double nilaiAkhirPartisipasi = Double.parseDouble(txtkd5.getText().replace(",", "."));
-                        double jumlahNilaiAkhir = Double.parseDouble(txtnilaiakhir.getText().replace(",", "."));
+    private void tambah() {
+        String sql = "INSERT INTO nilai_akhir (id_siswa, nama_siswa, nilai_akhir_akademik, nilai_akhir_prestasi, nilai_akhir_kehadiran, nilai_akhir_sikap, nilai_akhir_partisipasi, jumlah_nilai_akhir, ranking) VALUES (?,?,?,?,?,?,?,?,?)";
+        try {
+            PreparedStatement stat = conn.prepareStatement(sql);
+            stat.setString(1, txtid.getText());
+            stat.setString(2, txtnm.getText());
 
-                        // Use setDouble for decimal columns
-                        stat.setDouble(3, nilaiAkhirAkademik);
-                        stat.setDouble(4, nilaiAkhirPrestasi);
-                        stat.setDouble(5, nilaiAkhirKehadiran);
-                        stat.setDouble(6, nilaiAkhirSikap);
-                        stat.setDouble(7, nilaiAkhirPartisipasi);
-                        stat.setDouble(8, jumlahNilaiAkhir);
-                        stat.setString(9, txtrank.getText()); // keputusan remains as string
+            // Parse decimal values with proper locale handling (replace comma with dot)
+            double nilaiAkhirAkademik = Double.parseDouble(txtkd1.getText().replace(",", "."));
+            double nilaiAkhirPrestasi = Double.parseDouble(txtkd2.getText().replace(",", "."));
+            double nilaiAkhirKehadiran = Double.parseDouble(txtkd3.getText().replace(",", "."));
+            double nilaiAkhirSikap = Double.parseDouble(txtkd4.getText().replace(",", "."));
+            double nilaiAkhirPartisipasi = Double.parseDouble(txtkd5.getText().replace(",", "."));
+            double jumlahNilaiAkhir = Double.parseDouble(txtnilaiakhir.getText().replace(",", "."));
 
-                        stat.executeUpdate();
-                        JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
-                        kosong();
-                        txtid.requestFocus();
-                } catch (SQLException e) {
-                        System.err.println("Error: " + e.getMessage());
-                        JOptionPane.showMessageDialog(null, "Data gagal disimpan: " + e.getMessage());
-                } catch (NumberFormatException e) {
-                        System.err.println("Number format error: " + e.getMessage());
-                        JOptionPane.showMessageDialog(null,
-                                        "Format angka tidak valid. Pastikan semua nilai telah dihitung dengan benar.");
-                }
-                datatable();
+            // Use setDouble for decimal columns
+            stat.setDouble(3, nilaiAkhirAkademik);
+            stat.setDouble(4, nilaiAkhirPrestasi);
+            stat.setDouble(5, nilaiAkhirKehadiran);
+            stat.setDouble(6, nilaiAkhirSikap);
+            stat.setDouble(7, nilaiAkhirPartisipasi);
+            stat.setDouble(8, jumlahNilaiAkhir);
+            stat.setInt(9, Integer.parseInt(txtrank.getText())); // ranking as integer
+
+            stat.executeUpdate();
+
+            // Update all rankings after inserting new data
+            updateAllRankings();
+
+            JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
+            kosong();
+            txtid.requestFocus();
+        } catch (SQLException e) {
+            System.err.println("Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Data gagal disimpan: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.err.println("Number format error: " + e.getMessage());
+            JOptionPane.showMessageDialog(null,
+                    "Format angka tidak valid. Pastikan semua nilai telah dihitung dengan benar.");
         }
+        datatable();
+    }
 
-        public void itemTerpilih() {
-                PopupUtility PNA = new PopupUtility();
-                PNA.dr = this;
-                txtid.setText(idsiswa);
-                txtnm.setText(nama);
-                txttepat.setText(akademik);
-                txtakurasi.setText(prestasi);
-                txtjml.setText(kehadiran);
-                txtint.setText(sikap);
-                txtpenangan.setText(partisipasi);
-        }
+    public void itemTerpilih() {
+        PopupUtility PNA = new PopupUtility();
+        PNA.dr = this;
+        txtid.setText(idsiswa);
+        txtnm.setText(nama);
+        txttepat.setText(akademik);
+        txtakurasi.setText(prestasi);
+        txtjml.setText(kehadiran);
+        txtint.setText(sikap);
+        txtpenangan.setText(partisipasi);
+    }
 
-        /**
-         * This method is called from within the constructor to initialize the form.
-         * WARNING: Do NOT modify this code. The content of this method is always
-         * regenerated by the Form Editor.
-         */
-        @SuppressWarnings("unchecked")
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -565,7 +570,7 @@ public class DataRank extends javax.swing.JFrame {
         jLabel24.setBackground(new java.awt.Color(0, 0, 0));
         jLabel24.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel24.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel24.setText("Keputusan");
+        jLabel24.setText("Ranking");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -769,7 +774,7 @@ public class DataRank extends javax.swing.JFrame {
                                                 .addComponent(bdata, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(bhitung, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addGap(0, 73, Short.MAX_VALUE)))
+                        .addGap(0, 33, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -843,17 +848,16 @@ public class DataRank extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jLabel1)
-                        .addGap(515, 515, 515))
+                        .addGap(521, 521, 521))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap())
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(46, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -877,8 +881,9 @@ public class DataRank extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -889,285 +894,324 @@ public class DataRank extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-        private void txtidActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtidActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtidActionPerformed
+    private void txtidActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtidActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtidActionPerformed
 
-        private void bdataActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bdataActionPerformed
-                PopupUtility PNA = new PopupUtility();
-                PNA.dr = this;
-                PNA.setVisible(true);
-                PNA.setResizable(false);
-                kosong();
-        }// GEN-LAST:event_bdataActionPerformed
+    private void bdataActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bdataActionPerformed
+        PopupUtility PNA = new PopupUtility();
+        PNA.dr = this;
+        PNA.setVisible(true);
+        PNA.setResizable(false);
+        kosong();
+    }// GEN-LAST:event_bdataActionPerformed
 
-        private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel6MouseClicked
-                new MetodeSmart().setVisible(true);
-                this.dispose(); // TODO add your handling code here:
-        }// GEN-LAST:event_jLabel6MouseClicked
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel6MouseClicked
+        new MetodeSmart().setVisible(true);
+        this.dispose(); // TODO add your handling code here:
+    }// GEN-LAST:event_jLabel6MouseClicked
 
-        private void brefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_brefreshActionPerformed
-                datatable();
-                txtcari.setText("");
-                pl = new PlaceHolder(txtcari, "Pencarian data...");
-                bsimpan.setEnabled(true);
-                bhapus.setEnabled(false);
-        }// GEN-LAST:event_brefreshActionPerformed
+    private void brefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_brefreshActionPerformed
+        datatable();
+        txtcari.setText("");
+        pl = new PlaceHolder(txtcari, "Pencarian data...");
+        bsimpan.setEnabled(true);
+        bhapus.setEnabled(false);
+    }// GEN-LAST:event_brefreshActionPerformed
 
-        private void bsimpanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bsimpanActionPerformed
-                String textId, textNama, textTepat, textAkurasi, textJml, textInt, textPenangan, textNilaiAkhir,
-                                keputusan;
+    private void bsimpanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bsimpanActionPerformed
+        String textId, textNama, textTepat, textAkurasi, textJml, textInt, textPenangan, textNilaiAkhir,
+                ranking;
 
-                textId = txtid.getText();
-                textNama = txtnm.getText();
-                textTepat = txtkd1.getText();
-                textAkurasi = txtkd2.getText();
-                textJml = txtkd3.getText();
-                textInt = txtkd4.getText();
-                textPenangan = txtkd5.getText();
-                textNilaiAkhir = txtnilaiakhir.getText();
-                keputusan = txtrank.getText();
-                if ((textId.equals("") | (textNama.equals("") | textTepat.equals("") | textAkurasi.equals("")
-                                | textJml.equals("") | textInt.equals("") | textPenangan.equals("")
-                                | textNilaiAkhir.equals("")
-                                | keputusan.equals("")))) {
-                        JOptionPane.showMessageDialog(null, "Pengisian Data Tidak Boleh Kosong");
-                        txtid.requestFocus();
-                } else {
-                        tambah();
-                }
-        }// GEN-LAST:event_bsimpanActionPerformed
-
-        private void txtcariActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtcariActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtcariActionPerformed
-
-        private void bdata1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bdata1ActionPerformed
-                PopupKriteria PK = new PopupKriteria();
-                PK.dr = this; // Set properti dr dengan instance DataRank saat membuat PopupKriteria
-                PK.setVisible(true);
-        }// GEN-LAST:event_bdata1ActionPerformed
-
-        private void bhitungActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bhitungActionPerformed
-                try {
-                        // Get utility values (should be 0.000 to 1.000)
-                        double tepat = Double.parseDouble(txttepat.getText().replace(",", "."));
-                        double akurasi = Double.parseDouble(txtakurasi.getText().replace(",", "."));
-                        double jml = Double.parseDouble(txtjml.getText().replace(",", "."));
-                        double intg = Double.parseDouble(txtint.getText().replace(",", "."));
-                        double penangan = Double.parseDouble(txtpenangan.getText().replace(",", "."));
-
-                        // Get weight values (should be 0.35, 0.20, 0.15, 0.20, 0.10)
-                        double k1 = Double.parseDouble(txtk1.getText().replace(",", "."));
-                        double k2 = Double.parseDouble(txtk2.getText().replace(",", "."));
-                        double k3 = Double.parseDouble(txtk3.getText().replace(",", "."));
-                        double k4 = Double.parseDouble(txtk4.getText().replace(",", "."));
-                        double k5 = Double.parseDouble(txtk5.getText().replace(",", "."));
-
-                        // Debug: Print input values
-                        System.out.printf(
-                                        "DEBUG DataRank - Utility values: U1=%.3f, U2=%.3f, U3=%.3f, U4=%.3f, U5=%.3f%n",
-                                        tepat, akurasi, jml, intg, penangan);
-                        System.out.printf(
-                                        "DEBUG DataRank - Weight values: W1=%.3f, W2=%.3f, W3=%.3f, W4=%.3f, W5=%.3f%n",
-                                        k1, k2, k3, k4, k5);
-
-                        // Calculate final values using SMART formula: Ui * Wi
-                        double hasilK1 = tepat * k1;
-                        double hasilK2 = akurasi * k2;
-                        double hasilK3 = jml * k3;
-                        double hasilK4 = intg * k4;
-                        double hasilK5 = penangan * k5;
-
-                        // Debug: Print calculated values
-                        System.out.printf(
-                                        "DEBUG DataRank - Final values: F1=%.5f, F2=%.5f, F3=%.5f, F4=%.5f, F5=%.5f%n",
-                                        hasilK1, hasilK2, hasilK3, hasilK4, hasilK5);
-
-                        // Display with 5 decimal places to match SMART precision, using US locale for
-                        // dot separator
-                        txtkd1.setText(String.format(Locale.US, "%.5f", hasilK1));
-                        txtkd2.setText(String.format(Locale.US, "%.5f", hasilK2));
-                        txtkd3.setText(String.format(Locale.US, "%.5f", hasilK3));
-                        txtkd4.setText(String.format(Locale.US, "%.5f", hasilK4));
-                        txtkd5.setText(String.format(Locale.US, "%.5f", hasilK5));
-
-                        double nilaiAkhir = hasilK1 + hasilK2 + hasilK3 + hasilK4 + hasilK5;
-                        txtnilaiakhir.setText(String.format(Locale.US, "%.5f", nilaiAkhir));
-
-                        // Debug: Print final total
-                        System.out.printf("DEBUG DataRank - Total final score: %.5f%n", nilaiAkhir);
-
-                        String predikat;
-                        // SMART score is between 0.0 and 1.0, so adjust thresholds accordingly
-                        if (nilaiAkhir >= 0.80) {
-                                predikat = "Sangat Baik";
-                        } else if (nilaiAkhir >= 0.60) {
-                                predikat = "Baik";
-                        } else if (nilaiAkhir >= 0.40) {
-                                predikat = "Cukup";
-                        } else {
-                                predikat = "Kurang";
-                        }
-
-                        // Menampilkan predikat di txtrank
-                        txtrank.setText(predikat);
-                } catch (NumberFormatException e) {
-                        JOptionPane.showMessageDialog(this, "Input tidak valid");
-                }
-        }// GEN-LAST:event_bhitungActionPerformed
-
-        private void bcariActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcariActionPerformed
-                cari();
-        }// GEN-LAST:event_bcariActionPerformed
-
-        private void bhapusActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bhapusActionPerformed
-                int ok = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus nilai akhir ini?",
-                                "Konfirmasi dialog!",
-                                JOptionPane.YES_NO_OPTION);
-                if (ok == 0) {
-                        int row = tabelrank.getSelectedRow();
-                        String cell = tabelrank.getModel().getValueAt(row, 0).toString();
-                        String sql = "delete from nilaiakhir where id_kurir = '" + cell + "'";
-                        try {
-                                PreparedStatement stat = conn.prepareStatement(sql);
-                                stat.executeUpdate();
-                                JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
-                        } catch (SQLException e) {
-                                JOptionPane.showMessageDialog(null, "Data gagal dihapus" + e);
-                        }
-                        datatable();
-                        kosong();
-                        bsimpan.setEnabled(true);
-                        bhapus.setEnabled(false);
-                }
-        }// GEN-LAST:event_bhapusActionPerformed
-
-        private void bbersihkanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bbersihkanActionPerformed
-                kosong();
-        }// GEN-LAST:event_bbersihkanActionPerformed
-
-        private void tabelrankMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelrankMouseClicked
-                bsimpan.setEnabled(false);
-                bhapus.setEnabled(true);
-                int bar = tabelrank.getSelectedRow();
-                String a = tabmode.getValueAt(bar, 0).toString();
-                String b = tabmode.getValueAt(bar, 1).toString();
-                String c = tabmode.getValueAt(bar, 2).toString();
-                String d = tabmode.getValueAt(bar, 3).toString();
-                String e = tabmode.getValueAt(bar, 4).toString();
-                String f = tabmode.getValueAt(bar, 5).toString();
-                String g = tabmode.getValueAt(bar, 6).toString();
-                String h = tabmode.getValueAt(bar, 7).toString();
-                String i = tabmode.getValueAt(bar, 8).toString();
-                txtid.setText(a);
-                txtnm.setText(b);
-                txtkd1.setText(c);
-                txtkd2.setText(d);
-                txtkd3.setText(e);
-                txtkd4.setText(f);
-                txtkd5.setText(g);
-                txtnilaiakhir.setText(h);
-                txtrank.setText(i);
-        }// GEN-LAST:event_tabelrankMouseClicked
-
-        private void bcetakActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcetakActionPerformed
-                try {
-                        // Always refresh database connection to ensure fresh data
-                        conn = new DatabaseConnection().connect();
-                        if (conn == null) {
-                                JOptionPane.showMessageDialog(rootPane, "Gagal terhubung ke database!");
-                                return;
-                        }
-
-                        // Use the final scores report
-                        String reportJRXML = "./src/reports/laporannilaiakhirsiswa.jrxml";
-                        String reportJasper = "./src/reports/laporannilaiakhirsiswa.jasper";
-
-                        // Always compile fresh from JRXML to ensure latest report template
-                        java.io.File jrxmlFile = new java.io.File(reportJRXML);
-                        if (jrxmlFile.exists()) {
-                                try {
-                                        // Always compile JRXML to JASPER for fresh compilation
-                                        net.sf.jasperreports.engine.JasperCompileManager
-                                                        .compileReportToFile(reportJRXML, reportJasper);
-                                        System.out.println("Final scores report compiled fresh from JRXML");
-                                } catch (Exception compileEx) {
-                                        JOptionPane.showMessageDialog(rootPane,
-                                                        "Error kompilasi laporan: " + compileEx.getMessage() +
-                                                                        "\nPastikan file JRXML tidak memiliki error UUID atau format XML.",
-                                                        "Compilation Error",
-                                                        JOptionPane.ERROR_MESSAGE);
-                                        compileEx.printStackTrace();
-                                        return;
-                                }
-                        } else {
-                                JOptionPane.showMessageDialog(rootPane, "File laporan tidak ditemukan: " + reportJRXML);
-                                return;
-                        }
-
-                        // Refresh data table to ensure we're working with latest data
-                        datatable();
-
-                        HashMap<String, Object> param = new HashMap<>();
-                        // You can add parameters here if needed
-                        // param.put("parameter1", someValue);
-
-                        // Fill report with fresh data from database
-                        JasperPrint print = JasperFillManager.fillReport(reportJasper, param, conn);
-                        JasperViewer.viewReport(print, false);
-
-                        System.out.println("Final scores report generated successfully with fresh data");
-                } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(rootPane, "Error membuat laporan: " + ex.getMessage());
-                        ex.printStackTrace(); // This will help debug the exact error
-                }
-        }// GEN-LAST:event_bcetakActionPerformed
-
-        /**
-         * @param args the command line arguments
-         */
-        public static void main(String args[]) {
-                /* Set the Nimbus look and feel */
-                // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-                // (optional) ">
-                /*
-                 * If Nimbus (introduced in Java SE 6) is not available, stay with the default
-                 * look and feel.
-                 * For details see
-                 * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-                 */
-                try {
-                        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
-                                        .getInstalledLookAndFeels()) {
-                                if ("Nimbus".equals(info.getName())) {
-                                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                                        break;
-                                }
-                        }
-                } catch (ClassNotFoundException ex) {
-                        java.util.logging.Logger.getLogger(DataRank.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (InstantiationException ex) {
-                        java.util.logging.Logger.getLogger(DataRank.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (IllegalAccessException ex) {
-                        java.util.logging.Logger.getLogger(DataRank.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                        java.util.logging.Logger.getLogger(DataRank.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
-                }
-                // </editor-fold>
-                // </editor-fold>
-
-                /* Create and display the form */
-                java.awt.EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                                new DataRank().setVisible(true);
-                        }
-                });
+        textId = txtid.getText();
+        textNama = txtnm.getText();
+        textTepat = txtkd1.getText();
+        textAkurasi = txtkd2.getText();
+        textJml = txtkd3.getText();
+        textInt = txtkd4.getText();
+        textPenangan = txtkd5.getText();
+        textNilaiAkhir = txtnilaiakhir.getText();
+        ranking = txtrank.getText();
+        if ((textId.equals("") | (textNama.equals("") | textTepat.equals("") | textAkurasi.equals("")
+                | textJml.equals("") | textInt.equals("") | textPenangan.equals("")
+                | textNilaiAkhir.equals("")
+                | ranking.equals("")))) {
+            JOptionPane.showMessageDialog(null, "Pengisian Data Tidak Boleh Kosong");
+            txtid.requestFocus();
+        } else {
+            tambah();
         }
+    }// GEN-LAST:event_bsimpanActionPerformed
+
+    private void txtcariActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtcariActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtcariActionPerformed
+
+    private void bdata1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bdata1ActionPerformed
+        PopupKriteria PK = new PopupKriteria();
+        PK.dr = this; // Set properti dr dengan instance DataRank saat membuat PopupKriteria
+        PK.setVisible(true);
+    }// GEN-LAST:event_bdata1ActionPerformed
+
+    private void bhitungActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bhitungActionPerformed
+        try {
+            // Get utility values (should be 0.000 to 1.000)
+            double tepat = Double.parseDouble(txttepat.getText().replace(",", "."));
+            double akurasi = Double.parseDouble(txtakurasi.getText().replace(",", "."));
+            double jml = Double.parseDouble(txtjml.getText().replace(",", "."));
+            double intg = Double.parseDouble(txtint.getText().replace(",", "."));
+            double penangan = Double.parseDouble(txtpenangan.getText().replace(",", "."));
+
+            // Get weight values (should be 0.35, 0.20, 0.15, 0.20, 0.10)
+            double k1 = Double.parseDouble(txtk1.getText().replace(",", "."));
+            double k2 = Double.parseDouble(txtk2.getText().replace(",", "."));
+            double k3 = Double.parseDouble(txtk3.getText().replace(",", "."));
+            double k4 = Double.parseDouble(txtk4.getText().replace(",", "."));
+            double k5 = Double.parseDouble(txtk5.getText().replace(",", "."));
+
+            // Debug: Print input values
+            System.out.printf(
+                    "DEBUG DataRank - Utility values: U1=%.3f, U2=%.3f, U3=%.3f, U4=%.3f, U5=%.3f%n",
+                    tepat, akurasi, jml, intg, penangan);
+            System.out.printf(
+                    "DEBUG DataRank - Weight values: W1=%.3f, W2=%.3f, W3=%.3f, W4=%.3f, W5=%.3f%n",
+                    k1, k2, k3, k4, k5);
+
+            // Calculate final values using SMART formula: Ui * Wi
+            double hasilK1 = tepat * k1;
+            double hasilK2 = akurasi * k2;
+            double hasilK3 = jml * k3;
+            double hasilK4 = intg * k4;
+            double hasilK5 = penangan * k5;
+
+            // Debug: Print calculated values
+            System.out.printf(
+                    "DEBUG DataRank - Final values: F1=%.5f, F2=%.5f, F3=%.5f, F4=%.5f, F5=%.5f%n",
+                    hasilK1, hasilK2, hasilK3, hasilK4, hasilK5);
+
+            // Display with 5 decimal places to match SMART precision, using US locale for
+            // dot separator
+            txtkd1.setText(String.format(Locale.US, "%.5f", hasilK1));
+            txtkd2.setText(String.format(Locale.US, "%.5f", hasilK2));
+            txtkd3.setText(String.format(Locale.US, "%.5f", hasilK3));
+            txtkd4.setText(String.format(Locale.US, "%.5f", hasilK4));
+            txtkd5.setText(String.format(Locale.US, "%.5f", hasilK5));
+
+            double nilaiAkhir = hasilK1 + hasilK2 + hasilK3 + hasilK4 + hasilK5;
+            txtnilaiakhir.setText(String.format(Locale.US, "%.5f", nilaiAkhir));
+
+            // Debug: Print final total
+            System.out.printf("DEBUG DataRank - Total final score: %.5f%n", nilaiAkhir);
+
+            // Calculate ranking based on current score compared to all scores in database
+            int ranking = calculateRanking(nilaiAkhir);
+
+            // Display ranking in txtrank
+            txtrank.setText(String.valueOf(ranking));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Input tidak valid");
+        }
+    }// GEN-LAST:event_bhitungActionPerformed
+
+    // Method to calculate ranking based on current score
+    private int calculateRanking(double currentScore) {
+        int ranking = 1;
+        try {
+            String sql = "SELECT jumlah_nilai_akhir FROM nilai_akhir WHERE jumlah_nilai_akhir > ?";
+            PreparedStatement stat = conn.prepareStatement(sql);
+            stat.setDouble(1, currentScore);
+            ResultSet rs = stat.executeQuery();
+
+            while (rs.next()) {
+                ranking++;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error calculating ranking: " + e.getMessage());
+        }
+        return ranking;
+    }
+
+    // Method to update all rankings in the database
+    private void updateAllRankings() {
+        try {
+            // Get all records ordered by score descending
+            String selectSql = "SELECT id_siswa, jumlah_nilai_akhir FROM nilai_akhir ORDER BY jumlah_nilai_akhir DESC";
+            Statement selectStat = conn.createStatement();
+            ResultSet rs = selectStat.executeQuery(selectSql);
+
+            // Update each record with its new ranking
+            String updateSql = "UPDATE nilai_akhir SET ranking = ? WHERE id_siswa = ?";
+            PreparedStatement updateStat = conn.prepareStatement(updateSql);
+
+            int rank = 1;
+            while (rs.next()) {
+                updateStat.setInt(1, rank);
+                updateStat.setString(2, rs.getString("id_siswa"));
+                updateStat.executeUpdate();
+                rank++;
+            }
+
+            System.out.println("All rankings updated successfully");
+        } catch (SQLException e) {
+            System.out.println("Error updating rankings: " + e.getMessage());
+        }
+    }
+
+    private void bcariActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcariActionPerformed
+        cari();
+    }// GEN-LAST:event_bcariActionPerformed
+
+    private void bhapusActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bhapusActionPerformed
+        int ok = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus nilai akhir ini?",
+                "Konfirmasi dialog!",
+                JOptionPane.YES_NO_OPTION);
+        if (ok == 0) {
+            int row = tabelrank.getSelectedRow();
+            String cell = tabelrank.getModel().getValueAt(row, 0).toString();
+            String sql = "delete from nilai_akhir where id_siswa = '" + cell + "'";
+            try {
+                PreparedStatement stat = conn.prepareStatement(sql);
+                stat.executeUpdate();
+
+                // Update all rankings after deleting data
+                updateAllRankings();
+
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Data gagal dihapus" + e);
+            }
+            datatable();
+            kosong();
+            bsimpan.setEnabled(true);
+            bhapus.setEnabled(false);
+        }
+    }// GEN-LAST:event_bhapusActionPerformed
+
+    private void bbersihkanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bbersihkanActionPerformed
+        kosong();
+    }// GEN-LAST:event_bbersihkanActionPerformed
+
+    private void tabelrankMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelrankMouseClicked
+        bsimpan.setEnabled(false);
+        bhapus.setEnabled(true);
+        int bar = tabelrank.getSelectedRow();
+        String a = tabmode.getValueAt(bar, 0).toString();
+        String b = tabmode.getValueAt(bar, 1).toString();
+        String c = tabmode.getValueAt(bar, 2).toString();
+        String d = tabmode.getValueAt(bar, 3).toString();
+        String e = tabmode.getValueAt(bar, 4).toString();
+        String f = tabmode.getValueAt(bar, 5).toString();
+        String g = tabmode.getValueAt(bar, 6).toString();
+        String h = tabmode.getValueAt(bar, 7).toString();
+        String i = tabmode.getValueAt(bar, 8).toString();
+        txtid.setText(a);
+        txtnm.setText(b);
+        txtkd1.setText(c);
+        txtkd2.setText(d);
+        txtkd3.setText(e);
+        txtkd4.setText(f);
+        txtkd5.setText(g);
+        txtnilaiakhir.setText(h);
+        txtrank.setText(i);
+    }// GEN-LAST:event_tabelrankMouseClicked
+
+    private void bcetakActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcetakActionPerformed
+        try {
+            // Always refresh database connection to ensure fresh data
+            conn = new DatabaseConnection().connect();
+            if (conn == null) {
+                JOptionPane.showMessageDialog(rootPane, "Gagal terhubung ke database!");
+                return;
+            }
+
+            // Use the final scores report
+            String reportJRXML = "./src/reports/laporannilaiakhirsiswa.jrxml";
+            String reportJasper = "./src/reports/laporannilaiakhirsiswa.jasper";
+
+            // Always compile fresh from JRXML to ensure latest report template
+            java.io.File jrxmlFile = new java.io.File(reportJRXML);
+            if (jrxmlFile.exists()) {
+                try {
+                    // Always compile JRXML to JASPER for fresh compilation
+                    net.sf.jasperreports.engine.JasperCompileManager
+                            .compileReportToFile(reportJRXML, reportJasper);
+                    System.out.println("Final scores report compiled fresh from JRXML");
+                } catch (Exception compileEx) {
+                    JOptionPane.showMessageDialog(rootPane,
+                            "Error kompilasi laporan: " + compileEx.getMessage() +
+                                    "\nPastikan file JRXML tidak memiliki error UUID atau format XML.",
+                            "Compilation Error",
+                            JOptionPane.ERROR_MESSAGE);
+                    compileEx.printStackTrace();
+                    return;
+                }
+            } else {
+                JOptionPane.showMessageDialog(rootPane, "File laporan tidak ditemukan: " + reportJRXML);
+                return;
+            }
+
+            // Refresh data table to ensure we're working with latest data
+            datatable();
+
+            HashMap<String, Object> param = new HashMap<>();
+            // You can add parameters here if needed
+            // param.put("parameter1", someValue);
+
+            // Fill report with fresh data from database
+            JasperPrint print = JasperFillManager.fillReport(reportJasper, param, conn);
+            JasperViewer.viewReport(print, false);
+
+            System.out.println("Final scores report generated successfully with fresh data");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, "Error membuat laporan: " + ex.getMessage());
+            ex.printStackTrace(); // This will help debug the exact error
+        }
+    }// GEN-LAST:event_bcetakActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+        // (optional) ">
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the default
+         * look and feel.
+         * For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
+                    .getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(DataRank.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(DataRank.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(DataRank.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DataRank.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
+        }
+        // </editor-fold>
+        // </editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new DataRank().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bbersihkan;

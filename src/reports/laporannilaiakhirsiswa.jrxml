@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="dd74ead0-0164-475d-9f0d-33b1e5ac6795">
 	<property name="ireport.zoom" value="1.331000000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Kayla"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -34,7 +36,7 @@
      nilai_akhir.`nilai_akhir_sikap` AS nilai_akhir_sikap,
      nilai_akhir.`nilai_akhir_partisipasi` AS nilai_akhir_partisipasi,
      nilai_akhir.`jumlah_nilai_akhir` AS nilai_akhir_jumlah,
-     nilai_akhir.`keputusan` AS nilai_akhir_keputusan
+     nilai_akhir.`ranking` AS nilai_akhir_ranking
 FROM
      `nilai_akhir` nilai_akhir]]>
 	</queryString>
@@ -46,7 +48,7 @@ FROM
 	<field name="nilai_akhir_sikap" class="java.lang.String"/>
 	<field name="nilai_akhir_partisipasi" class="java.lang.String"/>
 	<field name="nilai_akhir_jumlah" class="java.lang.String"/>
-	<field name="nilai_akhir_keputusan" class="java.lang.String"/>
+	<field name="nilai_akhir_ranking" class="java.lang.Integer"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -60,7 +62,7 @@ FROM
 				<text><![CDATA[SEKOLAH MENENGAH ATAS ISLAM TERPADU]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="30" width="500" height="20" uuid="b2c45e7f-3a1d-4e6b-8f9c-1d2e3f4a5b6c"/>
+				<reportElement x="150" y="30" width="500" height="30" uuid="b2c45e7f-3a1d-4e6b-8f9c-1d2e3f4a5b6c"/>
 				<textElement textAlignment="Center" rotation="None">
 					<font size="16" isBold="true"/>
 				</textElement>
@@ -69,7 +71,7 @@ FROM
 			<staticText>
 				<reportElement x="150" y="50" width="500" height="15" uuid="a1b2c3d4-e5f6-7890-1234-567890abcdef"/>
 				<textElement textAlignment="Center" rotation="None">
-					<font size="11" isBold="false"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TERAKREDITASI A]]></text>
 			</staticText>
@@ -88,8 +90,8 @@ FROM
 				<text><![CDATA[Telp. (021) 8712294 - 8702735. Fax. 87709480 E-mail: smait_raflesia@yahoo.co.id]]></text>
 			</staticText>
 			<image>
-				<reportElement x="0" y="0" width="176" height="90" uuid="ebe735c8-545b-44bc-9920-1102e57735fc"/>
-				<imageExpression><![CDATA["C:\\Users\\riocl\\Documents\\code\\java\\Skripsi\\src\\image\\sma_it_raflesia_logo.png"]]></imageExpression>
+				<reportElement x="0" y="0" width="90" height="90" uuid="ebe735c8-545b-44bc-9920-1102e57735fc"/>
+				<imageExpression><![CDATA["C:/Users/google/Documents/code/java/kayla/src/image/sma_it_raflesia_logo.png"]]></imageExpression>
 			</image>
 			<line>
 				<reportElement x="0" y="105" width="803" height="1" uuid="6ecaf584-ac50-48bf-8670-a62d7242a2f9"/>
@@ -197,7 +199,7 @@ FROM
 				<textElement textAlignment="Center">
 					<font isBold="true" isItalic="false"/>
 				</textElement>
-				<text><![CDATA[Keputusan]]></text>
+				<text><![CDATA[Ranking]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -268,7 +270,7 @@ FROM
 			<textField>
 				<reportElement x="737" y="0" width="66" height="21" uuid="d3b63261-6f35-408e-9eb7-2691f741a776"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression><![CDATA[$F{nilai_akhir_keputusan}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{nilai_akhir_ranking}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="675" y="-1" width="61" height="20" uuid="d02479f3-a72c-44bb-803e-7326e6ce1c08"/>

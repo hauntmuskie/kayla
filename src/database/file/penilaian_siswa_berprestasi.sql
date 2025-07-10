@@ -90,7 +90,7 @@ CREATE TABLE `nilai_akhir` (
   `nilai_akhir_sikap` DECIMAL(8,5) NOT NULL,
   `nilai_akhir_partisipasi` DECIMAL(8,5) NOT NULL,
   `jumlah_nilai_akhir` DECIMAL(8,5) NOT NULL,
-  `keputusan` VARCHAR(50) NOT NULL,
+  `ranking` INT NOT NULL,
   PRIMARY KEY (`id_siswa`),
   FOREIGN KEY (`id_siswa`) REFERENCES `siswa`(`id_siswa`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

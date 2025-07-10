@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="ae05671d-19ba-45ff-af78-b936faf087a4">
 	<property name="ireport.zoom" value="1.331000000000001"/>
 	<property name="ireport.x" value="0"/>
@@ -31,20 +32,20 @@ FROM
 				<text><![CDATA[SEKOLAH MENENGAH ATAS ISLAM TERPADU]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="25" width="500" height="20" uuid="b2c45e7f-3a1d-4e6b-8f9c-1d2e3f4a5b6c"/>
+				<reportElement x="150" y="25" width="500" height="35" uuid="b2c45e7f-3a1d-4e6b-8f9c-1d2e3f4a5b6c"/>
 				<textElement textAlignment="Center" rotation="None">
 					<font size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SMA IT RAFLESIA]]></text>
 			</staticText>
 			<image>
-				<reportElement x="0" y="0" width="176" height="79" uuid="1c80f1b1-ea5e-46f1-a4e3-ce4cbb939153"/>
-				<imageExpression><![CDATA["C:\\Users\\riocl\\Documents\\code\\java\\Skripsi\\src\\image\\sma_it_raflesia_logo.png"]]></imageExpression>
+				<reportElement x="0" y="0" width="80" height="79" uuid="1c80f1b1-ea5e-46f1-a4e3-ce4cbb939153"/>
+				<imageExpression><![CDATA["C:/Users/google/Documents/code/java/kayla/src/image/sma_it_raflesia_logo.png"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="150" y="45" width="500" height="15" uuid="d5d7c02e-849d-4a17-bd4e-7931b77b64b1"/>
 				<textElement textAlignment="Center" rotation="None">
-					<font size="11" isBold="false"/>
+					<font size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TERAKREDITASI A]]></text>
 			</staticText>
