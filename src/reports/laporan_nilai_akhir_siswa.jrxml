@@ -91,7 +91,7 @@ FROM
 			</staticText>
 			<image>
 				<reportElement x="0" y="0" width="90" height="90" uuid="ebe735c8-545b-44bc-9920-1102e57735fc"/>
-				<imageExpression><![CDATA["C:/Users/google/Documents/code/java/kayla/src/image/sma_it_raflesia_logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/sma_it_raflesia_logo_300.png?raw=true"]]></imageExpression>
 			</image>
 			<line>
 				<reportElement x="0" y="105" width="803" height="1" uuid="6ecaf584-ac50-48bf-8670-a62d7242a2f9"/>

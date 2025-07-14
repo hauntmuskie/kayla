@@ -40,7 +40,7 @@ FROM
 			</staticText>
 			<image>
 				<reportElement x="0" y="0" width="80" height="79" uuid="1c80f1b1-ea5e-46f1-a4e3-ce4cbb939153"/>
-				<imageExpression><![CDATA["C:/Users/google/Documents/code/java/kayla/src/image/sma_it_raflesia_logo.png"]]></imageExpression>
+				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/sma_it_raflesia_logo_300.png?raw=true"]]></imageExpression>
 			</image>
 			<staticText>
 				<reportElement x="150" y="45" width="500" height="15" uuid="d5d7c02e-849d-4a17-bd4e-7931b77b64b1"/>
