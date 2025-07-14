@@ -38,7 +38,7 @@ public class MetodeSmart extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        jPanel1.setBackground(new java.awt.Color(0, 153, 51));
+        jPanel1.setBackground(new java.awt.Color(129, 144, 103));
         jPanel1.setInheritsPopupMenu(true);
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -55,6 +55,7 @@ public class MetodeSmart extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("PROSES METODE SMART");
 
+        jButton1.setBackground(new java.awt.Color(234, 228, 213));
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/report_calculator_pie_chart_icon_205718.png"))); // NOI18N
         jButton1.setText("Nilai Utility");
@@ -64,6 +65,7 @@ public class MetodeSmart extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setBackground(new java.awt.Color(234, 228, 213));
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/champion_army_reward_achievement_badge_winner_gold_medal_icon_225520.png"))); // NOI18N
         jButton2.setText("Nilai Akhir");
