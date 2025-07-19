@@ -1,0 +1,60 @@
+@startuml Sequence_2_Data_Kriteria
+
+title 2. Setup Data Kriteria
+
+actor "Admin/Guru" as User
+boundary "MenuUtama" as Menu
+boundary "DataKriteria" as KriteriaUI
+control "AutoIDGenerator" as IDGen
+database "Database MySQL" as DB
+
+User -> Menu: Buka Data Kriteria
+activate Menu
+
+Menu -> KriteriaUI: Tampilkan Form Kriteria
+activate KriteriaUI
+
+User -> KriteriaUI: Input Kriteria & Bobot\n(Nama Kriteria, Bobot %)
+
+KriteriaUI -> IDGen: Generate Kode Kriteria
+activate IDGen
+IDGen -> DB: Query kode kriteria maksimal
+activate DB
+DB --> IDGen: Return kode terakhir
+deactivate DB
+IDGen --> KriteriaUI: Return kode baru (K1, K2, ...)
+deactivate IDGen
+
+KriteriaUI -> KriteriaUI: Validasi Total Bobot = 100%
+
+alt Total Bobot = 100%
+    KriteriaUI -> DB: INSERT INTO kriteria\n(kode_kriteria, nama_kriteria, bobot_kriteria)
+    activate DB
+    DB --> KriteriaUI: Sukses
+    deactivate DB
+    
+    KriteriaUI --> User: Data Kriteria Tersimpan
+else Total Bobot ≠ 100%
+    KriteriaUI --> User: Error: Total bobot harus 100%
+end
+
+KriteriaUI -> KriteriaUI: Refresh Tabel
+KriteriaUI -> DB: SELECT * FROM kriteria
+activate DB
+DB --> KriteriaUI: Return daftar kriteria
+deactivate DB
+
+deactivate KriteriaUI
+deactivate Menu
+
+note right of KriteriaUI
+Kriteria Default:
+- K1: Akademik (35%)
+- K2: Prestasi (20%)
+- K3: Kehadiran (15%)
+- K4: Sikap (20%)
+- K5: Partisipasi (10%)
+Total: 100%
+end note
+
+@enduml

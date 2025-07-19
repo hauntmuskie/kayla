@@ -1,0 +1,98 @@
+@startuml Simple_Student_Evaluation_System
+
+title Student Performance Evaluation System (SMART Method)
+
+' Main entities from database
+class Siswa {
+  + id_siswa: String <<PK>>
+  + nama_siswa: String
+  + nis: String
+  + kelas: String
+  + alamat: String
+  --
+  + create(): void
+  + read(): Siswa
+  + update(): void
+  + delete(): void
+}
+
+class Kriteria {
+  + kode_kriteria: String <<PK>>
+  + nama_kriteria: String
+  + bobot_kriteria: Decimal
+  --
+  + create(): void
+  + getAllKriteria(): List<Kriteria>
+  + validateBobot(): boolean
+}
+
+class Alternatif {
+  + id_siswa: String <<FK>>
+  + nama_siswa: String
+  + nilai_akademik: Decimal
+  + prestasi_non_akademik: String
+  + kehadiran: Decimal
+  + sikap_perilaku: String
+  + partisipasi_kegiatan: String
+  --
+  + inputRawData(): void
+  + validateInput(): boolean
+}
+
+class Penilaian {
+  + id_siswa: String <<FK>>
+  + nama_siswa: String
+  + nilai_akademik: Integer
+  + prestasi_non_akademik: Integer
+  + kehadiran: Integer
+  + sikap_perilaku: Integer
+  + partisipasi_kegiatan: Integer
+  --
+  + convertToScale(): void
+  + calculateFromAlternatif(): void
+}
+
+class Utility {
+  + id_siswa: String <<FK>>
+  + nama_siswa: String
+  + utility_akademik: Decimal
+  + utility_prestasi: Decimal
+  + utility_kehadiran: Decimal
+  + utility_sikap: Decimal
+  + utility_partisipasi: Decimal
+  --
+  + normalizeValues(): void
+  + calculateUtility(): void
+}
+
+class NilaiAkhir {
+  + id_siswa: String <<FK>>
+  + nama_siswa: String
+  + nilai_akhir_akademik: Decimal
+  + nilai_akhir_prestasi: Decimal
+  + nilai_akhir_kehadiran: Decimal
+  + nilai_akhir_sikap: Decimal
+  + nilai_akhir_partisipasi: Decimal
+  + jumlah_nilai_akhir: Decimal
+  + ranking: Integer
+  --
+  + calculateSMART(): void
+  + generateRanking(): void
+  + getFinalResult(): NilaiAkhir
+}
+
+' Relationships
+Siswa ||--o| Alternatif
+Siswa ||--o| Penilaian
+Siswa ||--o| Utility
+Siswa ||--o| NilaiAkhir
+
+' Flow annotations
+note right of Alternatif : Raw data input
+note right of Penilaian : Converted to 0-100 scale
+note right of Utility : Normalized utility values
+note right of NilaiAkhir : Final SMART results with ranking
+
+note top of Kriteria : Evaluation Criteria:\nK1: Academic (35%)\nK2: Non-Academic (20%)\nK3: Attendance (15%)\nK4: Behavior (20%)\nK5: Participation (10%)
+
+@enduml

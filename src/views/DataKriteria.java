@@ -12,14 +12,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author Elza Kayla
  */
 public class DataKriteria extends javax.swing.JFrame {
+
     private Connection conn = new DatabaseConnection().connect();
     public DataRank dr;
     private DefaultTableModel tabmode;
@@ -68,17 +74,17 @@ public class DataKriteria extends javax.swing.JFrame {
     }
 
     private void datatable() {
-        Object[] Baris = { "Kode Kriteria", "Nama Kriteria", "Bobot Kriteria" };
+        Object[] Baris = {"Kode Kriteria", "Nama Kriteria", "Bobot Kriteria"};
         tabmode = new DefaultTableModel(null, Baris);
         try {
             String sql = "SELECT * FROM kriteria ORDER by kode_kriteria";
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
-                tabmode.addRow(new Object[] {
-                        hasil.getString("kode_kriteria"),
-                        hasil.getString("nama_kriteria"),
-                        hasil.getString("bobot_kriteria")
+                tabmode.addRow(new Object[]{
+                    hasil.getString("kode_kriteria"),
+                    hasil.getString("nama_kriteria"),
+                    hasil.getString("bobot_kriteria")
                 });
             }
             tabelkriteria.setModel(tabmode);
@@ -133,6 +139,7 @@ public class DataKriteria extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelkriteria = new javax.swing.JTable();
         brefresh = new javax.swing.JButton();
+        cetak = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -309,6 +316,18 @@ public class DataKriteria extends javax.swing.JFrame {
             }
         });
 
+        cetak.setBackground(new java.awt.Color(138, 120, 78));
+        cetak.setFont(new java.awt.Font("Tahoma", 1, 13)); // NOI18N
+        cetak.setForeground(new java.awt.Color(255, 255, 255));
+        cetak.setText("Cetak");
+        cetak.setBorder(null);
+        cetak.setPreferredSize(new java.awt.Dimension(79, 27));
+        cetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cetakActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -321,7 +340,10 @@ public class DataKriteria extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 461, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(brefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(brefresh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(cetak, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(240, 240, 240))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
@@ -345,7 +367,9 @@ public class DataKriteria extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(brefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(brefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cetak, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(39, Short.MAX_VALUE))
         );
 
@@ -369,6 +393,19 @@ public class DataKriteria extends javax.swing.JFrame {
     private void txtnamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnamaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtnamaActionPerformed
+
+    private void cetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cetakActionPerformed
+        // TODO add your handling code here:
+        try {
+            String report = "./src/reports/laporan_data_kriteria.jasper";
+            HashMap<String, Object> param = new HashMap<>();
+            // param.put("parameter1", cari.getText());
+            JasperPrint print = JasperFillManager.fillReport(report, param, conn);
+            JasperViewer.viewReport(print, false);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(rootPane, ex);
+        }
+    }//GEN-LAST:event_cetakActionPerformed
 
     private void bubahActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bubahActionPerformed
         try {
@@ -511,6 +548,7 @@ public class DataKriteria extends javax.swing.JFrame {
     private javax.swing.JButton brefresh;
     private javax.swing.JButton btambah;
     private javax.swing.JButton bubah;
+    private javax.swing.JButton cetak;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;

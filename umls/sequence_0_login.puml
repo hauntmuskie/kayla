@@ -1,0 +1,47 @@
+@startuml Sequence_0_Start_Application
+
+title 0. Memulai Aplikasi
+
+actor "Admin/Guru" as User
+boundary "MenuUtama" as Menu
+database "Database MySQL" as DB
+
+User -> Menu: Jalankan Aplikasi\n(Run main method)
+activate Menu
+
+Menu -> Menu: Initialize Components\n(initComponents())
+
+Menu -> DB: Test Database Connection
+activate DB
+DB --> Menu: Connection Success/Failed
+deactivate DB
+
+alt Database Connected
+    Menu --> User: Tampilkan Menu Utama\n(5 Menu Button tersedia)
+    note right of Menu
+    Menu yang tersedia:
+    - Data Siswa
+    - Data Kriteria  
+    - Data Alternatif
+    - Data Penilaian
+    - Metode SMART
+    end note
+else Database Connection Failed
+    Menu --> User: Warning: Database tidak terhubung
+    Menu --> User: Tampilkan Menu Utama\n(dengan peringatan)
+end
+
+note right of Menu
+Aplikasi Langsung Terbuka:
+- Tidak ada login/password
+- Langsung ke menu utama
+- Test koneksi database
+- Siap digunakan
+
+Teknologi:
+- Java Swing GUI
+- MySQL Database
+- Direct access tanpa autentikasi
+end note
+
+@enduml

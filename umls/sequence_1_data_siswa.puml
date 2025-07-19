@@ -1,0 +1,51 @@
+@startuml Sequence_1_Data_Siswa
+
+title 1. Pengelolaan Data Siswa
+
+actor "Admin/Guru" as User
+boundary "MenuUtama" as Menu
+boundary "DataSiswa" as SiswaUI
+control "AutoIDGenerator" as IDGen
+database "Database MySQL" as DB
+
+User -> Menu: Mulai Aplikasi
+activate Menu
+
+Menu -> SiswaUI: Buka Data Siswa
+activate SiswaUI
+
+User -> SiswaUI: Input Data Siswa\n(Nama, NIS, Kelas, Alamat)
+
+SiswaUI -> IDGen: Generate ID Siswa
+activate IDGen
+IDGen -> DB: Query ID maksimal
+activate DB
+DB --> IDGen: Return ID terakhir
+deactivate DB
+IDGen --> SiswaUI: Return ID baru (C1, C2, ...)
+deactivate IDGen
+
+SiswaUI -> DB: INSERT INTO siswa\n(id_siswa, nama_siswa, nis, kelas, alamat)
+activate DB
+DB --> SiswaUI: Sukses/Error
+deactivate DB
+
+SiswaUI --> User: Tampilkan Hasil\n(Data tersimpan/Error)
+deactivate SiswaUI
+
+SiswaUI -> SiswaUI: Refresh Tabel
+SiswaUI -> DB: SELECT * FROM siswa
+activate DB
+DB --> SiswaUI: Return daftar siswa
+deactivate DB
+
+deactivate Menu
+
+note right of SiswaUI
+ID siswa otomatis generate:
+- C1, C2, C3, dst.
+- Auto increment
+- Tidak bisa diubah manual
+end note
+
+@enduml

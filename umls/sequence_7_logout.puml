@@ -1,0 +1,61 @@
+@startuml Sequence_7_Exit_Application
+
+title 7. Keluar dari Aplikasi
+
+actor "Admin/Guru" as User
+boundary "MenuUtama" as Menu
+boundary "DataSiswa" as SiswaUI
+boundary "DataKriteria" as KriteriaUI
+boundary "DataAlternatif" as AlternatifUI
+boundary "DataPenilaian" as PenilaianUI
+boundary "Utility" as UtilityUI
+boundary "DataRank" as RankUI
+database "Database MySQL" as DB
+
+User -> Menu: Klik tombol X\n(Close window)
+activate Menu
+
+alt From Menu Utama
+    Menu -> Menu: Konfirmasi Keluar\n(Window close event)
+    Menu --> User: "Yakin ingin keluar?"
+    
+    alt User Konfirmasi Ya
+        Menu -> DB: Close Database Connection
+        activate DB
+        DB --> Menu: Connection Closed
+        deactivate DB
+        
+        Menu -> Menu: System.exit(0)
+        Menu --> User: Aplikasi Tertutup
+        deactivate Menu
+    else User Batal
+        Menu --> User: Tetap di Menu Utama
+        deactivate Menu
+    end
+    
+else From Sub-Form (DataSiswa, DataKriteria, dll)
+    User -> SiswaUI: Klik "Kembali" atau X
+    activate SiswaUI
+    SiswaUI -> Menu: Kembali ke Menu Utama
+    activate Menu
+    SiswaUI -> SiswaUI: dispose()
+    deactivate SiswaUI
+    Menu --> User: Tampilkan Menu Utama
+    deactivate Menu
+end
+
+note right of Menu
+Keluar Aplikasi:
+- Klik X pada window
+- Konfirmasi keluar (opsional)
+- Tutup koneksi database
+- System.exit(0)
+
+Kembali ke Menu:
+- Dari form lain klik "Kembali"
+- dispose() form saat ini
+- Tampilkan MenuUtama
+- Tidak ada session yang dihapus
+end note
+
+@enduml

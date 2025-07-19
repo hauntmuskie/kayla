@@ -4,7 +4,7 @@
 	<property name="ireport.zoom" value="1.331000000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Kayla"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -57,35 +57,35 @@ FROM
 			<staticText>
 				<reportElement x="150" y="10" width="500" height="25" uuid="e5629e0a-b770-4b77-a6ae-16e49a8e44a1"/>
 				<textElement textAlignment="Center" rotation="None">
-					<font size="16" isBold="true"/>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SEKOLAH MENENGAH ATAS ISLAM TERPADU]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="150" y="30" width="500" height="30" uuid="b2c45e7f-3a1d-4e6b-8f9c-1d2e3f4a5b6c"/>
 				<textElement textAlignment="Center" rotation="None">
-					<font size="16" isBold="true"/>
+					<font fontName="Times New Roman" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SMA IT RAFLESIA]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="150" y="50" width="500" height="15" uuid="a1b2c3d4-e5f6-7890-1234-567890abcdef"/>
 				<textElement textAlignment="Center" rotation="None">
-					<font size="11" isBold="true"/>
+					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TERAKREDITASI A]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="150" y="65" width="500" height="15" uuid="a825ecf8-264e-406e-a455-a4fd81b58da3"/>
 				<textElement textAlignment="Center" rotation="None">
-					<font size="11" isBold="false"/>
+					<font fontName="Times New Roman" size="11" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Jl. Mahkota Raya No. 32 B Pondok Duta Cimanggis-Depok 16951]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="150" y="80" width="500" height="15" uuid="a325b04c-2a00-4266-9a8c-214a429f68f9"/>
 				<textElement textAlignment="Center" rotation="None">
-					<font size="11" isBold="false"/>
+					<font fontName="Times New Roman" size="11" isBold="false"/>
 				</textElement>
 				<text><![CDATA[Telp. (021) 8712294 - 8702735. Fax. 87709480 E-mail: smait_raflesia@yahoo.co.id]]></text>
 			</staticText>
@@ -93,9 +93,6 @@ FROM
 				<reportElement x="0" y="0" width="90" height="90" uuid="ebe735c8-545b-44bc-9920-1102e57735fc"/>
 				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/sma_it_raflesia_logo_300.png?raw=true"]]></imageExpression>
 			</image>
-			<line>
-				<reportElement x="0" y="105" width="803" height="1" uuid="6ecaf584-ac50-48bf-8670-a62d7242a2f9"/>
-			</line>
 		</band>
 	</title>
 	<pageHeader>
@@ -103,10 +100,13 @@ FROM
 			<staticText>
 				<reportElement x="219" y="20" width="372" height="28" uuid="7f65dbf9-07e0-4164-b223-82af5d165426"/>
 				<textElement textAlignment="Center" rotation="None">
-					<font size="18" isBold="true"/>
+					<font fontName="Times New Roman" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Laporan Hasil Penilaian Siswa Berprestasi]]></text>
 			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="803" height="1" uuid="6ecaf584-ac50-48bf-8670-a62d7242a2f9"/>
+			</line>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -141,63 +141,63 @@ FROM
 			<staticText>
 				<reportElement x="4" y="41" width="54" height="20" uuid="b0c0d9f7-c34d-44b8-ada0-9193af1fb6b9"/>
 				<textElement textAlignment="Left">
-					<font size="10" isBold="true" isItalic="false"/>
+					<font fontName="Times New Roman" size="10" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[ID Siswa]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="58" y="41" width="108" height="20" uuid="55539249-0b19-495b-bc60-98c74a380ff9"/>
 				<textElement>
-					<font size="10" isBold="true" isItalic="false"/>
+					<font fontName="Times New Roman" size="10" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Nama Siswa]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="166" y="41" width="121" height="20" uuid="6ce19880-9d57-4d19-a997-728a74c8b72d"/>
 				<textElement textAlignment="Center">
-					<font size="10" isBold="true" isItalic="false"/>
+					<font fontName="Times New Roman" size="10" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Nilai Akademik]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="286" y="41" width="91" height="20" uuid="8f320daa-152b-4fa5-842f-587d882365b1"/>
 				<textElement textAlignment="Center">
-					<font size="10" isBold="true" isItalic="false"/>
+					<font fontName="Times New Roman" size="10" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Prestasi Non-Akademik]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="376" y="41" width="114" height="20" uuid="b0e78e1b-4f9d-4dbb-a963-2ba8aa48b750"/>
 				<textElement textAlignment="Center">
-					<font size="10" isBold="true" isItalic="false"/>
+					<font fontName="Times New Roman" size="10" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Kehadiran]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="490" y="41" width="87" height="20" uuid="92fa1ade-68f1-482d-be94-fc985cea0ab7"/>
 				<textElement textAlignment="Center">
-					<font size="10" isBold="true" isItalic="false"/>
+					<font fontName="Times New Roman" size="10" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Sikap/Perilaku]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="576" y="41" width="100" height="20" uuid="6ddcf6c2-dd21-4ea1-b1a1-88cf3fe777b0"/>
 				<textElement textAlignment="Center">
-					<font size="10" isBold="true" isItalic="false"/>
+					<font fontName="Times New Roman" size="10" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Partisipasi Kegiatan]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="675" y="41" width="63" height="20" uuid="fb4a7855-1367-47dd-8893-59e57b1872c0"/>
 				<textElement textAlignment="Center">
-					<font size="10" isBold="true" isItalic="false"/>
+					<font fontName="Times New Roman" size="10" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Nilai Akhir]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="737" y="41" width="66" height="20" uuid="8f677b40-5894-4458-bbe0-6fbf38aed9bf"/>
 				<textElement textAlignment="Center">
-					<font isBold="true" isItalic="false"/>
+					<font fontName="Times New Roman" isBold="true" isItalic="false"/>
 				</textElement>
 				<text><![CDATA[Ranking]]></text>
 			</staticText>
@@ -234,92 +234,107 @@ FROM
 			</rectangle>
 			<textField>
 				<reportElement x="4" y="0" width="53" height="20" uuid="e05b17ca-4094-4f2f-ae88-491f648bac29"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nilai_akhir_id_siswa}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="57" y="1" width="109" height="20" uuid="bf17eb53-bc5c-4922-a619-81c30073e8a1"/>
-				<textElement textAlignment="Left"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nilai_akhir_nama_siswa}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="164" y="1" width="121" height="20" uuid="7f99bd88-3fea-4b00-b1e0-603a4dd66041"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nilai_akhir_akademik}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="287" y="1" width="91" height="20" uuid="35ecacbf-7438-4a6f-b8f3-f073c53b1133"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nilai_akhir_prestasi}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="376" y="0" width="114" height="21" uuid="81ef29c2-b3d5-4c57-b25b-3402b8c11505"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nilai_akhir_kehadiran}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="490" y="0" width="87" height="21" uuid="d7e6b4d7-20b3-4c7e-aa22-a27804dbc90f"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nilai_akhir_sikap}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="576" y="0" width="100" height="21" uuid="fb17700a-aeff-4798-be22-26f3256e6f9f"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nilai_akhir_partisipasi}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="737" y="0" width="66" height="21" uuid="d3b63261-6f35-408e-9eb7-2691f741a776"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nilai_akhir_ranking}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="675" y="-1" width="61" height="20" uuid="d02479f3-a72c-44bb-803e-7326e6ce1c08"/>
-				<textElement textAlignment="Center"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{nilai_akhir_jumlah}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
-	<columnFooter>
-		<band height="125" splitType="Stretch">
+	<pageFooter>
+		<band height="182" splitType="Stretch">
 			<staticText>
-				<reportElement x="601" y="0" width="44" height="22" uuid="4cd81543-dd8d-4087-8062-217e675b2806"/>
-				<textElement textAlignment="Center" rotation="None">
-					<font size="12" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Jakarta, ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="601" y="22" width="68" height="22" uuid="e01251de-0e0a-4734-82b5-c31966946a0a"/>
-				<textElement textAlignment="Center" rotation="None">
-					<font size="12" isBold="false"/>
-				</textElement>
-				<text><![CDATA[Mengetahui,]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="604" y="97" width="144" height="22" uuid="d2cc6f61-f99c-44dd-aba1-8cf4d8f36a9c"/>
-				<textElement textAlignment="Left" rotation="None">
-					<font size="12" isBold="false"/>
+				<reportElement x="634" y="160" width="89" height="22" uuid="59006c39-eb84-4540-8c1a-1c997b9ba9ac"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Nur Hasanudin]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="602" y="45" width="144" height="22" uuid="395c8d13-e36d-43d7-99b8-d5f70d09902e"/>
-				<textElement textAlignment="Left" rotation="None">
-					<font size="12" isBold="false"/>
+				<reportElement x="634" y="80" width="99" height="22" uuid="8df19c1a-e01a-4b95-b5e0-4d8cca593ea3"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Waka Kurikulum]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="634" y="50" width="68" height="22" uuid="c025d035-c233-43b3-a5c8-917b17c8322c"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Mengetahui,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="634" y="20" width="36" height="22" uuid="465c1644-0638-4ec6-98ff-300c7974110a"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Depok, ]]></text>
+			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="644" y="1" width="147" height="20" uuid="d68dc51b-0e80-456b-8700-c626b699e7b8"/>
-				<textElement>
-					<font size="12"/>
+				<reportElement x="673" y="20" width="106" height="22" uuid="bf53fe57-f8fc-4ea8-915e-801ab3f6f53c"/>
+				<textElement textAlignment="Left">
+					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="42" splitType="Stretch"/>

@@ -1,0 +1,78 @@
+@startuml Sequence_4_Data_Penilaian
+
+title 4. Data Penilaian (Konversi Skor 0-100)
+
+actor "Admin/Guru" as User
+boundary "MenuUtama" as Menu
+boundary "DataPenilaian" as PenilaianUI
+boundary "PopupPenilaian" as PopupUI
+database "Database MySQL" as DB
+
+User -> Menu: Buka Data Penilaian
+activate Menu
+
+Menu -> PenilaianUI: Tampilkan Form Penilaian
+activate PenilaianUI
+
+User -> PenilaianUI: Klik Pilih dari Data Alternatif
+
+PenilaianUI -> PopupUI: Buka Popup Penilaian
+activate PopupUI
+
+PopupUI -> DB: SELECT * FROM alternatif
+activate DB
+DB --> PopupUI: Return data alternatif
+deactivate DB
+
+PopupUI --> PenilaianUI: Tampilkan daftar alternatif
+
+User -> PopupUI: Pilih data alternatif
+PopupUI --> PenilaianUI: Return data alternatif terpilih
+deactivate PopupUI
+
+PenilaianUI -> PenilaianUI: Konversi Otomatis ke Skala 0-100:\n- Prestasi: "Tidak ada"→60, "Partisipasi aktif"→70\n- Sikap: "Baik"→85, "Sangat Baik"→100\n- Partisipasi: "Aktif rutin"→85, "Aktif dan peran"→100
+
+User -> PenilaianUI: Review/Edit Nilai Konversi\n(K1: Akademik, K2: Prestasi, K3: Kehadiran,\nK4: Sikap, K5: Partisipasi)
+
+PenilaianUI -> PenilaianUI: Validasi Range 0-100
+
+alt Nilai Valid (0-100)
+    PenilaianUI -> DB: INSERT/UPDATE INTO penilaian\n(id_siswa, nama_siswa, nilai_akademik,\nprestasi_non_akademik, kehadiran,\nsikap_perilaku, partisipasi_kegiatan)
+    activate DB
+    DB --> PenilaianUI: Sukses
+    deactivate DB
+    
+    PenilaianUI --> User: Data Penilaian Tersimpan
+else Nilai Tidak Valid
+    PenilaianUI --> User: Error: Nilai harus 0-100
+end
+
+PenilaianUI -> PenilaianUI: Refresh Tabel
+PenilaianUI -> DB: SELECT * FROM penilaian
+activate DB
+DB --> PenilaianUI: Return daftar penilaian
+deactivate DB
+
+deactivate PenilaianUI
+deactivate Menu
+
+note right of PenilaianUI
+Konversi Kualitatif ke Kuantitatif:
+
+Prestasi Non-Akademik:
+- "Tidak memiliki prestasi" → 60
+- "Partisipasi aktif" → 70
+- "Juara tingkat sekolah" → 80
+- "Juara tingkat provinsi/kota" → 90
+
+Sikap/Perilaku:
+- "Baik" → 85
+- "Sangat Baik" → 100
+
+Partisipasi Kegiatan:
+- "Kadang-kadang aktif" → 75
+- "Aktif rutin" → 85
+- "Aktif dan memiliki peran" → 100
+end note
+
+@enduml

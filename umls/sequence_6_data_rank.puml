@@ -1,0 +1,95 @@
+@startuml Sequence_6_Data_Rank
+
+title 6. Perangkingan Akhir (Metode SMART)
+
+actor "Admin/Guru" as User
+boundary "MenuUtama" as Menu
+boundary "DataRank" as RankUI
+boundary "PopupPenilaian" as PopupUI
+database "Database MySQL" as DB
+
+User -> Menu: Buka Perangkingan Akhir
+activate Menu
+
+Menu -> RankUI: Tampilkan Form Ranking
+activate RankUI
+
+User -> RankUI: Klik Pilih dari Data Utility
+
+RankUI -> PopupUI: Buka Popup Data Utility
+activate PopupUI
+
+PopupUI -> DB: SELECT * FROM utility
+activate DB
+DB --> PopupUI: Return data utility
+deactivate DB
+
+PopupUI --> RankUI: Tampilkan daftar utility
+
+User -> PopupUI: Pilih data utility
+PopupUI --> RankUI: Return data utility terpilih\n(Nilai utility 0-1)
+deactivate PopupUI
+
+User -> RankUI: Klik "Hitung Metode SMART"
+
+RankUI -> DB: SELECT * FROM kriteria\nORDER BY kode_kriteria
+activate DB
+DB --> RankUI: Return bobot kriteria\n(K1:0.35, K2:0.20, K3:0.15, K4:0.20, K5:0.10)
+deactivate DB
+
+RankUI -> RankUI: Hitung Skor Akhir SMART:\nSkor = Σ(Utility × Bobot)\n\nContoh:\nSkor = (0.5×0.35) + (0.333×0.20) + (0.5×0.15) + (0.0×0.20) + (1.0×0.10)\nSkor = 0.175 + 0.067 + 0.075 + 0.000 + 0.100\nSkor = 0.417
+
+RankUI -> DB: SELECT jumlah_nilai_akhir FROM nilai_akhir\nORDER BY jumlah_nilai_akhir DESC
+activate DB
+DB --> RankUI: Return semua skor untuk ranking
+deactivate DB
+
+RankUI -> RankUI: Generate Ranking:\n1. Urutkan skor menurun\n2. Beri ranking 1,2,3...\n3. Handle skor sama (ranking sama)
+
+RankUI --> User: Tampilkan Hasil:\n- Nilai Akhir per Kriteria\n- Jumlah Nilai Akhir: 0.417\n- Ranking: (tergantung siswa lain)
+
+alt User Setuju
+    RankUI -> DB: INSERT/UPDATE INTO nilai_akhir\n(id_siswa, nama_siswa, nilai_akhir_akademik,\nnilai_akhir_prestasi, nilai_akhir_kehadiran,\nnilai_akhir_sikap, nilai_akhir_partisipasi,\njumlah_nilai_akhir, ranking)
+    activate DB
+    DB --> RankUI: Sukses
+    deactivate DB
+    
+    RankUI -> RankUI: Update Ranking Semua Siswa
+    RankUI -> DB: UPDATE ranking untuk semua siswa
+    activate DB
+    DB --> RankUI: Sukses update ranking
+    deactivate DB
+    
+    RankUI --> User: Data Ranking Tersimpan
+else User Tidak Setuju
+    RankUI --> User: Batalkan perhitungan
+end
+
+RankUI -> RankUI: Refresh Tabel
+RankUI -> DB: SELECT * FROM nilai_akhir\nORDER BY jumlah_nilai_akhir DESC
+activate DB
+DB --> RankUI: Return daftar ranking final
+deactivate DB
+
+deactivate RankUI
+deactivate Menu
+
+note right of RankUI
+Rumus SMART:
+Skor = Σ(Utility_i × Bobot_i)
+
+Dimana:
+- Utility_i = Nilai utility kriteria ke-i
+- Bobot_i = Bobot kriteria ke-i
+- Σ = Penjumlahan semua kriteria
+
+Contoh:
+K1(0.5×0.35) + K2(0.3×0.20) + K3(0.8×0.15) + 
+K4(1.0×0.20) + K5(0.6×0.10) = 0.615
+
+Ranking:
+Skor tertinggi = Ranking 1
+Skor terendah = Ranking terakhir
+end note
+
+@enduml

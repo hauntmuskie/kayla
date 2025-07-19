@@ -1,0 +1,153 @@
+@startuml Diagram_Sequence_Metode_SMART
+
+title Sistem Evaluasi Kinerja Siswa - Alur Metode SMART
+
+actor "Admin/Guru" as User
+boundary "MenuUtama" as Menu
+boundary "DataSiswa" as SiswaUI
+boundary "DataKriteria" as KriteriaUI
+boundary "DataAlternatif" as AlternatifUI
+boundary "DataPenilaian" as PenilaianUI
+boundary "Utility" as UtilityUI
+boundary "DataRank" as RankUI
+control "AutoIDGenerator" as IDGen
+database "Database MySQL" as DB
+
+== 1. Pengelolaan Data Siswa ==
+User -> Menu: Mulai Aplikasi
+activate Menu
+Menu -> SiswaUI: Buka Data Siswa
+activate SiswaUI
+
+User -> SiswaUI: Input Data Siswa
+SiswaUI -> IDGen: Generate ID Siswa
+activate IDGen
+IDGen -> DB: Query ID maksimal
+DB --> IDGen: Return ID terakhir
+IDGen --> SiswaUI: Return ID baru (C1, C2, ...)
+deactivate IDGen
+
+SiswaUI -> DB: INSERT INTO siswa
+activate DB
+DB --> SiswaUI: Sukses/Error
+deactivate DB
+SiswaUI --> User: Tampilkan Hasil
+deactivate SiswaUI
+
+== 2. Setup Data Kriteria ==
+User -> Menu: Buka Data Kriteria
+Menu -> KriteriaUI: Tampilkan Form Kriteria
+activate KriteriaUI
+
+User -> KriteriaUI: Input Kriteria & Bobot
+note right: K1:Akademik(35%), K2:Prestasi(20%),\nK3:Kehadiran(15%), K4:Sikap(20%),\nK5:Partisipasi(10%)
+
+KriteriaUI -> DB: INSERT INTO kriteria
+activate DB
+DB --> KriteriaUI: Sukses/Error
+deactivate DB
+KriteriaUI --> User: Tampilkan Daftar Kriteria
+deactivate KriteriaUI
+
+== 3. Data Alternatif (Input Mentah) ==
+User -> Menu: Buka Data Alternatif
+Menu -> AlternatifUI: Tampilkan Form Alternatif
+activate AlternatifUI
+
+User -> AlternatifUI: Pilih Siswa dari Popup
+AlternatifUI -> DB: SELECT FROM siswa
+activate DB
+DB --> AlternatifUI: Return data siswa
+deactivate DB
+
+User -> AlternatifUI: Input Nilai Mentah
+note right: Nilai akademik, Level prestasi,\nPersentase kehadiran, Sikap, Partisipasi
+
+AlternatifUI -> DB: INSERT INTO alternatif
+activate DB
+DB --> AlternatifUI: Sukses/Error
+deactivate DB
+deactivate AlternatifUI
+
+== 4. Data Penilaian (Konversi Skor) ==
+User -> Menu: Buka Data Penilaian
+Menu -> PenilaianUI: Tampilkan Form Penilaian
+activate PenilaianUI
+
+User -> PenilaianUI: Pilih dari Data Alternatif
+PenilaianUI -> DB: SELECT FROM alternatif
+activate DB
+DB --> PenilaianUI: Return nilai mentah
+deactivate DB
+
+PenilaianUI -> PenilaianUI: Konversi ke skala 0-100
+note right: Konversi kualitatif ke kuantitatif\n(misal: "Baik" -> 85, "Sangat Baik" -> 100)
+
+PenilaianUI -> DB: INSERT INTO penilaian
+activate DB
+DB --> PenilaianUI: Sukses/Error
+deactivate DB
+deactivate PenilaianUI
+
+== 5. Perhitungan Utility ==
+User -> Menu: Buka Perhitungan Utility
+Menu -> UtilityUI: Tampilkan Form Utility
+activate UtilityUI
+
+User -> UtilityUI: Pilih dari Data Penilaian
+UtilityUI -> DB: SELECT FROM penilaian
+activate DB
+DB --> UtilityUI: Return skor terkonversi
+deactivate DB
+
+UtilityUI -> UtilityUI: Hitung Nilai Utility
+note right: Normalisasi ke skala 0-1:\nUtility = (Nilai - Min) / (Maks - Min)
+
+UtilityUI -> DB: INSERT INTO utility
+activate DB
+DB --> UtilityUI: Sukses/Error
+deactivate DB
+deactivate UtilityUI
+
+== 6. Perangkingan Akhir (Metode SMART) ==
+User -> Menu: Buka Perangkingan Akhir
+Menu -> RankUI: Tampilkan Form Ranking
+activate RankUI
+
+User -> RankUI: Pilih dari Data Utility
+RankUI -> DB: SELECT FROM utility
+activate DB
+DB --> RankUI: Return nilai utility
+deactivate DB
+
+RankUI -> DB: SELECT FROM kriteria (ambil bobot)
+activate DB
+DB --> RankUI: Return bobot kriteria
+deactivate DB
+
+RankUI -> RankUI: Hitung Skor Akhir SMART
+note right: Skor Akhir = Σ(Utility × Bobot)\nuntuk setiap kriteria
+
+RankUI -> RankUI: Generate Perangkingan
+note right: Urutkan berdasarkan skor akhir menurun\nBeri ranking 1, 2, 3, ...
+
+RankUI -> DB: INSERT INTO nilai_akhir
+activate DB
+DB --> RankUI: Sukses/Error
+deactivate DB
+
+RankUI --> User: Tampilkan Perangkingan Akhir
+deactivate RankUI
+deactivate Menu
+
+note over User, DB
+**Metode SMART Selesai:**
+1. Input data siswa
+2. Setup kriteria evaluasi
+3. Input data kinerja mentah
+4. Konversi ke skor standar
+5. Hitung nilai utility
+6. Generate perangkingan akhir
+end note
+
+@enduml

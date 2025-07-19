@@ -14,241 +14,243 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author Elza Kayla
  */
 public class Utility extends javax.swing.JFrame {
-        private Connection conn = new DatabaseConnection().connect();
-        private DefaultTableModel tabmode;
-        public DataSiswa dk = null;
-        PlaceHolder pl;
-        public String idsiswa, nama, akademik, prestasi, kehadiran, sikap, partisipasi;
 
-        /**
-         * Creates new form utility
-         */
-        public Utility() {
-                initComponents();
-                aktif();
-                kosong();
-                Locale locale = new Locale("id", "ID");
-                Locale.setDefault(locale);
-                bhapus.setEnabled(false);
+    private Connection conn = new DatabaseConnection().connect();
+    private DefaultTableModel tabmode;
+    public DataSiswa dk = null;
+    PlaceHolder pl;
+    public String idsiswa, nama, akademik, prestasi, kehadiran, sikap, partisipasi;
 
-                // non editable textfield
-                txtid.setEditable(false);
-                txtnm.setEditable(false);
-                txttepat.setEditable(false);
-                txtakurasi.setEditable(false);
-                txtjml.setEditable(false);
-                txtint.setEditable(false);
-                txtpenangan.setEditable(false);
-                datatable();
+    /**
+     * Creates new form utility
+     */
+    public Utility() {
+        initComponents();
+        aktif();
+        kosong();
+        Locale locale = new Locale("id", "ID");
+        Locale.setDefault(locale);
+        bhapus.setEnabled(false);
+
+        // non editable textfield
+        txtid.setEditable(false);
+        txtnm.setEditable(false);
+        txttepat.setEditable(false);
+        txtakurasi.setEditable(false);
+        txtjml.setEditable(false);
+        txtint.setEditable(false);
+        txtpenangan.setEditable(false);
+        datatable();
+    }
+
+    private void datatable() {
+        Object[] Baris = {"ID Siswa", "Nama Siswa", "Utility Akademik", "Utility Prestasi",
+            "Utility Kehadiran",
+            "Utility Sikap", "Utility Partisipasi"};
+        tabmode = new DefaultTableModel(null, Baris);
+        try {
+            String sql = "SELECT * FROM utility ORDER by id_siswa";
+            Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()) {
+                tabmode.addRow(new Object[]{
+                    hasil.getString("id_siswa"),
+                    hasil.getString("nama_siswa"),
+                    hasil.getString("utility_akademik"),
+                    hasil.getString("utility_prestasi"),
+                    hasil.getString("utility_kehadiran"),
+                    hasil.getString("utility_sikap"),
+                    hasil.getString("utility_partisipasi"),});
+            }
+            tabelpenilaian.setModel(tabmode);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
         }
+    }
 
-        private void datatable() {
-                Object[] Baris = { "ID Siswa", "Nama Siswa", "Utility Akademik", "Utility Prestasi",
-                                "Utility Kehadiran",
-                                "Utility Sikap", "Utility Partisipasi" };
-                tabmode = new DefaultTableModel(null, Baris);
-                try {
-                        String sql = "SELECT * FROM utility ORDER by id_siswa";
-                        Statement stat = conn.createStatement();
-                        ResultSet hasil = stat.executeQuery(sql);
-                        while (hasil.next()) {
-                                tabmode.addRow(new Object[] {
-                                                hasil.getString("id_siswa"),
-                                                hasil.getString("nama_siswa"),
-                                                hasil.getString("utility_akademik"),
-                                                hasil.getString("utility_prestasi"),
-                                                hasil.getString("utility_kehadiran"),
-                                                hasil.getString("utility_sikap"),
-                                                hasil.getString("utility_partisipasi"),
-                                });
-                        }
-                        tabelpenilaian.setModel(tabmode);
-                } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
-                }
+    private void cari() {
+        Object[] Baris = {"ID Siswa", "Nama Siswa", "Utility Akademik", "Utility Prestasi",
+            "Utility Kehadiran",
+            "Utility Sikap", "Utility Partisipasi"};
+        tabmode = new DefaultTableModel(null, Baris);
+        String cariitem = txtcari.getText();
+        try {
+            String sql = "SELECT * FROM utility WHERE id_siswa='" + cariitem + "' OR nama_siswa='"
+                    + cariitem
+                    + "' OR utility_akademik='" + cariitem + "' OR utility_prestasi='" + cariitem
+                    + "' OR utility_kehadiran='" + cariitem + "' OR utility_sikap='" + cariitem
+                    + "' OR utility_partisipasi='" + cariitem + "'";
+            Statement stat = conn.createStatement();
+            ResultSet hasil = stat.executeQuery(sql);
+            while (hasil.next()) {
+                tabmode.addRow(new Object[]{
+                    hasil.getString("id_siswa"),
+                    hasil.getString("nama_siswa"),
+                    hasil.getString("utility_akademik"),
+                    hasil.getString("utility_prestasi"),
+                    hasil.getString("utility_kehadiran"),
+                    hasil.getString("utility_sikap"),
+                    hasil.getString("utility_partisipasi"),});
+            }
+            tabelpenilaian.setModel(tabmode);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
         }
+    }
 
-        private void cari() {
-                Object[] Baris = { "ID Siswa", "Nama Siswa", "Utility Akademik", "Utility Prestasi",
-                                "Utility Kehadiran",
-                                "Utility Sikap", "Utility Partisipasi" };
-                tabmode = new DefaultTableModel(null, Baris);
-                String cariitem = txtcari.getText();
-                try {
-                        String sql = "SELECT * FROM utility WHERE id_siswa='" + cariitem + "' OR nama_siswa='"
-                                        + cariitem
-                                        + "' OR utility_akademik='" + cariitem + "' OR utility_prestasi='" + cariitem
-                                        + "' OR utility_kehadiran='" + cariitem + "' OR utility_sikap='" + cariitem
-                                        + "' OR utility_partisipasi='" + cariitem + "'";
-                        Statement stat = conn.createStatement();
-                        ResultSet hasil = stat.executeQuery(sql);
-                        while (hasil.next()) {
-                                tabmode.addRow(new Object[] {
-                                                hasil.getString("id_siswa"),
-                                                hasil.getString("nama_siswa"),
-                                                hasil.getString("utility_akademik"),
-                                                hasil.getString("utility_prestasi"),
-                                                hasil.getString("utility_kehadiran"),
-                                                hasil.getString("utility_sikap"),
-                                                hasil.getString("utility_partisipasi"),
-                                });
-                        }
-                        tabelpenilaian.setModel(tabmode);
-                } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "data gagal dipanggil" + e);
-                }
+    private void kosong() {
+        txtid.setText("");
+        txtnm.setText("");
+        txttepat.setText("");
+        txtakurasi.setText("");
+        txtjml.setText("");
+        txtint.setText("");
+        txtpenangan.setText("");
+        txtk1.setText("");
+        txtk2.setText("");
+        txtk3.setText("");
+        txtk4.setText("");
+        txtk5.setText("");
+        txtcari.setText("");
+        pl = new PlaceHolder(txtcari, "Pencarian data...");
+    }
+
+    private void aktif() {
+        txttepat.requestFocus();
+    }
+
+    private void tambah() {
+        try {
+            // Validasi input
+            if (txtk1.getText().trim().isEmpty() || txtk2.getText().trim().isEmpty()
+                    || txtk3.getText().trim().isEmpty() || txtk4.getText().trim().isEmpty()
+                    || txtk5.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "Harap klik 'Menghitung Nilai Utility' terlebih dahulu untuk menghitung utility!",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            String idSiswa = txtid.getText();
+            String namaSiswa = txtnm.getText();
+
+            // Parse utility values with better error handling
+            double utility1, utility2, utility3, utility4, utility5;
+            try {
+                // Handle potential locale issues by replacing comma with dot if needed
+                String k1Val = txtk1.getText().trim().replace(",", ".");
+                String k2Val = txtk2.getText().trim().replace(",", ".");
+                String k3Val = txtk3.getText().trim().replace(",", ".");
+                String k4Val = txtk4.getText().trim().replace(",", ".");
+                String k5Val = txtk5.getText().trim().replace(",", ".");
+
+                utility1 = Double.parseDouble(k1Val);
+                utility2 = Double.parseDouble(k2Val);
+                utility3 = Double.parseDouble(k3Val);
+                utility4 = Double.parseDouble(k4Val);
+                utility5 = Double.parseDouble(k5Val);
+
+                // Debug: print the values being parsed
+                System.out.printf(
+                        "DEBUG - Parsing utility values: K1='%s'->%.3f, K2='%s'->%.3f, K3='%s'->%.3f, K4='%s'->%.3f, K5='%s'->%.3f%n",
+                        k1Val, utility1, k2Val, utility2, k3Val, utility3, k4Val, utility4,
+                        k5Val, utility5);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null,
+                        "Nilai utility tidak valid! Harap klik 'Menghitung Nilai Utility' terlebih dahulu.\n\nNilai saat ini:\nK1: '"
+                        + txtk1.getText() + "'\nK2: '" + txtk2.getText()
+                        + "'\nK3: '" + txtk3.getText()
+                        + "'\nK4: '" + txtk4.getText() + "'\nK5: '"
+                        + txtk5.getText() + "'\n\nError: "
+                        + e.getMessage(),
+                        "Error Format", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Cek apakah data sudah ada di tabel utility
+            String checkSql = "SELECT COUNT(*) FROM utility WHERE id_siswa = ?";
+            PreparedStatement checkStat = conn.prepareStatement(checkSql);
+            checkStat.setString(1, idSiswa);
+            ResultSet checkResult = checkStat.executeQuery();
+            checkResult.next();
+            boolean exists = checkResult.getInt(1) > 0;
+
+            if (exists) {
+                // Update data yang sudah ada
+                String updateSql = "UPDATE utility SET nama_siswa = ?, utility_akademik = ?, utility_prestasi = ?, "
+                        + "utility_kehadiran = ?, utility_sikap = ?, utility_partisipasi = ? WHERE id_siswa = ?";
+                PreparedStatement updateStat = conn.prepareStatement(updateSql);
+                updateStat.setString(1, namaSiswa);
+                updateStat.setDouble(2, utility1); // utility_akademik
+                updateStat.setDouble(3, utility2); // utility_prestasi
+                updateStat.setDouble(4, utility3); // utility_kehadiran
+                updateStat.setDouble(5, utility4); // utility_sikap
+                updateStat.setDouble(6, utility5); // utility_partisipasi
+                updateStat.setString(7, idSiswa);
+                updateStat.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data utility berhasil diperbarui", "Sukses",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Insert data baru
+                String insertSql = "INSERT INTO utility (id_siswa, nama_siswa, utility_akademik, utility_prestasi, utility_kehadiran, utility_sikap, utility_partisipasi) VALUES (?,?,?,?,?,?,?)";
+                PreparedStatement insertStat = conn.prepareStatement(insertSql);
+                insertStat.setString(1, idSiswa);
+                insertStat.setString(2, namaSiswa);
+                insertStat.setDouble(3, utility1); // utility_akademik
+                insertStat.setDouble(4, utility2); // utility_prestasi
+                insertStat.setDouble(5, utility3); // utility_kehadiran
+                insertStat.setDouble(6, utility4); // utility_sikap
+                insertStat.setDouble(7, utility5); // utility_partisipasi
+                insertStat.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data utility berhasil disimpan", "Sukses",
+                        JOptionPane.INFORMATION_MESSAGE);
+            }
+
+            // Refresh the table to show updated data
+            datatable();
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Data gagal disimpan: " + e.getMessage(), "Database Error",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
+    }
 
-        private void kosong() {
-                txtid.setText("");
-                txtnm.setText("");
-                txttepat.setText("");
-                txtakurasi.setText("");
-                txtjml.setText("");
-                txtint.setText("");
-                txtpenangan.setText("");
-                txtk1.setText("");
-                txtk2.setText("");
-                txtk3.setText("");
-                txtk4.setText("");
-                txtk5.setText("");
-                txtcari.setText("");
-                pl = new PlaceHolder(txtcari, "Pencarian data...");
-        }
+    public void itemTerpilih() {
+        PopupPenilaian PN = new PopupPenilaian();
+        PN.du = this;
+        txtid.setText(idsiswa);
+        txtnm.setText(nama);
+        txttepat.setText(akademik);
+        txtakurasi.setText(prestasi);
+        txtjml.setText(kehadiran);
+        txtint.setText(sikap);
+        txtpenangan.setText(partisipasi);
+    }
 
-        private void aktif() {
-                txttepat.requestFocus();
-        }
-
-        private void tambah() {
-                try {
-                        // Validasi input
-                        if (txtk1.getText().trim().isEmpty() || txtk2.getText().trim().isEmpty() ||
-                                        txtk3.getText().trim().isEmpty() || txtk4.getText().trim().isEmpty() ||
-                                        txtk5.getText().trim().isEmpty()) {
-                                JOptionPane.showMessageDialog(null,
-                                                "Harap klik 'Menghitung Nilai Utility' terlebih dahulu untuk menghitung utility!",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-                                return;
-                        }
-
-                        String idSiswa = txtid.getText();
-                        String namaSiswa = txtnm.getText();
-
-                        // Parse utility values with better error handling
-                        double utility1, utility2, utility3, utility4, utility5;
-                        try {
-                                // Handle potential locale issues by replacing comma with dot if needed
-                                String k1Val = txtk1.getText().trim().replace(",", ".");
-                                String k2Val = txtk2.getText().trim().replace(",", ".");
-                                String k3Val = txtk3.getText().trim().replace(",", ".");
-                                String k4Val = txtk4.getText().trim().replace(",", ".");
-                                String k5Val = txtk5.getText().trim().replace(",", ".");
-
-                                utility1 = Double.parseDouble(k1Val);
-                                utility2 = Double.parseDouble(k2Val);
-                                utility3 = Double.parseDouble(k3Val);
-                                utility4 = Double.parseDouble(k4Val);
-                                utility5 = Double.parseDouble(k5Val);
-
-                                // Debug: print the values being parsed
-                                System.out.printf(
-                                                "DEBUG - Parsing utility values: K1='%s'->%.3f, K2='%s'->%.3f, K3='%s'->%.3f, K4='%s'->%.3f, K5='%s'->%.3f%n",
-                                                k1Val, utility1, k2Val, utility2, k3Val, utility3, k4Val, utility4,
-                                                k5Val, utility5);
-                        } catch (NumberFormatException e) {
-                                JOptionPane.showMessageDialog(null,
-                                                "Nilai utility tidak valid! Harap klik 'Menghitung Nilai Utility' terlebih dahulu.\n\nNilai saat ini:\nK1: '"
-                                                                + txtk1.getText() + "'\nK2: '" + txtk2.getText()
-                                                                + "'\nK3: '" + txtk3.getText()
-                                                                + "'\nK4: '" + txtk4.getText() + "'\nK5: '"
-                                                                + txtk5.getText() + "'\n\nError: "
-                                                                + e.getMessage(),
-                                                "Error Format", JOptionPane.ERROR_MESSAGE);
-                                return;
-                        }
-
-                        // Cek apakah data sudah ada di tabel utility
-                        String checkSql = "SELECT COUNT(*) FROM utility WHERE id_siswa = ?";
-                        PreparedStatement checkStat = conn.prepareStatement(checkSql);
-                        checkStat.setString(1, idSiswa);
-                        ResultSet checkResult = checkStat.executeQuery();
-                        checkResult.next();
-                        boolean exists = checkResult.getInt(1) > 0;
-
-                        if (exists) {
-                                // Update data yang sudah ada
-                                String updateSql = "UPDATE utility SET nama_siswa = ?, utility_akademik = ?, utility_prestasi = ?, "
-                                                +
-                                                "utility_kehadiran = ?, utility_sikap = ?, utility_partisipasi = ? WHERE id_siswa = ?";
-                                PreparedStatement updateStat = conn.prepareStatement(updateSql);
-                                updateStat.setString(1, namaSiswa);
-                                updateStat.setDouble(2, utility1); // utility_akademik
-                                updateStat.setDouble(3, utility2); // utility_prestasi
-                                updateStat.setDouble(4, utility3); // utility_kehadiran
-                                updateStat.setDouble(5, utility4); // utility_sikap
-                                updateStat.setDouble(6, utility5); // utility_partisipasi
-                                updateStat.setString(7, idSiswa);
-                                updateStat.executeUpdate();
-                                JOptionPane.showMessageDialog(null, "Data utility berhasil diperbarui", "Sukses",
-                                                JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                                // Insert data baru
-                                String insertSql = "INSERT INTO utility (id_siswa, nama_siswa, utility_akademik, utility_prestasi, utility_kehadiran, utility_sikap, utility_partisipasi) VALUES (?,?,?,?,?,?,?)";
-                                PreparedStatement insertStat = conn.prepareStatement(insertSql);
-                                insertStat.setString(1, idSiswa);
-                                insertStat.setString(2, namaSiswa);
-                                insertStat.setDouble(3, utility1); // utility_akademik
-                                insertStat.setDouble(4, utility2); // utility_prestasi
-                                insertStat.setDouble(5, utility3); // utility_kehadiran
-                                insertStat.setDouble(6, utility4); // utility_sikap
-                                insertStat.setDouble(7, utility5); // utility_partisipasi
-                                insertStat.executeUpdate();
-                                JOptionPane.showMessageDialog(null, "Data utility berhasil disimpan", "Sukses",
-                                                JOptionPane.INFORMATION_MESSAGE);
-                        }
-
-                        // Refresh the table to show updated data
-                        datatable();
-
-                } catch (SQLException e) {
-                        JOptionPane.showMessageDialog(null, "Data gagal disimpan: " + e.getMessage(), "Database Error",
-                                        JOptionPane.ERROR_MESSAGE);
-                        e.printStackTrace();
-                }
-        }
-
-        public void itemTerpilih() {
-                PopupPenilaian PN = new PopupPenilaian();
-                PN.du = this;
-                txtid.setText(idsiswa);
-                txtnm.setText(nama);
-                txttepat.setText(akademik);
-                txtakurasi.setText(prestasi);
-                txtjml.setText(kehadiran);
-                txtint.setText(sikap);
-                txtpenangan.setText(partisipasi);
-        }
-
-        /**
-         * This method is called from within the constructor to initialize the form.
-         * WARNING: Do NOT modify this code. The content of this method is always
-         * regenerated by the Form Editor.
-         */
-        @SuppressWarnings("unchecked")
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
-        // <editor-fold defaultstate="collapsed" desc="Generated
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
+    // <editor-fold defaultstate="collapsed" desc="Generated
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -293,6 +295,7 @@ public class Utility extends javax.swing.JFrame {
         bcek = new javax.swing.JButton();
         txtcari = new javax.swing.JTextField();
         bcari = new javax.swing.JButton();
+        cetak = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -697,6 +700,16 @@ public class Utility extends javax.swing.JFrame {
             }
         });
 
+        cetak.setBackground(new java.awt.Color(138, 120, 78));
+        cetak.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        cetak.setForeground(new java.awt.Color(255, 255, 255));
+        cetak.setText("Cetak");
+        cetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cetakActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -713,22 +726,11 @@ public class Utility extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                                                .addComponent(bsimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bbersih, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bcek)))
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGap(19, 19, 19)
-                                                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                                .addGap(18, 18, 18)
-                                                .addComponent(bhapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(bcek)
+                                        .addGap(19, 19, 19)
+                                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(41, 41, 41)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -738,7 +740,15 @@ public class Utility extends javax.swing.JFrame {
                                         .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, 422, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(7, 7, 7)
                                         .addComponent(bcari, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 605, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(bsimpan, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(bbersih)
+                                .addGap(18, 18, 18)
+                                .addComponent(cetak, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(bhapus, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(9, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -780,7 +790,8 @@ public class Utility extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bsimpan)
                     .addComponent(bbersih)
-                    .addComponent(bhapus))
+                    .addComponent(bhapus)
+                    .addComponent(cetak))
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
@@ -801,277 +812,290 @@ public class Utility extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-        private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel6MouseClicked
-                new MetodeSmart().setVisible(true);
-                this.dispose(); // TODO add your handling code here:
-        }// GEN-LAST:event_jLabel6MouseClicked
+    private void cetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cetakActionPerformed
+        // TODO add your handling code here:
+        try {
+            String report = "./src/reports/laporan_utility_siswa.jasper";
+            HashMap<String, Object> param = new HashMap<>();
+            // param.put("parameter1", cari.getText());
+            JasperPrint print = JasperFillManager.fillReport(report, param, conn);
+            JasperViewer.viewReport(print, false);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex);
+        }
+    }//GEN-LAST:event_cetakActionPerformed
 
-        private void txtidActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtidActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtidActionPerformed
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_jLabel6MouseClicked
+        new MetodeSmart().setVisible(true);
+        this.dispose(); // TODO add your handling code here:
+    }// GEN-LAST:event_jLabel6MouseClicked
 
-        private void bdataActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bdataActionPerformed
-                PopupPenilaian PN = new PopupPenilaian();
-                PN.du = this;
-                PN.setVisible(true);
-                PN.setResizable(false);
-                kosong();
-        }// GEN-LAST:event_bdataActionPerformed
+    private void txtidActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtidActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtidActionPerformed
 
-        private void txttepatActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txttepatActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txttepatActionPerformed
+    private void bdataActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bdataActionPerformed
+        PopupPenilaian PN = new PopupPenilaian();
+        PN.du = this;
+        PN.setVisible(true);
+        PN.setResizable(false);
+        kosong();
+    }// GEN-LAST:event_bdataActionPerformed
 
-        private void txtakurasiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtakurasiActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtakurasiActionPerformed
+    private void txttepatActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txttepatActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txttepatActionPerformed
 
-        private void txtjmlActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtjmlActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtjmlActionPerformed
+    private void txtakurasiActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtakurasiActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtakurasiActionPerformed
 
-        private void txtintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtintActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtintActionPerformed
+    private void txtjmlActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtjmlActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtjmlActionPerformed
 
-        private void txtpenanganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtpenanganActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtpenanganActionPerformed
+    private void txtintActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtintActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtintActionPerformed
 
-        private void tabelpenilaianMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelpenilaianMouseClicked
-                bsimpan.setEnabled(false);
-                bhapus.setEnabled(true);
-                int bar = tabelpenilaian.getSelectedRow();
-                String a = tabmode.getValueAt(bar, 0).toString();
-                String b = tabmode.getValueAt(bar, 1).toString();
-                String c = tabmode.getValueAt(bar, 2).toString();
-                String d = tabmode.getValueAt(bar, 3).toString();
-                String e = tabmode.getValueAt(bar, 4).toString();
-                String f = tabmode.getValueAt(bar, 5).toString();
-                String g = tabmode.getValueAt(bar, 6).toString();
-                txtid.setText(a);
-                txtnm.setText(b);
-                txtk1.setText(c);
-                txtk2.setText(d);
-                txtk3.setText(e);
-                txtk4.setText(f);
-                txtk5.setText(g);
-        }// GEN-LAST:event_tabelpenilaianMouseClicked
+    private void txtpenanganActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtpenanganActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtpenanganActionPerformed
 
-        private void bsimpanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bsimpanActionPerformed
-                String textId, textNama, textTepat, textAkurasi, textJml, textInt, textPenangan;
+    private void tabelpenilaianMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_tabelpenilaianMouseClicked
+        bsimpan.setEnabled(false);
+        bhapus.setEnabled(true);
+        int bar = tabelpenilaian.getSelectedRow();
+        String a = tabmode.getValueAt(bar, 0).toString();
+        String b = tabmode.getValueAt(bar, 1).toString();
+        String c = tabmode.getValueAt(bar, 2).toString();
+        String d = tabmode.getValueAt(bar, 3).toString();
+        String e = tabmode.getValueAt(bar, 4).toString();
+        String f = tabmode.getValueAt(bar, 5).toString();
+        String g = tabmode.getValueAt(bar, 6).toString();
+        txtid.setText(a);
+        txtnm.setText(b);
+        txtk1.setText(c);
+        txtk2.setText(d);
+        txtk3.setText(e);
+        txtk4.setText(f);
+        txtk5.setText(g);
+    }// GEN-LAST:event_tabelpenilaianMouseClicked
 
-                textId = txtid.getText();
-                textNama = txtnm.getText();
-                textTepat = txtk1.getText();
-                textAkurasi = txtk2.getText();
-                textJml = txtk3.getText();
-                textInt = txtk4.getText();
-                textPenangan = txtk5.getText();
-                if ((textId.equals("") | (textNama.equals("") | textTepat.equals("") | textAkurasi.equals("")
-                                | textJml.equals("") | textInt.equals("") | textPenangan.equals("")))) {
-                        JOptionPane.showMessageDialog(null, "Pengisian Data Tidak Boleh Kosong");
-                        txtid.requestFocus();
+    private void bsimpanActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bsimpanActionPerformed
+        String textId, textNama, textTepat, textAkurasi, textJml, textInt, textPenangan;
+
+        textId = txtid.getText();
+        textNama = txtnm.getText();
+        textTepat = txtk1.getText();
+        textAkurasi = txtk2.getText();
+        textJml = txtk3.getText();
+        textInt = txtk4.getText();
+        textPenangan = txtk5.getText();
+        if ((textId.equals("") | (textNama.equals("") | textTepat.equals("") | textAkurasi.equals("")
+                | textJml.equals("") | textInt.equals("") | textPenangan.equals("")))) {
+            JOptionPane.showMessageDialog(null, "Pengisian Data Tidak Boleh Kosong");
+            txtid.requestFocus();
+        } else {
+            tambah();
+        }
+    }// GEN-LAST:event_bsimpanActionPerformed
+
+    private void bhapusActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bhapusActionPerformed
+        int ok = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus utility ini?", "Konfirmasi dialog!",
+                JOptionPane.YES_NO_OPTION);
+        if (ok == 0) {
+            int row = tabelpenilaian.getSelectedRow();
+            String cell = tabelpenilaian.getModel().getValueAt(row, 0).toString();
+            String sql = "delete from utility where id_siswa = '" + cell + "'";
+            try {
+                PreparedStatement stat = conn.prepareStatement(sql);
+                stat.executeUpdate();
+                JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
+            } catch (SQLException e) {
+                JOptionPane.showMessageDialog(null, "Data gagal dihapus" + e);
+            }
+            datatable();
+            kosong();
+            bsimpan.setEnabled(true);
+            bhapus.setEnabled(false);
+        }
+    }// GEN-LAST:event_bhapusActionPerformed
+
+    private void bbersihActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bbersihActionPerformed
+        kosong();
+    }// GEN-LAST:event_bbersihActionPerformed
+
+    private void txtk1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtk1ActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtk1ActionPerformed
+
+    private void txtk2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtk2ActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtk2ActionPerformed
+
+    private void txtk3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtk3ActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtk3ActionPerformed
+
+    private void txtk4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtk4ActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtk4ActionPerformed
+
+    private void txtk5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtk5ActionPerformed
+        // TODO add your handling code here:
+    }// GEN-LAST:event_txtk5ActionPerformed
+
+    private void brefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_brefreshActionPerformed
+        datatable();
+        txtcari.setText("");
+        pl = new PlaceHolder(txtcari, "Pencarian data...");
+        bsimpan.setEnabled(true);
+
+        bhapus.setEnabled(false);
+    }// GEN-LAST:event_brefreshActionPerformed
+
+    private void bcekActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcekActionPerformed
+        try {
+            // Validasi input tidak kosong
+            if (txtid.getText().trim().isEmpty() || txtnm.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null,
+                        "ID Siswa dan Nama Siswa harus diisi terlebih dahulu!", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 1. Ambil input dari field (yang sudah diisi dari tabel penilaian)
+            // CATATAN: Field ini berisi nilai yang sudah dikonversi (dari tabel penilaian),
+            // bukan nilai mentah dari tabel alternatif
+            String akademikStr = txttepat.getText().trim();
+            String prestasiStr = txtakurasi.getText().trim();
+            String kehadiranStr = txtjml.getText().trim();
+            String sikapStr = txtint.getText().trim();
+            String partisipasiStr = txtpenangan.getText().trim();
+
+            // Validasi field tidak kosong
+            if (akademikStr.isEmpty() || prestasiStr.isEmpty() || kehadiranStr.isEmpty()
+                    || sikapStr.isEmpty() || partisipasiStr.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Semua field kriteria harus diisi!", "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int skorK1 = 0, skorK2 = 0, skorK3 = 0, skorK4 = 0, skorK5 = 0;
+
+            // 2. Konversi input ke skor numerik (karena field sudah berisi nilai
+            // terkonversi dari tabel penilaian)
+            try {
+                skorK1 = Integer.parseInt(akademikStr);
+                skorK2 = Integer.parseInt(prestasiStr);
+                skorK3 = Integer.parseInt(kehadiranStr);
+                skorK4 = Integer.parseInt(sikapStr);
+                skorK5 = Integer.parseInt(partisipasiStr);
+
+                // Debug: tampilkan skor yang digunakan
+                System.out.printf(
+                        "DEBUG - Skor dari tabel penilaian: K1=%d, K2=%d, K3=%d, K4=%d, K5=%d%n",
+                        skorK1, skorK2, skorK3, skorK4, skorK5);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null,
+                        "Semua field kriteria harus berupa angka (skor yang sudah dikonversi)!",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // 3. Hitung Utility sesuai dengan formula paper (Table 4.20)
+            // Ui(ai) = (Cij - CjMin) / (CjMax - CjMin)
+            // Min/Max values berdasarkan Table 4.9 dari paper
+            int[] minValues = {90, 60, 60, 85, 75}; // Min values dari semua siswa di Table 4.9
+            int[] maxValues = {100, 90, 100, 100, 100}; // Max values dari semua siswa di Table 4.9
+            int[] skorArr = {skorK1, skorK2, skorK3, skorK4, skorK5};
+            double[] utilities = new double[5];
+
+            // Debug info - tampilkan skor yang digunakan
+            String debugInfo = String.format("DEBUG - Skor Konversi:\nK1=%d, K2=%d, K3=%d, K4=%d, K5=%d\n",
+                    skorK1, skorK2, skorK3, skorK4, skorK5);
+            System.out.println(debugInfo);
+
+            for (int i = 0; i < 5; i++) {
+                if (maxValues[i] == minValues[i]) {
+                    utilities[i] = 0.0;
                 } else {
-                        tambah();
+                    utilities[i] = (double) (skorArr[i] - minValues[i])
+                            / (double) (maxValues[i] - minValues[i]);
                 }
-        }// GEN-LAST:event_bsimpanActionPerformed
+                // Pastikan dalam range 0-1
+                utilities[i] = Math.max(0.0, Math.min(1.0, utilities[i]));
 
-        private void bhapusActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bhapusActionPerformed
-                int ok = JOptionPane.showConfirmDialog(null, "Yakin ingin menghapus utility ini?", "Konfirmasi dialog!",
-                                JOptionPane.YES_NO_OPTION);
-                if (ok == 0) {
-                        int row = tabelpenilaian.getSelectedRow();
-                        String cell = tabelpenilaian.getModel().getValueAt(row, 0).toString();
-                        String sql = "delete from utility where id_siswa = '" + cell + "'";
-                        try {
-                                PreparedStatement stat = conn.prepareStatement(sql);
-                                stat.executeUpdate();
-                                JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
-                        } catch (SQLException e) {
-                                JOptionPane.showMessageDialog(null, "Data gagal dihapus" + e);
-                        }
-                        datatable();
-                        kosong();
-                        bsimpan.setEnabled(true);
-                        bhapus.setEnabled(false);
-                }
-        }// GEN-LAST:event_bhapusActionPerformed
+                // Debug utility calculation
+                System.out.printf("K%d: (%d-%d)/(%d-%d) = %.3f\n",
+                        i + 1, skorArr[i], minValues[i], maxValues[i], minValues[i],
+                        utilities[i]);
+            }
 
-        private void bbersihActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bbersihActionPerformed
-                kosong();
-        }// GEN-LAST:event_bbersihActionPerformed
+            // 4. Tampilkan hasil utility pada field K1-K5 (format 3 decimal places)
+            txtk1.setText(String.format("%.3f", utilities[0]));
+            txtk2.setText(String.format("%.3f", utilities[1]));
+            txtk3.setText(String.format("%.3f", utilities[2]));
+            txtk4.setText(String.format("%.3f", utilities[3]));
+            txtk5.setText(String.format("%.3f", utilities[4]));
 
-        private void txtk1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtk1ActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtk1ActionPerformed
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }// GEN-LAST:event_bcekActionPerformed
 
-        private void txtk2ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtk2ActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtk2ActionPerformed
+    private void bcariActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcariActionPerformed
+        cari();
+    }// GEN-LAST:event_bcariActionPerformed
 
-        private void txtk3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtk3ActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtk3ActionPerformed
-
-        private void txtk4ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtk4ActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtk4ActionPerformed
-
-        private void txtk5ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtk5ActionPerformed
-                // TODO add your handling code here:
-        }// GEN-LAST:event_txtk5ActionPerformed
-
-        private void brefreshActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_brefreshActionPerformed
-                datatable();
-                txtcari.setText("");
-                pl = new PlaceHolder(txtcari, "Pencarian data...");
-                bsimpan.setEnabled(true);
-
-                bhapus.setEnabled(false);
-        }// GEN-LAST:event_brefreshActionPerformed
-
-        private void bcekActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcekActionPerformed
-                try {
-                        // Validasi input tidak kosong
-                        if (txtid.getText().trim().isEmpty() || txtnm.getText().trim().isEmpty()) {
-                                JOptionPane.showMessageDialog(null,
-                                                "ID Siswa dan Nama Siswa harus diisi terlebih dahulu!", "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-                                return;
-                        }
-
-                        // 1. Ambil input dari field (yang sudah diisi dari tabel penilaian)
-                        // CATATAN: Field ini berisi nilai yang sudah dikonversi (dari tabel penilaian),
-                        // bukan nilai mentah dari tabel alternatif
-                        String akademikStr = txttepat.getText().trim();
-                        String prestasiStr = txtakurasi.getText().trim();
-                        String kehadiranStr = txtjml.getText().trim();
-                        String sikapStr = txtint.getText().trim();
-                        String partisipasiStr = txtpenangan.getText().trim();
-
-                        // Validasi field tidak kosong
-                        if (akademikStr.isEmpty() || prestasiStr.isEmpty() || kehadiranStr.isEmpty() ||
-                                        sikapStr.isEmpty() || partisipasiStr.isEmpty()) {
-                                JOptionPane.showMessageDialog(null, "Semua field kriteria harus diisi!", "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-                                return;
-                        }
-
-                        int skorK1 = 0, skorK2 = 0, skorK3 = 0, skorK4 = 0, skorK5 = 0;
-
-                        // 2. Konversi input ke skor numerik (karena field sudah berisi nilai
-                        // terkonversi dari tabel penilaian)
-                        try {
-                                skorK1 = Integer.parseInt(akademikStr);
-                                skorK2 = Integer.parseInt(prestasiStr);
-                                skorK3 = Integer.parseInt(kehadiranStr);
-                                skorK4 = Integer.parseInt(sikapStr);
-                                skorK5 = Integer.parseInt(partisipasiStr);
-
-                                // Debug: tampilkan skor yang digunakan
-                                System.out.printf(
-                                                "DEBUG - Skor dari tabel penilaian: K1=%d, K2=%d, K3=%d, K4=%d, K5=%d%n",
-                                                skorK1, skorK2, skorK3, skorK4, skorK5);
-                        } catch (NumberFormatException e) {
-                                JOptionPane.showMessageDialog(null,
-                                                "Semua field kriteria harus berupa angka (skor yang sudah dikonversi)!",
-                                                "Error",
-                                                JOptionPane.ERROR_MESSAGE);
-                                return;
-                        }
-
-                        // 3. Hitung Utility sesuai dengan formula paper (Table 4.20)
-                        // Ui(ai) = (Cij - CjMin) / (CjMax - CjMin)
-                        // Min/Max values berdasarkan Table 4.9 dari paper
-                        int[] minValues = { 90, 60, 60, 85, 75 }; // Min values dari semua siswa di Table 4.9
-                        int[] maxValues = { 100, 90, 100, 100, 100 }; // Max values dari semua siswa di Table 4.9
-                        int[] skorArr = { skorK1, skorK2, skorK3, skorK4, skorK5 };
-                        double[] utilities = new double[5];
-
-                        // Debug info - tampilkan skor yang digunakan
-                        String debugInfo = String.format("DEBUG - Skor Konversi:\nK1=%d, K2=%d, K3=%d, K4=%d, K5=%d\n",
-                                        skorK1, skorK2, skorK3, skorK4, skorK5);
-                        System.out.println(debugInfo);
-
-                        for (int i = 0; i < 5; i++) {
-                                if (maxValues[i] == minValues[i]) {
-                                        utilities[i] = 0.0;
-                                } else {
-                                        utilities[i] = (double) (skorArr[i] - minValues[i])
-                                                        / (double) (maxValues[i] - minValues[i]);
-                                }
-                                // Pastikan dalam range 0-1
-                                utilities[i] = Math.max(0.0, Math.min(1.0, utilities[i]));
-
-                                // Debug utility calculation
-                                System.out.printf("K%d: (%d-%d)/(%d-%d) = %.3f\n",
-                                                i + 1, skorArr[i], minValues[i], maxValues[i], minValues[i],
-                                                utilities[i]);
-                        }
-
-                        // 4. Tampilkan hasil utility pada field K1-K5 (format 3 decimal places)
-                        txtk1.setText(String.format("%.3f", utilities[0]));
-                        txtk2.setText(String.format("%.3f", utilities[1]));
-                        txtk3.setText(String.format("%.3f", utilities[2]));
-                        txtk4.setText(String.format("%.3f", utilities[3]));
-                        txtk5.setText(String.format("%.3f", utilities[4]));
-
-                } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, "Terjadi kesalahan: " + e.getMessage(), "Error",
-                                        JOptionPane.ERROR_MESSAGE);
-                        e.printStackTrace();
-                }
-        }// GEN-LAST:event_bcekActionPerformed
-
-        private void bcariActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bcariActionPerformed
-                cari();
-        }// GEN-LAST:event_bcariActionPerformed
-
-        /**
-         * @param args the command line arguments
-         */
-        public static void main(String args[]) {
-                /* Set the Nimbus look and feel */
-                // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
-                // (optional) ">
-                /*
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        // <editor-fold defaultstate="collapsed" desc=" Look and feel setting code
+        // (optional) ">
+        /*
                  * If Nimbus (introduced in Java SE 6) is not available, stay with the default
                  * look and feel.
                  * For details see
                  * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-                 */
-                try {
-                        for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
-                                        .getInstalledLookAndFeels()) {
-                                if ("Nimbus".equals(info.getName())) {
-                                        javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                                        break;
-                                }
-                        }
-                } catch (ClassNotFoundException ex) {
-                        java.util.logging.Logger.getLogger(Utility.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (InstantiationException ex) {
-                        java.util.logging.Logger.getLogger(Utility.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (IllegalAccessException ex) {
-                        java.util.logging.Logger.getLogger(Utility.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
-                } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-                        java.util.logging.Logger.getLogger(Utility.class.getName()).log(java.util.logging.Level.SEVERE,
-                                        null, ex);
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager
+                    .getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
                 }
-                // </editor-fold>
-                // </editor-fold>
-
-                /* Create and display the form */
-                java.awt.EventQueue.invokeLater(new Runnable() {
-                        public void run() {
-                                new Utility().setVisible(true);
-                        }
-                });
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Utility.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Utility.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Utility.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Utility.class.getName()).log(java.util.logging.Level.SEVERE,
+                    null, ex);
         }
+        // </editor-fold>
+        // </editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Utility().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bbersih;
@@ -1081,6 +1105,7 @@ public class Utility extends javax.swing.JFrame {
     private javax.swing.JButton bhapus;
     private javax.swing.JButton brefresh;
     private javax.swing.JButton bsimpan;
+    private javax.swing.JButton cetak;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel15;

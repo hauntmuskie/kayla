@@ -1,0 +1,78 @@
+@startuml Sequence_5_Utility
+
+title 5. Perhitungan Utility (Normalisasi 0-1)
+
+actor "Admin/Guru" as User
+boundary "MenuUtama" as Menu
+boundary "Utility" as UtilityUI
+boundary "PopupPenilaian" as PopupUI
+database "Database MySQL" as DB
+
+User -> Menu: Buka Perhitungan Utility
+activate Menu
+
+Menu -> UtilityUI: Tampilkan Form Utility
+activate UtilityUI
+
+User -> UtilityUI: Klik Pilih dari Data Penilaian
+
+UtilityUI -> PopupUI: Buka Popup Penilaian
+activate PopupUI
+
+PopupUI -> DB: SELECT * FROM penilaian
+activate DB
+DB --> PopupUI: Return data penilaian
+deactivate DB
+
+PopupUI --> UtilityUI: Tampilkan daftar penilaian
+
+User -> PopupUI: Pilih data penilaian
+PopupUI --> UtilityUI: Return data penilaian terpilih\n(Nilai skala 0-100)
+deactivate PopupUI
+
+User -> UtilityUI: Klik "Menghitung Nilai Utility"
+
+UtilityUI -> DB: SELECT MIN(nilai), MAX(nilai) FROM penilaian\nFOR EACH kriteria
+activate DB
+DB --> UtilityUI: Return nilai min & max per kriteria
+deactivate DB
+
+UtilityUI -> UtilityUI: Hitung Utility per Kriteria:\nUtility = (Nilai - Min) / (Max - Min)\n\nContoh:\n- K1: (90-85)/(95-85) = 0.5\n- K2: (70-60)/(90-60) = 0.333\n- K3: (80-70)/(90-70) = 0.5\n- K4: (85-85)/(100-85) = 0.0\n- K5: (100-75)/(100-75) = 1.0
+
+UtilityUI --> User: Tampilkan Hasil Utility\n(K1: 0.500, K2: 0.333, K3: 0.500,\nK4: 0.000, K5: 1.000)
+
+alt User Setuju
+    UtilityUI -> DB: INSERT/UPDATE INTO utility\n(id_siswa, nama_siswa, utility_akademik,\nutility_prestasi, utility_kehadiran,\nutility_sikap, utility_partisipasi)
+    activate DB
+    DB --> UtilityUI: Sukses
+    deactivate DB
+    
+    UtilityUI --> User: Data Utility Tersimpan
+else User Tidak Setuju
+    UtilityUI --> User: Batalkan perhitungan
+end
+
+UtilityUI -> UtilityUI: Refresh Tabel
+UtilityUI -> DB: SELECT * FROM utility
+activate DB
+DB --> UtilityUI: Return daftar utility
+deactivate DB
+
+deactivate UtilityUI
+deactivate Menu
+
+note right of UtilityUI
+Rumus Normalisasi Utility:
+Utility = (Nilai - Nilai_Min) / (Nilai_Max - Nilai_Min)
+
+Hasil:
+- Range: 0.000 - 1.000
+- 0.000 = Nilai terendah
+- 1.000 = Nilai tertinggi
+- Nilai lain = Proporsional
+
+Contoh jika Min=60, Max=100, Nilai=80:
+Utility = (80-60)/(100-60) = 20/40 = 0.500
+end note
+
+@enduml

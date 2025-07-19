@@ -14,15 +14,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
  * @author Elza Kayla
  */
 public class DataAlternatif extends javax.swing.JFrame {
+
     private Connection conn = new DatabaseConnection().connect();
     private DefaultTableModel tabmode;
     PlaceHolder pl;
@@ -51,8 +57,8 @@ public class DataAlternatif extends javax.swing.JFrame {
     }
 
     private void datatable() {
-        Object[] Baris = { "ID Siswa", "Nama Siswa", "Nilai Akademik", "Prestasi Non-Akademik", "Kehadiran",
-                "Sikap/Perilaku", "Partisipasi Kegiatan" };
+        Object[] Baris = {"ID Siswa", "Nama Siswa", "Nilai Akademik", "Prestasi Non-Akademik", "Kehadiran",
+            "Sikap/Perilaku", "Partisipasi Kegiatan"};
         tabmode = new DefaultTableModel(null, Baris);
 
         try {
@@ -60,15 +66,14 @@ public class DataAlternatif extends javax.swing.JFrame {
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
-                tabmode.addRow(new Object[] {
-                        hasil.getString("id_siswa"),
-                        hasil.getString("nama_siswa"),
-                        hasil.getString("nilai_akademik"),
-                        hasil.getString("prestasi_non_akademik"),
-                        hasil.getString("kehadiran"),
-                        hasil.getString("sikap_perilaku"),
-                        hasil.getString("partisipasi_kegiatan"),
-                });
+                tabmode.addRow(new Object[]{
+                    hasil.getString("id_siswa"),
+                    hasil.getString("nama_siswa"),
+                    hasil.getString("nilai_akademik"),
+                    hasil.getString("prestasi_non_akademik"),
+                    hasil.getString("kehadiran"),
+                    hasil.getString("sikap_perilaku"),
+                    hasil.getString("partisipasi_kegiatan"),});
             }
             tabelalternatif.setModel(tabmode);
         } catch (Exception e) {
@@ -77,8 +82,8 @@ public class DataAlternatif extends javax.swing.JFrame {
     }
 
     private void cari() {
-        Object[] Baris = { "ID Siswa", "Nama Siswa", "Nilai Akademik", "Prestasi Non-Akademik", "Kehadiran",
-                "Sikap/Perilaku", "Partisipasi Kegiatan" };
+        Object[] Baris = {"ID Siswa", "Nama Siswa", "Nilai Akademik", "Prestasi Non-Akademik", "Kehadiran",
+            "Sikap/Perilaku", "Partisipasi Kegiatan"};
         tabmode = new DefaultTableModel(null, Baris);
         String cariitem = txtcari.getText();
 
@@ -90,15 +95,14 @@ public class DataAlternatif extends javax.swing.JFrame {
             Statement stat = conn.createStatement();
             ResultSet hasil = stat.executeQuery(sql);
             while (hasil.next()) {
-                tabmode.addRow(new Object[] {
-                        hasil.getString("id_siswa"),
-                        hasil.getString("nama_siswa"),
-                        hasil.getString("nilai_akademik"),
-                        hasil.getString("prestasi_non_akademik"),
-                        hasil.getString("kehadiran"),
-                        hasil.getString("sikap_perilaku"),
-                        hasil.getString("partisipasi_kegiatan"),
-                });
+                tabmode.addRow(new Object[]{
+                    hasil.getString("id_siswa"),
+                    hasil.getString("nama_siswa"),
+                    hasil.getString("nilai_akademik"),
+                    hasil.getString("prestasi_non_akademik"),
+                    hasil.getString("kehadiran"),
+                    hasil.getString("sikap_perilaku"),
+                    hasil.getString("partisipasi_kegiatan"),});
             }
             tabelalternatif.setModel(tabmode);
         } catch (Exception e) {
@@ -229,6 +233,7 @@ public class DataAlternatif extends javax.swing.JFrame {
         brefresh = new javax.swing.JButton();
         bcari = new javax.swing.JButton();
         txtcari = new javax.swing.JTextField();
+        cetak = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -490,6 +495,16 @@ public class DataAlternatif extends javax.swing.JFrame {
 
         txtcari.setBackground(new java.awt.Color(234, 228, 213));
 
+        cetak.setBackground(new java.awt.Color(138, 120, 78));
+        cetak.setFont(new java.awt.Font("Segoe UI", 1, 13)); // NOI18N
+        cetak.setForeground(new java.awt.Color(255, 255, 255));
+        cetak.setText("Cetak");
+        cetak.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cetakActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -508,19 +523,21 @@ public class DataAlternatif extends javax.swing.JFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(brefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
                                     .addComponent(bsimpan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
                                         .addComponent(bubah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(18, 18, 18)
                                         .addComponent(bbersih, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtcari)))
+                                    .addGroup(jPanel2Layout.createSequentialGroup()
+                                        .addGap(0, 0, Short.MAX_VALUE)
+                                        .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(bcari, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(bhapus, javax.swing.GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
-                                    .addComponent(bcari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bhapus, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cetak, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(411, 411, 411)
@@ -553,7 +570,8 @@ public class DataAlternatif extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(brefresh)
                             .addComponent(txtcari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(bcari))
+                            .addComponent(bcari)
+                            .addComponent(cetak))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18))
@@ -565,7 +583,7 @@ public class DataAlternatif extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 6, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -575,6 +593,19 @@ public class DataAlternatif extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cetakActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cetakActionPerformed
+        // TODO add your handling code here:
+        try {
+            String report = "./src/reports/laporan_data_alternatif.jasper";
+            HashMap<String, Object> param = new HashMap<>();
+            // param.put("parameter1", cari.getText());
+            JasperPrint print = JasperFillManager.fillReport(report, param, conn);
+            JasperViewer.viewReport(print, false);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(rootPane, ex);
+        }
+    }//GEN-LAST:event_cetakActionPerformed
 
     private void txtjmlActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_txtjmlActionPerformed
         // TODO add your handling code here:
@@ -782,6 +813,7 @@ public class DataAlternatif extends javax.swing.JFrame {
     private javax.swing.JButton brefresh;
     private javax.swing.JButton bsimpan;
     private javax.swing.JButton bubah;
+    private javax.swing.JButton cetak;
     private javax.swing.JComboBox cmbPartisipasi;
     private javax.swing.JComboBox cmbPrestasi;
     private javax.swing.JComboBox cmbSikap;

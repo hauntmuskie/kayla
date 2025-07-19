@@ -1,0 +1,68 @@
+@startuml Sequence_3_Data_Alternatif
+
+title 3. Data Alternatif (Input Nilai Mentah)
+
+actor "Admin/Guru" as User
+boundary "MenuUtama" as Menu
+boundary "DataAlternatif" as AlternatifUI
+boundary "PopupSiswa" as PopupUI
+database "Database MySQL" as DB
+
+User -> Menu: Buka Data Alternatif
+activate Menu
+
+Menu -> AlternatifUI: Tampilkan Form Alternatif
+activate AlternatifUI
+
+User -> AlternatifUI: Klik Pilih Siswa
+
+AlternatifUI -> PopupUI: Buka Popup Siswa
+activate PopupUI
+
+PopupUI -> DB: SELECT * FROM siswa
+activate DB
+DB --> PopupUI: Return daftar siswa
+deactivate DB
+
+PopupUI --> AlternatifUI: Tampilkan daftar siswa
+
+User -> PopupUI: Pilih siswa
+PopupUI --> AlternatifUI: Return data siswa terpilih\n(ID, Nama)
+deactivate PopupUI
+
+User -> AlternatifUI: Input Nilai Mentah:\n- Nilai Akademik (decimal)\n- Prestasi Non-Akademik (text)\n- Kehadiran (decimal)\n- Sikap Perilaku (text)\n- Partisipasi Kegiatan (text)
+
+AlternatifUI -> AlternatifUI: Validasi Input
+
+alt Input Valid
+    AlternatifUI -> DB: INSERT INTO alternatif\n(id_siswa, nama_siswa, nilai_akademik,\nprestasi_non_akademik, kehadiran,\nsikap_perilaku, partisipasi_kegiatan)
+    activate DB
+    DB --> AlternatifUI: Sukses
+    deactivate DB
+    
+    AlternatifUI --> User: Data Alternatif Tersimpan
+else Input Tidak Valid
+    AlternatifUI --> User: Error: Periksa input data
+end
+
+AlternatifUI -> AlternatifUI: Refresh Tabel
+AlternatifUI -> DB: SELECT * FROM alternatif
+activate DB
+DB --> AlternatifUI: Return daftar alternatif
+deactivate DB
+
+deactivate AlternatifUI
+deactivate Menu
+
+note right of AlternatifUI
+Format Input Mentah:
+- Akademik: 85.5, 90.0, dll
+- Prestasi: "Tidak ada", "Partisipasi aktif", 
+  "Juara tingkat sekolah", dll
+- Kehadiran: 90.5, 95.0, dll
+- Sikap: "Baik", "Sangat Baik"
+- Partisipasi: "Aktif rutin", 
+  "Aktif dan memiliki peran", dll
+end note
+
+@enduml

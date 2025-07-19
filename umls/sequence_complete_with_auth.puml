@@ -1,0 +1,114 @@
+@startuml Sequence_Complete_Simple
+
+title Sistem Evaluasi Kinerja Siswa - Alur Lengkap Sederhana
+
+actor "Admin/Guru" as User
+boundary "MenuUtama" as Menu
+boundary "DataSiswa" as SiswaUI
+boundary "DataKriteria" as KriteriaUI
+boundary "DataAlternatif" as AlternatifUI
+boundary "DataPenilaian" as PenilaianUI
+boundary "Utility" as UtilityUI
+boundary "DataRank" as RankUI
+control "AutoIDGenerator" as IDGen
+database "Database MySQL" as DB
+
+== 0. Mulai Aplikasi ==
+User -> Menu: Jalankan Aplikasi
+activate Menu
+Menu -> DB: Test Database Connection
+activate DB
+DB --> Menu: Connection OK
+deactivate DB
+Menu --> User: Tampilkan Menu Utama
+
+== 1. Pengelolaan Data Siswa ==
+User -> Menu: Klik "Data Siswa"
+Menu -> SiswaUI: new DataSiswa().setVisible(true)
+activate SiswaUI
+User -> SiswaUI: Input & Simpan Data Siswa
+SiswaUI -> IDGen: Generate ID
+SiswaUI -> DB: INSERT INTO siswa
+DB --> SiswaUI: Success
+User -> SiswaUI: Klik "Kembali"
+SiswaUI -> Menu: dispose() & show MenuUtama
+deactivate SiswaUI
+
+== 2. Setup Data Kriteria ==
+User -> Menu: Klik "Data Kriteria"
+Menu -> KriteriaUI: new DataKriteria().setVisible(true)
+activate KriteriaUI
+User -> KriteriaUI: Input & Simpan Kriteria
+KriteriaUI -> DB: INSERT INTO kriteria
+DB --> KriteriaUI: Success
+User -> KriteriaUI: Klik "Kembali"
+KriteriaUI -> Menu: dispose() & show MenuUtama
+deactivate KriteriaUI
+
+== 3. Data Alternatif ==
+User -> Menu: Klik "Data Alternatif"
+Menu -> AlternatifUI: new DataAlternatif().setVisible(true)
+activate AlternatifUI
+User -> AlternatifUI: Input & Simpan Nilai Mentah
+AlternatifUI -> DB: INSERT INTO alternatif
+DB --> AlternatifUI: Success
+User -> AlternatifUI: Klik "Kembali"
+AlternatifUI -> Menu: dispose() & show MenuUtama
+deactivate AlternatifUI
+
+== 4. Data Penilaian ==
+User -> Menu: Klik "Data Penilaian"
+Menu -> PenilaianUI: new DataPenilaian().setVisible(true)
+activate PenilaianUI
+User -> PenilaianUI: Konversi & Simpan Skor 0-100
+PenilaianUI -> DB: INSERT INTO penilaian
+DB --> PenilaianUI: Success
+User -> PenilaianUI: Klik "Kembali"
+PenilaianUI -> Menu: dispose() & show MenuUtama
+deactivate PenilaianUI
+
+== 5. Metode SMART ==
+User -> Menu: Klik "Metode SMART"
+Menu -> UtilityUI: new Utility().setVisible(true)
+activate UtilityUI
+User -> UtilityUI: Hitung & Simpan Utility
+UtilityUI -> DB: INSERT INTO utility
+DB --> UtilityUI: Success
+User -> UtilityUI: Lanjut ke Ranking
+UtilityUI -> RankUI: new DataRank().setVisible(true)
+activate RankUI
+User -> RankUI: Hitung & Simpan Ranking Final
+RankUI -> DB: INSERT INTO nilai_akhir
+DB --> RankUI: Success
+User -> RankUI: Klik "Kembali"
+RankUI -> Menu: dispose() & show MenuUtama
+deactivate RankUI
+deactivate UtilityUI
+
+== 6. Keluar Aplikasi ==
+User -> Menu: Klik X (close)
+Menu -> DB: Close Connection
+DB --> Menu: Connection Closed
+Menu -> Menu: System.exit(0)
+deactivate Menu
+
+note over User, DB
+**Alur Sederhana:**
+0. Jalankan aplikasi → Menu utama
+1-5. Pilih menu → Form terbuka → Input/proses → Kembali
+6. Tutup aplikasi
+
+**Tidak ada:**
+- Login/password
+- Session management
+- Complex authentication
+- User roles
+
+**Yang ada:**
+- Direct access ke menu
+- Simple form navigation
+- Database CRUD operations
+- Basic error handling
+end note
+
+@enduml
