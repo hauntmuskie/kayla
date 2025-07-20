@@ -4,6 +4,7 @@
 	<property name="ireport.zoom" value="1.331000000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Kayla"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT
      siswa.`id_siswa` AS siswa_id_siswa,
@@ -134,7 +135,7 @@ FROM
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="19" splitType="Stretch">
+		<band height="18" splitType="Stretch">
 			<rectangle>
 				<reportElement x="62" y="-2" width="76" height="20" uuid="deab7114-c8ae-4116-936e-9b81dd30e952"/>
 			</rectangle>
@@ -190,40 +191,40 @@ FROM
 	<columnFooter>
 		<band height="182" splitType="Stretch">
 			<staticText>
-				<reportElement x="634" y="160" width="89" height="22" uuid="84d83029-4d51-470d-b4f1-1920c908abcc"/>
-				<textElement textAlignment="Left">
-					<font fontName="Times New Roman" size="12"/>
-				</textElement>
-				<text><![CDATA[Nur Hasanudin]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="634" y="80" width="99" height="22" uuid="851f965b-109e-4e4e-af8b-a1aedc2b2816"/>
-				<textElement textAlignment="Left">
-					<font fontName="Times New Roman" size="12"/>
-				</textElement>
-				<text><![CDATA[Waka Kurikulum]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="634" y="50" width="68" height="22" uuid="999af491-03e5-4e44-8852-0886c1496faf"/>
-				<textElement textAlignment="Left">
-					<font fontName="Times New Roman" size="12"/>
-				</textElement>
-				<text><![CDATA[Mengetahui,]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="634" y="20" width="36" height="22" uuid="1ade2beb-4e9b-4e33-9eae-d72cf9dce486"/>
-				<textElement textAlignment="Left">
+				<reportElement x="634" y="20" width="36" height="20" uuid="c5941328-5440-4ae8-aec1-337b1e3eae17"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Depok, ]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="673" y="20" width="106" height="22" uuid="b7a85d36-9df4-4f8a-83ab-94ec9cc10c4c"/>
-				<textElement textAlignment="Left">
+				<reportElement x="673" y="20" width="106" height="20" uuid="1e34b570-433f-4adf-8fef-82fbcc9efe02"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="634" y="40" width="68" height="20" uuid="cea9de80-d1af-4f09-8992-f9d36272a43b"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Mengetahui,]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="634" y="60" width="86" height="20" uuid="2fcf80ff-4f84-465f-9a1c-0779879559b2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Waka Kurikulum]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="634" y="160" width="74" height="20" uuid="e51ffbf5-9ec1-47ef-8a33-3f28eb9f86a1"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12"/>
+				</textElement>
+				<text><![CDATA[Nur Hasanudin]]></text>
+			</staticText>
 		</band>
 	</columnFooter>
 	<pageFooter>
