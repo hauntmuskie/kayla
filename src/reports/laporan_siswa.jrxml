@@ -97,35 +97,35 @@ FROM
 				<reportElement x="296" y="39" width="100" height="20" uuid="e12cf291-0c19-431a-8c9e-1bd79a0a24c8"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="62" y="39" width="76" height="18" uuid="15dde61e-7c53-48af-a143-a3458bad17fc"/>
+				<reportElement x="62" y="39" width="76" height="19" uuid="15dde61e-7c53-48af-a143-a3458bad17fc"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ID Siswa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="138" y="38" width="158" height="20" uuid="da3e8a3a-4ab5-4170-a516-93c803071035"/>
+				<reportElement x="138" y="39" width="158" height="19" uuid="da3e8a3a-4ab5-4170-a516-93c803071035"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nama Siswa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="296" y="38" width="100" height="20" uuid="98366d79-8bd8-462e-8bfb-15f2ec807ead"/>
+				<reportElement x="296" y="39" width="100" height="19" uuid="98366d79-8bd8-462e-8bfb-15f2ec807ead"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[NIS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="521" y="38" width="228" height="20" uuid="3bfe957b-825f-4ba1-815d-9b1a33beb035"/>
+				<reportElement x="521" y="39" width="228" height="19" uuid="3bfe957b-825f-4ba1-815d-9b1a33beb035"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Alamat]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="397" y="38" width="124" height="20" uuid="2e9813ce-5f56-47d0-b9d0-94c3aa4540e6"/>
+				<reportElement x="397" y="39" width="124" height="19" uuid="2e9813ce-5f56-47d0-b9d0-94c3aa4540e6"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
@@ -152,35 +152,35 @@ FROM
 			</rectangle>
 			<textField>
 				<reportElement x="62" y="-1" width="76" height="18" uuid="2e1e5bd8-7c11-4071-868f-d408500cebdc"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{siswa_id_siswa}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="138" y="-1" width="158" height="18" uuid="decfe72e-dabf-4124-9787-ca6561d50962"/>
-				<textElement textAlignment="Left">
+				<reportElement x="146" y="-1" width="150" height="18" uuid="decfe72e-dabf-4124-9787-ca6561d50962"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{siswa_nama_siswa}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="296" y="-1" width="100" height="18" uuid="e5165bcd-d641-4e44-a53c-cacaaddc4867"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{siswa_nis}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="396" y="-1" width="125" height="18" uuid="e5f95a2f-1139-4a57-8966-f510654f6e13"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{siswa_kelas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="522" y="-1" width="226" height="18" uuid="f8f508ad-678f-4b1a-9318-000e8c5c038e"/>
-				<textElement textAlignment="Left">
+				<reportElement x="530" y="-1" width="218" height="18" uuid="f8f508ad-678f-4b1a-9318-000e8c5c038e"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{siswa_alamat}]]></textFieldExpression>

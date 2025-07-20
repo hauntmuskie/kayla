@@ -109,21 +109,21 @@ FROM
 			</rectangle>
 			<staticText>
 				<reportElement x="156" y="41" width="110" height="20" uuid="ba16ab82-76c6-4b7d-a3b3-4d452dc1e542"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Kode Kriteria]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="266" y="41" width="250" height="20" uuid="870d1d4a-485b-468b-8a99-9f25a937170e"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nama Kriteria]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="516" y="41" width="110" height="20" uuid="0bb7e637-728e-4929-aeb6-762f684460dc"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Bobot Kriteria]]></text>
@@ -143,21 +143,21 @@ FROM
 			</rectangle>
 			<textField>
 				<reportElement x="156" y="0" width="110" height="20" uuid="6331d7c6-992d-4f11-90db-9e2f2d5d3b23"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kriteria_kode_kriteria}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="266" y="1" width="250" height="19" uuid="b04192fc-2521-4ad1-a377-644a00f1ad7f"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kriteria_nama_kriteria}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="516" y="1" width="110" height="19" uuid="d47627dd-10fb-4a62-bfac-8a18c0d59390"/>
-				<textElement textAlignment="Center">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Times New Roman"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{kriteria_bobot_kriteria}]]></textFieldExpression>
