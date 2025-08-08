@@ -189,7 +189,7 @@ FROM
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="182" splitType="Stretch">
+		<band height="204" splitType="Stretch">
 			<staticText>
 				<reportElement x="634" y="20" width="36" height="20" uuid="c5941328-5440-4ae8-aec1-337b1e3eae17"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
@@ -225,6 +225,17 @@ FROM
 				</textElement>
 				<text><![CDATA[Nur Hasanudin]]></text>
 			</staticText>
+			<image>
+				<reportElement x="580" y="90" width="194" height="70" uuid="3a0f0625-5b93-40dc-ad4a-24e895915067">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/ttd-kay.jpeg?raw=true"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="580" y="70" width="122" height="120" uuid="5dfd52d2-1041-4e44-ada0-697cfb2953be"/>
+				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/cap-kay.png?raw=true"]]></imageExpression>
+			</image>
 		</band>
 	</columnFooter>
 	<pageFooter>

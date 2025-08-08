@@ -298,7 +298,19 @@ FROM
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="215"/>
+		<band height="203">
+			<image>
+				<reportElement x="580" y="90" width="194" height="70" uuid="9f2c2e36-873e-4a1c-8d53-49ec21140015">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/ttd-kay.jpeg?raw=true"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="580" y="70" width="122" height="120" uuid="ad803d2b-dbca-4962-9ec7-1ab2c870bb2b"/>
+				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/cap-kay.png?raw=true"]]></imageExpression>
+			</image>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="23" splitType="Stretch">
