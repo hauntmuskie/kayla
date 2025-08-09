@@ -299,57 +299,56 @@ FROM
 	</detail>
 	<columnFooter>
 		<band height="203">
-			<image>
-				<reportElement x="350" y="90" width="150" height="70" uuid="9f2c2e36-873e-4a1c-8d53-49ec21140015">
-					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/ttd-kay.jpeg?raw=true"]]></imageExpression>
-			</image>
-			<image>
-				<reportElement x="350" y="70" width="100" height="120" uuid="ad803d2b-dbca-4962-9ec7-1ab2c870bb2b"/>
-				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/cap-kay.png?raw=true"]]></imageExpression>
-			</image>
-		</band>
-	</columnFooter>
-	<pageFooter>
-		<band height="23" splitType="Stretch">
 			<staticText>
-				<reportElement x="400" y="-190" width="36" height="20" uuid="77f9584c-48df-49c6-b9a3-9afaf359c4d6"/>
+				<reportElement x="385" y="20" width="36" height="20" uuid="c20c0158-943a-44d8-90fe-7270a8e8eea8"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Depok, ]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="436" y="-190" width="119" height="20" uuid="6779eea1-8f5e-4b87-a40c-b3146b12ed48"/>
+				<reportElement x="421" y="20" width="134" height="20" uuid="d877d380-5180-41ea-b713-91fcfbff9504"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="400" y="-170" width="68" height="20" uuid="a3f3baa8-63c7-4de2-9e9d-09ee7581917a"/>
+				<reportElement x="385" y="40" width="68" height="20" uuid="18a8e082-8194-4660-8cd6-56f02944bf09"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Mengetahui,]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="-150" width="86" height="20" uuid="e9cb451a-5c58-4bfc-820e-139f998b6ab6"/>
+				<reportElement x="385" y="60" width="86" height="20" uuid="788a0aa9-3dcc-4ce4-a6a9-21bbc9467a3d"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Waka Kurikulum]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="-50" width="74" height="20" uuid="342d32db-0080-4738-86c7-ae51d5d3f690"/>
+				<reportElement x="385" y="160" width="74" height="20" uuid="57e08730-3f3f-4d94-bbda-6b1c2c90b70e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Nur Hasanudin]]></text>
 			</staticText>
+			<image>
+				<reportElement x="335" y="90" width="150" height="70" uuid="99284776-ca37-4564-8352-96bf5c39ee33">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/ttd-kay.jpeg?raw=true"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="335" y="70" width="100" height="120" uuid="5c9f744e-47e9-465a-b582-b723816d353d"/>
+				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/cap-kay.png?raw=true"]]></imageExpression>
+			</image>
 		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="23" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="42" splitType="Stretch"/>

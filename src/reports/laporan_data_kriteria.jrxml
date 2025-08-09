@@ -170,49 +170,49 @@ FROM
 	<pageFooter>
 		<band height="205" splitType="Stretch">
 			<staticText>
-				<reportElement x="400" y="20" width="36" height="20" uuid="27fe0015-1901-4aca-9617-4d6463adc2bc"/>
+				<reportElement x="385" y="20" width="36" height="20" uuid="df24c7d1-5834-404b-a379-2ff395fb7ead"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Depok, ]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="436" y="20" width="119" height="20" uuid="f975a982-1811-4637-8268-bcec92c82e45"/>
+				<reportElement x="421" y="20" width="134" height="20" uuid="553fc108-e3f6-48cd-9775-ee14a6b98127"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="400" y="40" width="68" height="20" uuid="4bea7787-c8d0-4005-9bd1-908860c17558"/>
+				<reportElement x="385" y="40" width="68" height="20" uuid="fa2bd8f0-edcb-40c5-9291-fee5a4a33f3e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Mengetahui,]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="60" width="86" height="20" uuid="827104a4-0232-4390-8307-12e5ec2282db"/>
+				<reportElement x="385" y="60" width="86" height="20" uuid="f52796dd-7011-41a2-a084-506f0e157f02"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Waka Kurikulum]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="400" y="160" width="74" height="20" uuid="c1977619-527f-4c17-ab7d-f3ff28df8f92"/>
+				<reportElement x="385" y="160" width="74" height="20" uuid="5c7105bc-902d-4d28-9270-91676685c64c"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Nur Hasanudin]]></text>
 			</staticText>
 			<image>
-				<reportElement x="350" y="90" width="150" height="70" uuid="53e09f0d-d536-42cc-b6fe-781fcfea110f">
+				<reportElement x="335" y="90" width="150" height="70" uuid="1297163c-91a5-42bd-a44d-483484b1819f">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/ttd-kay.jpeg?raw=true"]]></imageExpression>
 			</image>
 			<image>
-				<reportElement x="350" y="70" width="100" height="120" uuid="49a88e8e-70af-43c0-b830-bf381e09739a"/>
+				<reportElement x="335" y="70" width="100" height="120" uuid="cfe8d10b-d419-4ebf-8d4a-85bd94d034be"/>
 				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/cap-kay.png?raw=true"]]></imageExpression>
 			</image>
 		</band>
