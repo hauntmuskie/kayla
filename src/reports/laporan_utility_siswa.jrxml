@@ -253,6 +253,9 @@ FROM
 		</band>
 	</detail>
 	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
 		<band height="199" splitType="Stretch">
 			<image>
 				<reportElement x="580" y="90" width="194" height="70" uuid="53a15f18-8bec-4a41-b9b7-aea284b4de00">
@@ -301,9 +304,6 @@ FROM
 				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/cap-kay.png?raw=true"]]></imageExpression>
 			</image>
 		</band>
-	</columnFooter>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="42" splitType="Stretch"/>

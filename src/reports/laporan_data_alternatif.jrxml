@@ -252,6 +252,9 @@ FROM
 			</textField>
 		</band>
 	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
 	<pageFooter>
 		<band height="202" splitType="Stretch">
 			<staticText>
