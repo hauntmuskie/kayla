@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.21.3.final using JasperReports Library version 6.21.3-4a3078d20785ebe464f18037d738d12fc98c13cf  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="laporan_utility_siswa" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b2987f8-a734-4025-943a-93aa58e7a41b">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="laporan_utility_siswa" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6b2987f8-a734-4025-943a-93aa58e7a41b">
 	<property name="ireport.zoom" value="1.331000000000001"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Kayla"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -49,204 +49,204 @@ FROM
 	</background>
 	<title>
 		<band height="110" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="90" height="90" uuid="da736aeb-f4d3-4e4d-aa4b-bd3291519f1c"/>
+				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/sma_it_raflesia_logo_300.png?raw=true"]]></imageExpression>
+			</image>
 			<staticText>
-				<reportElement x="150" y="10" width="500" height="25" uuid="a6701c6c-43ae-49c2-927c-c40686fc56ef"/>
+				<reportElement x="120" y="1" width="375" height="25" uuid="9681225d-6d58-486c-a647-8011a46a22ea"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SEKOLAH MENENGAH ATAS ISLAM TERPADU]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="30" width="500" height="30" uuid="fe17c37b-54d1-43ba-9af8-9664b08ac492"/>
+				<reportElement x="120" y="21" width="375" height="30" uuid="f1d1b741-ac70-45f2-967d-a65437972e94"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SMA IT RAFLESIA]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="50" width="500" height="15" uuid="d6bb889e-0e62-4cd3-b521-0421536799bf"/>
+				<reportElement x="120" y="41" width="375" height="15" uuid="e4e11297-1638-455a-8286-343c4d2d8c30"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TERAKREDITASI A]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="65" width="500" height="15" uuid="76569fc8-f7ee-439a-8a85-c3bb89cff8c9"/>
+				<reportElement x="120" y="56" width="375" height="15" uuid="dabbbce7-1a14-4a79-9844-94a893df4312"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<text><![CDATA[Jl. Mahkota Raya No. 32 B Pondok Duta Cimanggis-Depok 16951]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="150" y="80" width="500" height="15" uuid="a4ae2c23-b1ff-46a9-89ac-8fea9df4f471"/>
+				<reportElement x="120" y="71" width="375" height="15" uuid="acd8a9e4-2d6f-46c9-8d0b-c0547786a4b3"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<text><![CDATA[Telp. (021) 8712294 - 8702735. Fax. 87709480 E-mail: smait_raflesia@yahoo.co.id]]></text>
 			</staticText>
-			<image>
-				<reportElement x="0" y="0" width="90" height="90" uuid="da736aeb-f4d3-4e4d-aa4b-bd3291519f1c"/>
-				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/sma_it_raflesia_logo_300.png?raw=true"]]></imageExpression>
-			</image>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="50" splitType="Stretch">
+		<band height="48" splitType="Stretch">
 			<staticText>
-				<reportElement x="219" y="20" width="372" height="28" uuid="9ad7dd2b-a99b-49dd-895c-e732b18dcd45"/>
+				<reportElement x="75" y="20" width="400" height="28" uuid="9ad7dd2b-a99b-49dd-895c-e732b18dcd45"/>
 				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Laporan Utility Siswa Berprestasi]]></text>
 			</staticText>
 			<line>
-				<reportElement x="0" y="0" width="803" height="1" uuid="05b38f95-c508-47e4-9c2a-058f700b6f5b"/>
+				<reportElement x="0" y="0" width="555" height="1" uuid="05b38f95-c508-47e4-9c2a-058f700b6f5b"/>
 			</line>
 		</band>
 	</pageHeader>
 	<columnHeader>
 		<band height="61" splitType="Stretch">
 			<rectangle>
-				<reportElement x="94" y="41" width="55" height="20" uuid="a09f8732-353e-4b93-a9e2-319ccea7d17a"/>
+				<reportElement x="20" y="41" width="40" height="20" uuid="a09f8732-353e-4b93-a9e2-319ccea7d17a"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="148" y="41" width="109" height="20" uuid="53661882-6d7b-4cd5-b5a7-7f08257073eb"/>
+				<reportElement x="60" y="41" width="80" height="20" uuid="53661882-6d7b-4cd5-b5a7-7f08257073eb"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="257" y="41" width="90" height="20" uuid="add91d71-f07a-4300-b524-c5f85933eac6"/>
+				<reportElement x="140" y="41" width="75" height="20" uuid="add91d71-f07a-4300-b524-c5f85933eac6"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="347" y="41" width="90" height="20" uuid="5e746169-aabe-41a6-98c2-55c71732fb55"/>
+				<reportElement x="215" y="41" width="75" height="20" uuid="5e746169-aabe-41a6-98c2-55c71732fb55"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="437" y="41" width="90" height="20" uuid="0a58a14f-a7f1-4166-a2d4-38dfe2bda973"/>
+				<reportElement x="290" y="41" width="75" height="20" uuid="0a58a14f-a7f1-4166-a2d4-38dfe2bda973"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="527" y="41" width="90" height="20" uuid="9b2ed804-5ea3-4376-b9b2-a0d6e281d0f3"/>
+				<reportElement x="365" y="41" width="75" height="20" uuid="9b2ed804-5ea3-4376-b9b2-a0d6e281d0f3"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="617" y="41" width="90" height="20" uuid="9ffa4c60-1bf1-4062-a916-17e4ca4f36cf"/>
+				<reportElement x="440" y="41" width="95" height="20" uuid="9ffa4c60-1bf1-4062-a916-17e4ca4f36cf"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="94" y="41" width="54" height="20" uuid="07907ab3-a0c7-499f-afef-3614076b0e9d"/>
+				<reportElement x="20" y="41" width="40" height="20" uuid="07907ab3-a0c7-499f-afef-3614076b0e9d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ID Siswa]]></text>
+				<text><![CDATA[ID]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="149" y="41" width="108" height="20" uuid="4b9a08cb-c4b5-4fcc-9459-bbc7a0b111b2"/>
+				<reportElement x="60" y="41" width="80" height="20" uuid="4b9a08cb-c4b5-4fcc-9459-bbc7a0b111b2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nama Siswa]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="258" y="41" width="88" height="20" uuid="512a4832-9ab1-4ff1-9a05-b34132b55440"/>
+				<reportElement x="140" y="41" width="75" height="20" uuid="512a4832-9ab1-4ff1-9a05-b34132b55440"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Utility Akademik]]></text>
+				<text><![CDATA[Akademik]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="348" y="41" width="88" height="20" uuid="2e2fff75-ffeb-4c83-8f1f-05d4c30144d4"/>
+				<reportElement x="215" y="41" width="75" height="20" uuid="2e2fff75-ffeb-4c83-8f1f-05d4c30144d4"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Utility Prestasi]]></text>
+				<text><![CDATA[Prestasi]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="438" y="41" width="89" height="20" uuid="a7663b25-e4fe-486f-a0c7-a5e6ab98dd4a"/>
+				<reportElement x="290" y="41" width="75" height="20" uuid="a7663b25-e4fe-486f-a0c7-a5e6ab98dd4a"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Utility Kehadiran]]></text>
+				<text><![CDATA[Kehadiran]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="527" y="41" width="89" height="20" uuid="4d185e02-0c01-4477-9b8e-db156a484264"/>
+				<reportElement x="365" y="41" width="75" height="20" uuid="4d185e02-0c01-4477-9b8e-db156a484264"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Utility Sikap]]></text>
+				<text><![CDATA[Sikap]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="618" y="41" width="88" height="20" uuid="e2869207-ba8a-4e58-895f-71e653a40bfb"/>
+				<reportElement x="440" y="41" width="95" height="20" uuid="e2869207-ba8a-4e58-895f-71e653a40bfb"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman" size="10" isBold="true"/>
+					<font fontName="Times New Roman" size="8" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Utility Partisipasi]]></text>
+				<text><![CDATA[Partisipasi]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<rectangle>
-				<reportElement x="94" y="0" width="55" height="20" uuid="22575a5f-c35f-4fa0-abf9-94c10d7221a6"/>
+				<reportElement x="20" y="0" width="40" height="20" uuid="22575a5f-c35f-4fa0-abf9-94c10d7221a6"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="148" y="0" width="109" height="20" uuid="851290a1-0386-4689-b53d-a04ad801b29c"/>
+				<reportElement x="60" y="0" width="80" height="20" uuid="851290a1-0386-4689-b53d-a04ad801b29c"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="257" y="0" width="90" height="20" uuid="aee4049e-a851-4e3d-a733-0c8e0b2dd21a"/>
+				<reportElement x="140" y="0" width="75" height="20" uuid="aee4049e-a851-4e3d-a733-0c8e0b2dd21a"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="347" y="0" width="90" height="20" uuid="026fc6bf-1539-4d4e-8baa-04fb5a66d236"/>
+				<reportElement x="215" y="0" width="75" height="20" uuid="026fc6bf-1539-4d4e-8baa-04fb5a66d236"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="437" y="0" width="90" height="20" uuid="4963cf4a-ced0-4c43-a516-68cc433c8074"/>
+				<reportElement x="290" y="0" width="75" height="20" uuid="4963cf4a-ced0-4c43-a516-68cc433c8074"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="527" y="0" width="90" height="20" uuid="ab2322f4-4ef7-47c8-a955-12a42085bd3d"/>
+				<reportElement x="365" y="0" width="75" height="20" uuid="ab2322f4-4ef7-47c8-a955-12a42085bd3d"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="617" y="0" width="90" height="20" uuid="56893669-1aa5-4110-a21d-993285f42038"/>
+				<reportElement x="440" y="0" width="95" height="20" uuid="56893669-1aa5-4110-a21d-993285f42038"/>
 			</rectangle>
 			<textField>
-				<reportElement x="94" y="0" width="53" height="20" uuid="97d60c5f-0ec9-4ef1-903c-959316d1dd0f"/>
+				<reportElement x="20" y="0" width="40" height="20" uuid="97d60c5f-0ec9-4ef1-903c-959316d1dd0f"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman"/>
+					<font fontName="Times New Roman" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{utility_id_siswa}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="153" y="1" width="104" height="18" uuid="17e884ab-c837-47e1-9114-50bc6946866d"/>
+				<reportElement x="65" y="1" width="75" height="18" uuid="17e884ab-c837-47e1-9114-50bc6946866d"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Times New Roman"/>
+					<font fontName="Times New Roman" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{utility_nama_siswa}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="258" y="1" width="88" height="18" uuid="ce7b64de-e31e-4ce0-ac79-d6e301196fda"/>
+				<reportElement x="140" y="1" width="75" height="18" uuid="ce7b64de-e31e-4ce0-ac79-d6e301196fda"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman"/>
+					<font fontName="Times New Roman" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{utility_akademik}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="348" y="1" width="88" height="18" uuid="8e531487-e16f-44d6-ab74-75e04a15821e"/>
+				<reportElement x="215" y="1" width="75" height="18" uuid="8e531487-e16f-44d6-ab74-75e04a15821e"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman"/>
+					<font fontName="Times New Roman" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{utility_prestasi}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="438" y="1" width="90" height="18" uuid="753bbab2-229b-4493-93b7-c5b57d5036d1"/>
+				<reportElement x="290" y="1" width="75" height="18" uuid="753bbab2-229b-4493-93b7-c5b57d5036d1"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman"/>
+					<font fontName="Times New Roman" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{utility_kehadiran}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="528" y="1" width="88" height="18" uuid="c5aa636d-d630-4c76-b0bf-ea23431ecd71"/>
+				<reportElement x="365" y="1" width="75" height="18" uuid="c5aa636d-d630-4c76-b0bf-ea23431ecd71"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman"/>
+					<font fontName="Times New Roman" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{utility_sikap}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="618" y="1" width="90" height="18" uuid="63d5df19-7e9a-49f0-b40f-943e026e73a2"/>
+				<reportElement x="440" y="1" width="95" height="18" uuid="63d5df19-7e9a-49f0-b40f-943e026e73a2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Times New Roman"/>
+					<font fontName="Times New Roman" size="8"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{utility_partisipasi}]]></textFieldExpression>
 			</textField>
@@ -258,49 +258,49 @@ FROM
 	<pageFooter>
 		<band height="199" splitType="Stretch">
 			<image>
-				<reportElement x="580" y="90" width="194" height="70" uuid="53a15f18-8bec-4a41-b9b7-aea284b4de00">
+				<reportElement x="350" y="90" width="150" height="70" uuid="53a15f18-8bec-4a41-b9b7-aea284b4de00">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/ttd-kay.jpeg?raw=true"]]></imageExpression>
 			</image>
 			<staticText>
-				<reportElement x="634" y="20" width="36" height="20" uuid="7ec9d433-b6e2-48d0-b97b-9af1a96b7c82"/>
+				<reportElement x="400" y="20" width="36" height="20" uuid="7ec9d433-b6e2-48d0-b97b-9af1a96b7c82"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Depok, ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="634" y="40" width="68" height="20" uuid="ea206aa6-94d3-4658-9513-966eca77a06e"/>
+				<reportElement x="400" y="40" width="68" height="20" uuid="ea206aa6-94d3-4658-9513-966eca77a06e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Mengetahui,]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="634" y="160" width="74" height="20" uuid="5d64fcbb-9889-4e62-8c37-40b55c0d0dff"/>
+				<reportElement x="400" y="160" width="74" height="20" uuid="5d64fcbb-9889-4e62-8c37-40b55c0d0dff"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Nur Hasanudin]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="634" y="60" width="86" height="20" uuid="ae5f771e-a4c2-41a2-a3e4-eb16c968014c"/>
+				<reportElement x="400" y="60" width="86" height="20" uuid="ae5f771e-a4c2-41a2-a3e4-eb16c968014c"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<text><![CDATA[Waka Kurikulum]]></text>
 			</staticText>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="673" y="20" width="106" height="20" uuid="27c8cf01-2027-4105-aafa-8aee42d809eb"/>
+				<reportElement x="436" y="20" width="119" height="20" uuid="27c8cf01-2027-4105-aafa-8aee42d809eb"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="Times New Roman" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="580" y="70" width="122" height="120" uuid="c7c655e9-5d5d-423d-b5ad-6f2e7f1e7e65"/>
+				<reportElement x="350" y="70" width="100" height="120" uuid="c7c655e9-5d5d-423d-b5ad-6f2e7f1e7e65"/>
 				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/cap-kay.png?raw=true"]]></imageExpression>
 			</image>
 		</band>
