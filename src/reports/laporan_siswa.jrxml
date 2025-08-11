@@ -25,49 +25,49 @@ FROM
 	</background>
 	<title>
 		<band height="100" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="90" height="90" uuid="7c6652eb-0bf2-4caf-9331-2862891505d7"/>
+				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/sma_it_raflesia_logo_300.png?raw=true"]]></imageExpression>
+			</image>
 			<staticText>
-				<reportElement x="90" y="5" width="375" height="25" uuid="88008704-b7db-41dc-b64d-67b046a02b6d"/>
-				<textElement textAlignment="Center" rotation="None">
+				<reportElement x="120" y="1" width="375" height="25" uuid="07188528-d48e-4233-8426-9d64e92f22a8"/>
+				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SEKOLAH MENENGAH ATAS ISLAM TERPADU]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="90" y="25" width="375" height="35" uuid="b2c45e7f-3a1d-4e6b-8f9c-1d2e3f4a5b6c"/>
-				<textElement textAlignment="Center" rotation="None">
+				<reportElement x="120" y="21" width="375" height="30" uuid="4fc0bc49-665e-429f-ba1c-a2a62b221289"/>
+				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="16" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SMA IT RAFLESIA]]></text>
 			</staticText>
-			<image>
-				<reportElement x="0" y="0" width="80" height="79" uuid="1c80f1b1-ea5e-46f1-a4e3-ce4cbb939153"/>
-				<imageExpression><![CDATA["https://github.com/hauntmuskie/kayla/blob/main/src/image/sma_it_raflesia_logo_300.png?raw=true"]]></imageExpression>
-			</image>
 			<staticText>
-				<reportElement x="90" y="45" width="375" height="15" uuid="d5d7c02e-849d-4a17-bd4e-7931b77b64b1"/>
-				<textElement textAlignment="Center" rotation="None">
+				<reportElement x="120" y="41" width="375" height="15" uuid="9b2a60d4-3172-47cc-8397-bc199e339330"/>
+				<textElement textAlignment="Center">
 					<font fontName="Times New Roman" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TERAKREDITASI A]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="90" y="60" width="375" height="15" uuid="9102469b-58ad-4739-ba61-ecfb17dda40f"/>
-				<textElement textAlignment="Center" rotation="None">
-					<font fontName="Times New Roman" size="11" isBold="false"/>
+				<reportElement x="120" y="56" width="375" height="15" uuid="419e4bbf-e56a-4563-ab2e-555b84e1c395"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<text><![CDATA[Jl. Mahkota Raya No. 32 B Pondok Duta Cimanggis-Depok 16951]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="90" y="75" width="375" height="15" uuid="b2c3d4e5-f6a7-8901-2345-678901bcdef0"/>
-				<textElement textAlignment="Center" rotation="None">
-					<font fontName="Times New Roman" size="11" isBold="false"/>
+				<reportElement x="120" y="71" width="375" height="15" uuid="b9695313-a339-4772-9cdd-8aca63fae920"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="11"/>
 				</textElement>
 				<text><![CDATA[Telp. (021) 8712294 - 8702735. Fax. 87709480 E-mail: smait_raflesia@yahoo.co.id]]></text>
 			</staticText>
 		</band>
 	</title>
 	<pageHeader>
-		<band height="40" splitType="Stretch">
+		<band height="38" splitType="Stretch">
 			<staticText>
 				<reportElement x="100" y="10" width="351" height="28" uuid="a83ad6a0-6a1d-4ec0-a6d8-b44c9dd97cb3"/>
 				<textElement textAlignment="Center" rotation="None">
@@ -81,7 +81,7 @@ FROM
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch">
+		<band height="59" splitType="Stretch">
 			<rectangle>
 				<reportElement x="360" y="39" width="190" height="20" uuid="ae9d45c6-f06f-4645-9b9d-efb4424499f4"/>
 			</rectangle>
