@@ -19,7 +19,6 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
@@ -45,7 +44,6 @@ public class DataRank extends javax.swing.JFrame {
                 Locale.setDefault(locale);
                 bhapus.setEnabled(false);
 
-                // non editable textfield
                 txtid.setEditable(false);
                 txtnm.setEditable(false);
                 txttepat.setEditable(false);
@@ -60,7 +58,6 @@ public class DataRank extends javax.swing.JFrame {
                 txtkd5.setEditable(false);
                 txtnilaiakhir.setEditable(false);
 
-                // Load bobot kriteria from database
                 try {
                         String sql = "SELECT bobot_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
                         Statement stat = conn.createStatement();
@@ -88,7 +85,6 @@ public class DataRank extends javax.swing.JFrame {
                                 idx++;
                         }
                 } catch (SQLException e) {
-                        // fallback default if db error
                         txtk1.setText("0.35");
                         txtk2.setText("0.20");
                         txtk3.setText("0.15");
@@ -100,7 +96,6 @@ public class DataRank extends javax.swing.JFrame {
         }
 
         private void datatable() {
-                // Load criteria names from database for dynamic column headers
                 String[] criteriaNames = new String[5];
                 try {
                         String sqlCriteria = "SELECT nama_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
@@ -112,7 +107,6 @@ public class DataRank extends javax.swing.JFrame {
                                 idx++;
                         }
                 } catch (SQLException e) {
-                        // Fallback criteria names if database error
                         criteriaNames[0] = "Nilai Akademik";
                         criteriaNames[1] = "Prestasi Non-Akademik";
                         criteriaNames[2] = "Kehadiran";
@@ -120,7 +114,6 @@ public class DataRank extends javax.swing.JFrame {
                         criteriaNames[4] = "Partisipasi Kegiatan Sekolah";
                 }
 
-                // Create dynamic column headers
                 Object[] Baris = { "ID Siswa", "Nama Siswa", criteriaNames[0], criteriaNames[1], criteriaNames[2],
                                 criteriaNames[3], criteriaNames[4], "Jumlah Nilai Akhir", "Ranking" };
                 tabmode = new DefaultTableModel(null, Baris);
@@ -149,7 +142,6 @@ public class DataRank extends javax.swing.JFrame {
         }
 
         private void cari() {
-                // Load criteria names from database for dynamic column headers
                 String[] criteriaNames = new String[5];
                 try {
                         String sqlCriteria = "SELECT nama_kriteria FROM kriteria ORDER BY kode_kriteria ASC";
@@ -161,7 +153,6 @@ public class DataRank extends javax.swing.JFrame {
                                 idx++;
                         }
                 } catch (SQLException e) {
-                        // Fallback criteria names if database error
                         criteriaNames[0] = "Nilai Akademik";
                         criteriaNames[1] = "Prestasi Non-Akademik";
                         criteriaNames[2] = "Kehadiran";
@@ -169,7 +160,6 @@ public class DataRank extends javax.swing.JFrame {
                         criteriaNames[4] = "Partisipasi Kegiatan Sekolah";
                 }
 
-                // Create dynamic column headers
                 Object[] Baris = { "ID Siswa", "Nama Siswa", criteriaNames[0], criteriaNames[1], criteriaNames[2],
                                 criteriaNames[3], criteriaNames[4], "Jumlah Nilai Akhir", "Ranking" };
                 tabmode = new DefaultTableModel(null, Baris);
@@ -227,7 +217,6 @@ public class DataRank extends javax.swing.JFrame {
                         stat.setString(1, txtid.getText());
                         stat.setString(2, txtnm.getText());
 
-                        // Parse decimal values with proper locale handling (replace comma with dot)
                         double nilaiAkhirAkademik = Double.parseDouble(txtkd1.getText().replace(",", "."));
                         double nilaiAkhirPrestasi = Double.parseDouble(txtkd2.getText().replace(",", "."));
                         double nilaiAkhirKehadiran = Double.parseDouble(txtkd3.getText().replace(",", "."));
@@ -235,18 +224,16 @@ public class DataRank extends javax.swing.JFrame {
                         double nilaiAkhirPartisipasi = Double.parseDouble(txtkd5.getText().replace(",", "."));
                         double jumlahNilaiAkhir = Double.parseDouble(txtnilaiakhir.getText().replace(",", "."));
 
-                        // Use setDouble for decimal columns
                         stat.setDouble(3, nilaiAkhirAkademik);
                         stat.setDouble(4, nilaiAkhirPrestasi);
                         stat.setDouble(5, nilaiAkhirKehadiran);
                         stat.setDouble(6, nilaiAkhirSikap);
                         stat.setDouble(7, nilaiAkhirPartisipasi);
                         stat.setDouble(8, jumlahNilaiAkhir);
-                        stat.setInt(9, Integer.parseInt(txtrank.getText())); // ranking as integer
+                        stat.setInt(9, Integer.parseInt(txtrank.getText()));
 
                         stat.executeUpdate();
 
-                        // Update all rankings after inserting new data
                         updateAllRankings();
 
                         JOptionPane.showMessageDialog(null, "Data berhasil disimpan");
@@ -1324,21 +1311,18 @@ public class DataRank extends javax.swing.JFrame {
 
         private void bhitungActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_bhitungActionPerformed
                 try {
-                        // Get utility values (should be 0.000 to 1.000)
                         double tepat = Double.parseDouble(txttepat.getText().replace(",", "."));
                         double akurasi = Double.parseDouble(txtakurasi.getText().replace(",", "."));
                         double jml = Double.parseDouble(txtjml.getText().replace(",", "."));
                         double intg = Double.parseDouble(txtint.getText().replace(",", "."));
                         double penangan = Double.parseDouble(txtpenangan.getText().replace(",", "."));
 
-                        // Get weight values (should be 0.35, 0.20, 0.15, 0.20, 0.10)
                         double k1 = Double.parseDouble(txtk1.getText().replace(",", "."));
                         double k2 = Double.parseDouble(txtk2.getText().replace(",", "."));
                         double k3 = Double.parseDouble(txtk3.getText().replace(",", "."));
                         double k4 = Double.parseDouble(txtk4.getText().replace(",", "."));
                         double k5 = Double.parseDouble(txtk5.getText().replace(",", "."));
 
-                        // Debug: Print input values
                         System.out.printf(
                                         "DEBUG DataRank - Utility values: U1=%.3f, U2=%.3f, U3=%.3f, U4=%.3f, U5=%.3f%n",
                                         tepat, akurasi, jml, intg, penangan);
@@ -1346,20 +1330,12 @@ public class DataRank extends javax.swing.JFrame {
                                         "DEBUG DataRank - Weight values: W1=%.3f, W2=%.3f, W3=%.3f, W4=%.3f, W5=%.3f%n",
                                         k1, k2, k3, k4, k5);
 
-                        // Calculate final values using SMART formula: Ui * Wi
                         double hasilK1 = tepat * k1;
                         double hasilK2 = akurasi * k2;
                         double hasilK3 = jml * k3;
                         double hasilK4 = intg * k4;
                         double hasilK5 = penangan * k5;
 
-                        // Debug: Print calculated values
-                        System.out.printf(
-                                        "DEBUG DataRank - Final values: F1=%.5f, F2=%.5f, F3=%.5f, F4=%.5f, F5=%.5f%n",
-                                        hasilK1, hasilK2, hasilK3, hasilK4, hasilK5);
-
-                        // Display with 5 decimal places to match SMART precision, using US locale for
-                        // dot separator
                         txtkd1.setText(String.format(Locale.US, "%.5f", hasilK1));
                         txtkd2.setText(String.format(Locale.US, "%.5f", hasilK2));
                         txtkd3.setText(String.format(Locale.US, "%.5f", hasilK3));
@@ -1369,20 +1345,16 @@ public class DataRank extends javax.swing.JFrame {
                         double nilaiAkhir = hasilK1 + hasilK2 + hasilK3 + hasilK4 + hasilK5;
                         txtnilaiakhir.setText(String.format(Locale.US, "%.5f", nilaiAkhir));
 
-                        // Debug: Print final total
                         System.out.printf("DEBUG DataRank - Total final score: %.5f%n", nilaiAkhir);
 
-                        // Calculate ranking based on current score compared to all scores in database
                         int ranking = calculateRanking(nilaiAkhir);
 
-                        // Display ranking in txtrank
                         txtrank.setText(String.valueOf(ranking));
                 } catch (NumberFormatException e) {
                         JOptionPane.showMessageDialog(this, "Input tidak valid");
                 }
         }// GEN-LAST:event_bhitungActionPerformed
 
-        // Method to calculate ranking based on current score
         private int calculateRanking(double currentScore) {
                 int ranking = 1;
                 try {
@@ -1400,15 +1372,12 @@ public class DataRank extends javax.swing.JFrame {
                 return ranking;
         }
 
-        // Method to update all rankings in the database
         private void updateAllRankings() {
                 try {
-                        // Get all records ordered by score descending
                         String selectSql = "SELECT id_siswa, jumlah_nilai_akhir FROM nilai_akhir ORDER BY jumlah_nilai_akhir DESC";
                         Statement selectStat = conn.createStatement();
                         ResultSet rs = selectStat.executeQuery(selectSql);
 
-                        // Update each record with its new ranking
                         String updateSql = "UPDATE nilai_akhir SET ranking = ? WHERE id_siswa = ?";
                         PreparedStatement updateStat = conn.prepareStatement(updateSql);
 
@@ -1442,7 +1411,6 @@ public class DataRank extends javax.swing.JFrame {
                                 PreparedStatement stat = conn.prepareStatement(sql);
                                 stat.executeUpdate();
 
-                                // Update all rankings after deleting data
                                 updateAllRankings();
 
                                 JOptionPane.showMessageDialog(null, "Data berhasil dihapus");
